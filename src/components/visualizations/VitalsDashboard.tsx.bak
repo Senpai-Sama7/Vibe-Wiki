@@ -1,0 +1,260 @@
+'use client';
+import React, { memo, useEffect, useRef, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
+
+interface VitalMetric {
+  name: string;
+  value: number;
+  rating: 'good' | 'needs-improvement' | 'poor';
+  threshold: { good: number; poor: number };
+}
+
+/**
+ * Gauge component for individual metric
+ */
+function MetricGauge({ metric, canvasRef }: { metric: VitalMetric; canvasRef: React.RefObject<HTMLCanvasElement | null> }) {
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = Math.min(centerX, centerY) - 20;
+
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw background arc
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0.75 * Math.PI, 0.25 * Math.PI);
+    ctx.lineWidth = 20;
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.stroke();
+
+    // Calculate angle based on value
+    const maxValue = metric.threshold.poor * 1.5;
+    const percentage = Math.min(metric.value / maxValue, 1);
+    const angle = 0.75 * Math.PI + percentage * 1.5 * Math.PI;
+
+    // Determine color based on rating
+    const colors = {
+      good: '#10b981',
+      'needs-improvement': '#f59e0b',
+      poor: '#ef4444'
+    };
+    const color = colors[metric.rating];
+
+    // Draw value arc
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0.75 * Math.PI, angle);
+    ctx.lineWidth = 20;
+    ctx.strokeStyle = color;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+
+    // Draw value text
+    ctx.font = 'bold 32px system-ui';
+    ctx.fillStyle = '#1f2937';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(metric.value.toFixed(0), centerX, centerY - 10);
+
+    // Draw metric name
+    ctx.font = '14px system-ui';
+    ctx.fillStyle = '#6b7280';
+    ctx.fillText(metric.name, centerX, centerY + 20);
+
+    // Draw rating
+    ctx.font = '12px system-ui';
+    ctx.fillStyle = color;
+    ctx.fillText(metric.rating.toUpperCase(), centerX, centerY + 40);
+  }, [metric, canvasRef]);
+
+  return null;
+}
+
+/**
+ * Main dashboard visualization
+ */
+const DashboardContent = memo(function DashboardContent() {
+  const [metrics, setMetrics] = useState<VitalMetric[]>([
+    {
+      name: 'LCP',
+      value: 2100,
+      rating: 'good',
+      threshold: { good: 2500, poor: 4000 }
+    },
+    {
+      name: 'FID',
+      value: 85,
+      rating: 'needs-improvement',
+      threshold: { good: 100, poor: 300 }
+    },
+    {
+      name: 'CLS',
+      value: 0.08,
+      rating: 'good',
+      threshold: { good: 0.1, poor: 0.25 }
+    }
+  ]);
+
+  const lcpCanvasRef = useRef<HTMLCanvasElement>(null);
+  const fidCanvasRef = useRef<HTMLCanvasElement>(null);
+  const clsCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Simulate real-time updates
+  useEffect(() => {
+    const prefersReducedMotion = typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false;
+    if (prefersReducedMotion) return;
+
+    const interval = setInterval(() => {
+      setMetrics(prev => prev.map(metric => {
+        const variation = (Math.random() - 0.5) * 0.1;
+        let newValue = metric.value * (1 + variation);
+
+        if (metric.name === 'CLS') {
+          newValue = Math.max(0.01, Math.min(0.3, newValue));
+        } else if (metric.name === 'FID') {
+          newValue = Math.max(50, Math.min(400, newValue));
+        } else {
+          newValue = Math.max(1000, Math.min(5000, newValue));
+        }
+
+        const rating: 'good' | 'needs-improvement' | 'poor' =
+          newValue <= metric.threshold.good
+            ? 'good'
+            : newValue <= metric.threshold.poor
+            ? 'needs-improvement'
+            : 'poor';
+
+        return { ...metric, value: newValue, rating };
+      }));
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="grid grid-cols-3 gap-6 p-6 h-full bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
+      <div className="flex flex-col items-center justify-center">
+        <canvas
+          ref={lcpCanvasRef}
+          width={200}
+          height={200}
+          className="drop-shadow-lg"
+        />
+        <MetricGauge metric={metrics[0]} canvasRef={lcpCanvasRef} />
+        <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 text-center">
+          Largest Contentful Paint
+        </div>
+      </div>
+
+      <div className="flex flex-col items-center justify-center">
+        <canvas
+          ref={fidCanvasRef}
+          width={200}
+          height={200}
+          className="drop-shadow-lg"
+        />
+        <MetricGauge metric={metrics[1]} canvasRef={fidCanvasRef} />
+        <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 text-center">
+          First Input Delay
+        </div>
+      </div>
+
+      <div className="flex flex-col items-center justify-center">
+        <canvas
+          ref={clsCanvasRef}
+          width={200}
+          height={200}
+          className="drop-shadow-lg"
+        />
+        <MetricGauge metric={metrics[2]} canvasRef={clsCanvasRef} />
+        <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 text-center">
+          Cumulative Layout Shift
+        </div>
+      </div>
+    </div>
+  );
+});
+
+/**
+ * Fallback content
+ */
+function FallbackContent() {
+  return (
+    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
+      <div className="text-center px-4">
+        <div className="text-6xl mb-4">📊</div>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+          Core Web Vitals
+        </h3>
+        <div className="space-y-3 text-left max-w-md">
+          <div className="bg-green-100 dark:bg-green-900/30 p-3 rounded">
+            <span className="font-semibold">LCP:</span> Largest Contentful Paint &lt; 2.5s
+          </div>
+          <div className="bg-yellow-100 dark:bg-yellow-900/30 p-3 rounded">
+            <span className="font-semibold">FID:</span> First Input Delay &lt; 100ms
+          </div>
+          <div className="bg-blue-100 dark:bg-blue-900/30 p-3 rounded">
+            <span className="font-semibold">CLS:</span> Cumulative Layout Shift &lt; 0.1
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * VitalsDashboard: Real-time Web Vitals metrics visualization
+ *
+ * Features:
+ * - Canvas-based gauge rendering
+ * - Real-time metric updates
+ * - Color-coded performance ratings
+ * - Accessible fallback content
+ */
+export default function VitalsDashboard() {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+    rootMargin: '200px'
+  });
+
+  const [hasCanvas, setHasCanvas] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const canvas = document.createElement('canvas');
+    const hasSupport = !!(canvas.getContext && canvas.getContext('2d'));
+    setHasCanvas(hasSupport);
+    setIsLoaded(true);
+  }, []);
+
+  if (!isLoaded) {
+    return (
+      <div ref={ref} className="w-full h-[400px] rounded-lg overflow-hidden flex items-center justify-center bg-gray-50 dark:bg-gray-800">
+        <div className="animate-pulse text-gray-500">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!hasCanvas) {
+    return (
+      <div ref={ref} className="w-full h-[400px] rounded-lg overflow-hidden">
+        <FallbackContent />
+      </div>
+    );
+  }
+
+  return (
+    <div ref={ref} className="w-full h-[400px] rounded-lg overflow-hidden">
+      {inView ? <DashboardContent /> : <FallbackContent />}
+    </div>
+  );
+}

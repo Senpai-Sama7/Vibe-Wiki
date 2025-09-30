@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 
   // Production optimizations
-  swcMinify: true,
+  // swcMinify: true, // Removed: invalid option in Next.js 15,
 
   // Compiler options for smaller bundles
   compiler: {
