@@ -1,12 +1,10 @@
 'use client';
 
-import { Inter } from 'next/font/google';
 import './globals.css';
 import { useToast, setGlobalToastHandler } from '@/hooks/useToast';
 import { ToastContainer } from '@/components/Toast';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useEffect } from 'react';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
   children,
@@ -22,9 +20,11 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
-        <ToastContainer toasts={toasts} onDismiss={hideToast} />
+      <body className="font-sans antialiased">
+        <ErrorBoundary>
+          {children}
+          <ToastContainer toasts={toasts} onDismiss={hideToast} />
+        </ErrorBoundary>
       </body>
     </html>
   );
