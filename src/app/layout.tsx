@@ -3,6 +3,7 @@
 import './globals.css';
 import { useToast, setGlobalToastHandler } from '@/hooks/useToast';
 import { ToastContainer } from '@/components/Toast';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useEffect } from 'react';
 
 export default function RootLayout({
@@ -20,8 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans antialiased">
-        {children}
-        <ToastContainer toasts={toasts} onDismiss={hideToast} />
+        <ErrorBoundary>
+          {children}
+          <ToastContainer toasts={toasts} onDismiss={hideToast} />
+        </ErrorBoundary>
       </body>
     </html>
   );
