@@ -16,9 +16,14 @@
 # next.js
 /.next/
 /out/
+/_next/
+/404/
+/concept/
+/search/
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -39,3 +44,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+index.html
+index.txt
+*.log
