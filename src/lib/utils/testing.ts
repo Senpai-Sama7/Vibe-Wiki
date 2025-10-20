@@ -333,19 +333,22 @@ export const assert = {
   },
 
   throws: (fn: () => void, message?: string): void => {
+    let didThrow = false;
     try {
       fn();
+    } catch {
+      didThrow = true;
+    }
+    if (!didThrow) {
       throw new Error(message || 'Expected function to throw');
-    } catch (error) {
-      // Expected to throw
     }
   },
 
   notThrows: (fn: () => void, message?: string): void => {
     try {
       fn();
-    } catch (error) {
-      throw new Error(message || `Expected function not to throw: ${error}`);
+    } catch (err) {
+      throw new Error(message || `Expected function not to throw: ${err}`);
     }
   },
 };
