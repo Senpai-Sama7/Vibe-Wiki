@@ -7,9 +7,9 @@ A comprehensive, self-contained HTML5 document featuring 20+ design aesthetics, 
 ## File Location
 
 - **Main File**: `vibe-wiki-complete.html`
-- **Size**: 86KB (85,579 bytes)
-- **Lines**: 2,362
-- **Dependencies**: External CDNs for Three.js, GSAP, Lottie (optional enhancements)
+- **Size**: ~86KB (85,579 bytes)
+- **Lines**: ~2,360
+- **Dependencies**: External CDNs for Three.js, GSAP, Lottie (optional enhancements, graceful degradation built-in)
 
 ## Features Implemented
 
@@ -17,7 +17,7 @@ A comprehensive, self-contained HTML5 document featuring 20+ design aesthetics, 
 
 1. **Neo-Brutalist** - Bold design with heavy borders and vibrant colors
 2. **Glassmorphism** - Frosted glass effect with backdrop blur
-3. **Cyberpunk** - Neon glows and futuristic vibes
+3. **Cyberpunk** - Neon glows and futuristic aesthetics
 4. **Organic Minimalist** - Natural curves and soft gradients
 5. **Solarpunk** - Eco-friendly greens with optimistic aesthetics
 6. **Kinetic Typography** - Animated text that moves and breathes
@@ -134,20 +134,25 @@ python3 -m http.server 8000
 
 ### Browser Requirements
 
-- **Chrome/Edge**: 90+ (recommended)
+- **Modern Browsers Required** (last 2 major versions recommended)
+- **Chrome/Edge**: 90+
 - **Firefox**: 88+
 - **Safari**: 14+
 - **Mobile**: Modern iOS Safari, Chrome Mobile
 
+Note: WebGL and Canvas API support required for full functionality.
+
 ### Features Requiring Network
 
-Some external libraries are loaded from CDNs:
-- Three.js (for 3D visualizations)
-- GSAP (for advanced animations)
-- ScrollTrigger (GSAP plugin)
-- Lottie Player (for SVG animations)
+Some external libraries are loaded from CDNs for enhanced functionality:
+- **Three.js** - 3D visualizations and WebGL effects
+- **GSAP** - Advanced animation timelines
+- **ScrollTrigger** - GSAP scroll-based animations plugin
+- **Lottie Player** - After Effects SVG animations
 
-The page will function with graceful degradation if CDN resources are blocked.
+**Note**: Other libraries mentioned in methodologies (Tone.js, Matter.js, p5.js, D3.js, TensorFlow.js) are showcased as placeholders with demonstrations of their capabilities. The page includes full documentation for each methodology with feature lists and use cases.
+
+The page functions with graceful degradation if CDN resources are blocked—core functionality and canvas effects remain operational.
 
 ## Architecture
 
