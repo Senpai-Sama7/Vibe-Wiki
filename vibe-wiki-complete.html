@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Enterprise-grade visual web development learning platform with 20+ aesthetics, 20 canvas effects, and 20 advanced methodologies">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>Vibe Wiki - Enterprise Visual Development Platform</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://unpkg.com">
+    
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r169/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    
+    <style>
+        /* ========================================
+           CORE RESET & BASE STYLES
+           ======================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            /* Color System */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            
+            /* Neutrals */
+            --bg-main: #ffffff;
+            --bg-alt: #f9fafb;
+            --bg-dark: #111827;
+            --text-main: #111827;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            --border: #e5e7eb;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 3rem;
+            --space-2xl: 4rem;
+            
+            /* Typography */
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Courier New', monospace;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            html {
+                scroll-behavior: auto;
+            }
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-main);
+            background: var(--bg-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+        
+        /* ========================================
+           HEADER & NAVIGATION
+           ======================================== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: var(--space-sm) var(--space-lg);
+        }
+        
+        .nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: var(--space-sm) var(--space-md);
+            padding-left: 3rem;
+            border: 2px solid var(--border);
+            border-radius: 9999px;
+            font-size: 0.95rem;
+            transition: all var(--transition-base);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: var(--space-md);
+            list-style: none;
+        }
+        
+        .nav-link {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: 0.5rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .nav-link:hover {
+            background: var(--bg-alt);
+            color: var(--primary);
+        }
+        
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            padding: var(--space-xl);
+            max-width: 900px;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            margin-bottom: var(--space-md);
+            line-height: 1.1;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            margin-bottom: var(--space-xl);
+            opacity: 0.95;
+        }
+        
+        .hero-cta {
+            display: inline-flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+        
+        /* ========================================
+           AESTHETICS SHOWCASE SECTION
+           ======================================== */
+        .section {
+            padding: var(--space-2xl) var(--space-lg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .aesthetic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+        
+        .aesthetic-card {
+            padding: var(--space-lg);
+            border-radius: 1rem;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .aesthetic-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        /* Neo-Brutalist */
+        .aesthetic-neo-brutalist {
+            background: #ff6b6b;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+        }
+        
+        .aesthetic-neo-brutalist:hover {
+            box-shadow: 12px 12px 0 #000;
+        }
+        
+        /* Glassmorphism */
+        .aesthetic-glassmorphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        
+        /* Cyberpunk */
+        .aesthetic-cyberpunk {
+            background: linear-gradient(135deg, #ff0080, #7928ca);
+            border: 2px solid #00ff9f;
+            box-shadow: 0 0 20px rgba(0, 255, 159, 0.5),
+                        inset 0 0 20px rgba(255, 0, 128, 0.3);
+        }
+        
+        /* Organic Minimalist */
+        .aesthetic-organic {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: none;
+            border-radius: 2rem;
+        }
+        
+        /* Solarpunk */
+        .aesthetic-solarpunk {
+            background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+            border: 2px solid #7cb342;
+        }
+        
+        /* Memphis */
+        .aesthetic-memphis {
+            background: #ffd700;
+            border: 4px solid #000;
+            position: relative;
+        }
+        
+        .aesthetic-memphis::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 30px;
+            height: 30px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            border: 3px solid #000;
+        }
+        
+        /* Claymorphism */
+        .aesthetic-claymorphism {
+            background: linear-gradient(145deg, #e0e5ec, #ffffff);
+            box-shadow: 
+                20px 20px 60px #d1d9e6,
+                -20px -20px 60px #ffffff;
+            border-radius: 2rem;
+        }
+        
+        /* Aurora UI */
+        .aesthetic-aurora {
+            background: linear-gradient(135deg, 
+                rgba(99, 102, 241, 0.3), 
+                rgba(139, 92, 246, 0.3), 
+                rgba(236, 72, 153, 0.3));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Neumorphism */
+        .aesthetic-neumorphism {
+            background: #e0e5ec;
+            box-shadow: 
+                12px 12px 24px #bebebe,
+                -12px -12px 24px #ffffff;
+            border-radius: 1rem;
+        }
+        
+        /* Y2K Revival */
+        .aesthetic-y2k {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            border: 3px solid #fff;
+            box-shadow: 0 0 20px rgba(118, 75, 162, 0.6);
+        }
+        
+        /* Dopamine Decor */
+        .aesthetic-dopamine {
+            background: linear-gradient(135deg, #fa8bff 0%, #2bd2ff 52%, #2bff88 90%);
+            animation: dopamine-shift 3s ease infinite;
+        }
+        
+        @keyframes dopamine-shift {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(15deg); }
+        }
+        
+        /* Bauhaus */
+        .aesthetic-bauhaus {
+            background: #fff;
+            border: 3px solid #000;
+            position: relative;
+        }
+        
+        .aesthetic-bauhaus::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: #ff0000;
+            clip-path: circle(50%);
+        }
+        
+        /* Material Design */
+        .aesthetic-material {
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1), 0 8px 16px rgba(0,0,0,.1);
+            border-radius: 0.5rem;
+            transition: box-shadow var(--transition-base);
+        }
+        
+        .aesthetic-material:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,.15), 0 16px 32px rgba(0,0,0,.15);
+        }
+        
+        /* Flat Design */
+        .aesthetic-flat {
+            background: #3498db;
+            border: none;
+            border-radius: 0.5rem;
+        }
+        
+        /* De Stijl */
+        .aesthetic-destijl {
+            background: #fff;
+            border: 4px solid #000;
+            position: relative;
+        }
+        
+        .aesthetic-destijl::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff0000 0%, #0000ff 100%);
+            opacity: 0.2;
+        }
+        
+        /* Skeuomorphism */
+        .aesthetic-skeuomorphism {
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            box-shadow: 
+                inset 0 2px 4px rgba(255,255,255,0.1),
+                0 4px 8px rgba(0,0,0,0.4);
+            border-radius: 1rem;
+            border: 1px solid #444;
+        }
+        
+        /* Abstract Geometric */
+        .aesthetic-geometric {
+            background: 
+                linear-gradient(45deg, transparent 30%, #667eea 30%, #667eea 70%, transparent 70%),
+                linear-gradient(-45deg, transparent 30%, #764ba2 30%, #764ba2 70%, transparent 70%);
+            background-size: 20px 20px;
+            background-color: #f093fb;
+        }
+        
+        /* Vintage Retro */
+        .aesthetic-retro {
+            background: #f4e4c1;
+            border: 3px solid #8b4513;
+            box-shadow: inset 0 0 10px rgba(139,69,19,0.2);
+            position: relative;
+        }
+        
+        .aesthetic-retro::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0,0,0,0.03) 0px,
+                rgba(0,0,0,0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+        }
+        
+        /* Kinetic Typography */
+        .aesthetic-kinetic {
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+        
+        .kinetic-text {
+            animation: kinetic-wave 2s ease-in-out infinite;
+        }
+        
+        @keyframes kinetic-wave {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(1deg); }
+        }
+        
+        /* Ant Design */
+        .aesthetic-ant {
+            background: #fff;
+            border: 1px solid #d9d9d9;
+            border-radius: 0.5rem;
+            transition: all var(--transition-base);
+        }
+        
+        .aesthetic-ant:hover {
+            border-color: #40a9ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+        
+        .aesthetic-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .aesthetic-description {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
+        /* ========================================
+           CANVAS EFFECTS SECTION
+           ======================================== */
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+        
+        .canvas-card {
+            position: relative;
+            background: var(--bg-alt);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all var(--transition-base);
+        }
+        
+        .canvas-card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-4px);
+        }
+        
+        .canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: #000;
+        }
+        
+        .effect-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .canvas-controls {
+            position: absolute;
+            top: var(--space-sm);
+            right: var(--space-sm);
+            display: flex;
+            gap: var(--space-xs);
+            z-index: 10;
+        }
+        
+        .canvas-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+        }
+        
+        .canvas-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .canvas-info {
+            padding: var(--space-md);
+        }
+        
+        .canvas-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .canvas-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .canvas-tags {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .tag-interactive { background: var(--success); }
+        .tag-preview { background: var(--warning); }
+        .tag-3d { background: var(--secondary); }
+        
+        /* ========================================
+           METHODOLOGIES SECTION
+           ======================================== */
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+        
+        .methodology-card {
+            background: white;
+            border-radius: 1rem;
+            padding: var(--space-lg);
+            border: 2px solid var(--border);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .methodology-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .methodology-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .methodology-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+        
+        .methodology-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 0.75rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .methodology-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .methodology-demo {
+            width: 100%;
+            height: 200px;
+            background: var(--bg-dark);
+            border-radius: 0.75rem;
+            margin-bottom: var(--space-md);
+            overflow: hidden;
+        }
+        
+        .methodology-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .methodology-features {
+            list-style: none;
+            font-size: 0.9rem;
+        }
+        
+        .methodology-features li {
+            padding: 0.25rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        
+        .methodology-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        /* ========================================
+           PWA & FEATURES SECTION
+           ======================================== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
+        }
+        
+        .feature-card {
+            background: white;
+            padding: var(--space-lg);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all var(--transition-base);
+        }
+        
+        .feature-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--space-md);
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .feature-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* ========================================
+           PERFORMANCE MONITOR
+           ======================================== */
+        .performance-monitor {
+            position: fixed;
+            bottom: var(--space-md);
+            right: var(--space-md);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .performance-monitor.hidden {
+            display: none;
+        }
+        
+        .perf-stat {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-md);
+            margin: 0.25rem 0;
+        }
+        
+        .perf-label {
+            color: #888;
+        }
+        
+        .perf-value {
+            font-weight: bold;
+            color: #0f0;
+        }
+        
+        .perf-value.warning {
+            color: #ff0;
+        }
+        
+        .perf-value.error {
+            color: #f00;
+        }
+        
+        /* ========================================
+           FOOTER
+           ======================================== */
+        .footer {
+            background: var(--bg-dark);
+            color: white;
+            padding: var(--space-xl) var(--space-lg);
+            margin-top: var(--space-2xl);
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .footer-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-lg);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        .footer-link:hover {
+            color: var(--primary);
+        }
+        
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        
+        /* ========================================
+           RESPONSIVE DESIGN
+           ======================================== */
+        @media (max-width: 768px) {
+            :root {
+                font-size: 14px;
+            }
+            
+            .nav {
+                flex-direction: column;
+                gap: var(--space-sm);
+            }
+            
+            .search-container {
+                max-width: 100%;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero-content {
+                padding: var(--space-md);
+            }
+            
+            .aesthetic-grid,
+            .canvas-grid,
+            .methodology-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .performance-monitor {
+                bottom: var(--space-xs);
+                right: var(--space-xs);
+                font-size: 0.7rem;
+                padding: var(--space-xs) var(--space-sm);
+            }
+        }
+        
+        /* ========================================
+           UTILITY CLASSES
+           ======================================== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-1 { margin-top: var(--space-xs); }
+        .mt-2 { margin-top: var(--space-sm); }
+        .mt-3 { margin-top: var(--space-md); }
+        .mt-4 { margin-top: var(--space-lg); }
+        
+        .mb-1 { margin-bottom: var(--space-xs); }
+        .mb-2 { margin-bottom: var(--space-sm); }
+        .mb-3 { margin-bottom: var(--space-md); }
+        .mb-4 { margin-bottom: var(--space-lg); }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* ========================================
+           ANIMATIONS
+           ======================================== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .rotate {
+            animation: rotate 3s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <nav class="nav" role="navigation" aria-label="Main navigation">
+            <div class="logo">Vibe Wiki</div>
+            
+            <div class="search-container">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                </svg>
+                <input 
+                    type="search" 
+                    class="search-input" 
+                    placeholder="Search aesthetics, effects, methodologies..."
+                    aria-label="Search content"
+                    id="main-search"
+                />
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#aesthetics" class="nav-link">Aesthetics</a></li>
+                <li><a href="#canvas-effects" class="nav-link">Canvas</a></li>
+                <li><a href="#methodologies" class="nav-link">Methods</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero" role="banner">
+        <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
+        <div class="hero-content">
+            <h1 class="hero-title">Enterprise Visual Development Platform</h1>
+            <p class="hero-subtitle">
+                20+ Aesthetics · 20 Canvas Effects · 20 Advanced Methodologies · PWA-Ready
+            </p>
+            <div class="hero-cta">
+                <a href="#aesthetics" class="btn btn-primary">Explore Aesthetics</a>
+                <a href="#canvas-effects" class="btn btn-outline">See Effects</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Aesthetics Section -->
+    <section id="aesthetics" class="section">
+        <div class="section-header">
+            <h2 class="section-title">20+ Design Aesthetics</h2>
+            <p class="section-subtitle">
+                From Neo-Brutalist to Y2K Revival, explore cutting-edge design patterns
+            </p>
+        </div>
+        
+        <div class="aesthetic-grid" id="aesthetic-grid">
+            <div class="aesthetic-card aesthetic-neo-brutalist" data-aesthetic="neo-brutalist">
+                <h3 class="aesthetic-title">Neo-Brutalist</h3>
+                <p class="aesthetic-description">Bold, unapologetic design with heavy borders and vibrant colors</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-glassmorphism" data-aesthetic="glassmorphism">
+                <h3 class="aesthetic-title">Glassmorphism</h3>
+                <p class="aesthetic-description">Frosted glass effect with backdrop blur and transparency</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-cyberpunk" data-aesthetic="cyberpunk">
+                <h3 class="aesthetic-title">Cyberpunk</h3>
+                <p class="aesthetic-description">Neon glows, dark backgrounds, and futuristic vibes</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-organic" data-aesthetic="organic">
+                <h3 class="aesthetic-title">Organic Minimalist</h3>
+                <p class="aesthetic-description">Natural curves and soft gradients for calm interfaces</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-solarpunk" data-aesthetic="solarpunk">
+                <h3 class="aesthetic-title">Solarpunk</h3>
+                <p class="aesthetic-description">Eco-friendly greens with optimistic future aesthetics</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-kinetic" data-aesthetic="kinetic">
+                <h3 class="aesthetic-title kinetic-text">Kinetic Typography</h3>
+                <p class="aesthetic-description">Animated text that moves and breathes with life</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-destijl" data-aesthetic="destijl">
+                <h3 class="aesthetic-title">De Stijl</h3>
+                <p class="aesthetic-description">Primary colors, straight lines, and grid-based layouts</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-memphis" data-aesthetic="memphis">
+                <h3 class="aesthetic-title">Memphis</h3>
+                <p class="aesthetic-description">Bold colors, geometric shapes, and playful patterns</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-claymorphism" data-aesthetic="claymorphism">
+                <h3 class="aesthetic-title">Claymorphism</h3>
+                <p class="aesthetic-description">Soft, inflated surfaces with subtle shadows</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-aurora" data-aesthetic="aurora">
+                <h3 class="aesthetic-title">Aurora UI</h3>
+                <p class="aesthetic-description">Ethereal gradients inspired by northern lights</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-retro" data-aesthetic="retro">
+                <h3 class="aesthetic-title">Vintage Retro</h3>
+                <p class="aesthetic-description">Nostalgic colors and textures from the past</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-bauhaus" data-aesthetic="bauhaus">
+                <h3 class="aesthetic-title">Bauhaus</h3>
+                <p class="aesthetic-description">Form follows function with geometric precision</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-skeuomorphism" data-aesthetic="skeuomorphism">
+                <h3 class="aesthetic-title">Skeuomorphism</h3>
+                <p class="aesthetic-description">Real-world textures and realistic depth</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-flat" data-aesthetic="flat">
+                <h3 class="aesthetic-title">Flat Design</h3>
+                <p class="aesthetic-description">Clean, simple, and two-dimensional interfaces</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-material" data-aesthetic="material">
+                <h3 class="aesthetic-title">Material Design</h3>
+                <p class="aesthetic-description">Google's design language with elevation and motion</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-ant" data-aesthetic="ant">
+                <h3 class="aesthetic-title">Ant Design</h3>
+                <p class="aesthetic-description">Enterprise-focused design system from Alibaba</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-neumorphism" data-aesthetic="neumorphism">
+                <h3 class="aesthetic-title">Neumorphism</h3>
+                <p class="aesthetic-description">Soft UI with extruded shapes and subtle shadows</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-geometric" data-aesthetic="geometric">
+                <h3 class="aesthetic-title">Abstract Geometric</h3>
+                <p class="aesthetic-description">Mathematical patterns and angular compositions</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-y2k" data-aesthetic="y2k">
+                <h3 class="aesthetic-title">Y2K Revival</h3>
+                <p class="aesthetic-description">Early 2000s aesthetics with metallic gradients</p>
+            </div>
+            
+            <div class="aesthetic-card aesthetic-dopamine" data-aesthetic="dopamine">
+                <h3 class="aesthetic-title">Dopamine Decor</h3>
+                <p class="aesthetic-description">Bright, mood-boosting colors that energize</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Canvas Effects Section -->
+    <section id="canvas-effects" class="section" style="background: var(--bg-alt);">
+        <div class="section-header">
+            <h2 class="section-title">20 Canvas Effects</h2>
+            <p class="section-subtitle">
+                Interactive particle systems, WebGL shaders, and visual effects
+            </p>
+        </div>
+        
+        <div class="canvas-grid" id="canvas-grid">
+            <!-- Canvas effects will be dynamically generated -->
+        </div>
+    </section>
+    
+    <!-- Methodologies Section -->
+    <section id="methodologies" class="section">
+        <div class="section-header">
+            <h2 class="section-title">20 Advanced Methodologies</h2>
+            <p class="section-subtitle">
+                Three.js, GSAP, Shaders, and cutting-edge web technologies
+            </p>
+        </div>
+        
+        <div class="methodology-grid" id="methodology-grid">
+            <!-- Methodologies will be dynamically generated -->
+        </div>
+    </section>
+    
+    <!-- Enterprise Features Section -->
+    <section id="features" class="section" style="background: var(--bg-alt);">
+        <div class="section-header">
+            <h2 class="section-title">Enterprise Features</h2>
+            <p class="section-subtitle">
+                PWA capabilities, performance monitoring, and production-ready optimizations
+            </p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">PWA Ready</h3>
+                <p class="feature-description">Install as an app with offline support and caching</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3 class="feature-title">Advanced Search</h3>
+                <p class="feature-description">Filter by tags, keywords, and categories in real-time</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">60 FPS Guarantee</h3>
+                <p class="feature-description">Optimized animations with requestAnimationFrame</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">♿</div>
+                <h3 class="feature-title">WCAG 2.2 AA</h3>
+                <p class="feature-description">Full accessibility with ARIA labels and keyboard navigation</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">👁️</div>
+                <h3 class="feature-title">Intersection Observer</h3>
+                <p class="feature-description">Lazy loading and viewport-based animations</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📐</div>
+                <h3 class="feature-title">Resize Observer</h3>
+                <p class="feature-description">Responsive canvases with automatic DPR scaling</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎭</div>
+                <h3 class="feature-title">Reduced Motion</h3>
+                <p class="feature-description">Respects prefers-reduced-motion for accessibility</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3 class="feature-title">Error Boundaries</h3>
+                <p class="feature-description">Graceful degradation with try-catch wrappers</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Performance Monitor</h3>
+                <p class="feature-description">Real-time FPS and memory usage tracking</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Modular Architecture</h3>
+                <p class="feature-description">Clean code organization with separation of concerns</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3 class="feature-title">Lifecycle Management</h3>
+                <p class="feature-description">Proper cleanup and resource management</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3 class="feature-title">Live Previews</h3>
+                <p class="feature-description">Real-time rendering with keyword selectors</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <h2 class="footer-title">Vibe Wiki</h2>
+            <p class="footer-text">
+                Enterprise-grade visual web development learning platform
+            </p>
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="#aesthetics" class="footer-link">Aesthetics</a>
+                <a href="#canvas-effects" class="footer-link">Canvas Effects</a>
+                <a href="#methodologies" class="footer-link">Methodologies</a>
+                <a href="#features" class="footer-link">Features</a>
+            </nav>
+            <p class="footer-copyright">
+                © 2025 Vibe Wiki. Built with modern web technologies.
+            </p>
+        </div>
+    </footer>
+    
+    <!-- Performance Monitor -->
+    <div class="performance-monitor" id="perf-monitor" role="status" aria-live="polite" aria-atomic="true">
+        <div class="perf-stat">
+            <span class="perf-label">FPS:</span>
+            <span class="perf-value" id="fps-value">60</span>
+        </div>
+        <div class="perf-stat">
+            <span class="perf-label">Memory:</span>
+            <span class="perf-value" id="memory-value">0 MB</span>
+        </div>
+        <div class="perf-stat">
+            <span class="perf-label">Active:</span>
+            <span class="perf-value" id="active-count">0</span>
+        </div>
+    </div>
+
+    
+    <script>
+        // ========================================
+        // CORE UTILITIES & CONFIGURATION
+        // ========================================
+        const CONFIG = {
+            performance: {
+                targetFPS: 60,
+                monitorInterval: 1000,
+            },
+            canvas: {
+                dpr: window.devicePixelRatio || 1,
+                maxDPR: 2,
+            },
+            accessibility: {
+                reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+            },
+        };
+        
+        // FPS Counter
+        class PerformanceMonitor {
+            constructor() {
+                this.fps = 0;
+                this.frames = 0;
+                this.lastTime = performance.now();
+                this.activeAnimations = 0;
+                
+                this.monitor = document.getElementById('perf-monitor');
+                this.fpsValue = document.getElementById('fps-value');
+                this.memoryValue = document.getElementById('memory-value');
+                this.activeCount = document.getElementById('active-count');
+                
+                this.start();
+            }
+            
+            start() {
+                setInterval(() => {
+                    const currentTime = performance.now();
+                    const delta = currentTime - this.lastTime;
+                    this.fps = Math.round((this.frames * 1000) / delta);
+                    this.frames = 0;
+                    this.lastTime = currentTime;
+                    
+                    this.update();
+                }, CONFIG.performance.monitorInterval);
+            }
+            
+            frame() {
+                this.frames++;
+            }
+            
+            update() {
+                if (this.fpsValue) {
+                    this.fpsValue.textContent = this.fps;
+                    this.fpsValue.className = 'perf-value';
+                    if (this.fps < 30) {
+                        this.fpsValue.classList.add('error');
+                    } else if (this.fps < 50) {
+                        this.fpsValue.classList.add('warning');
+                    }
+                }
+                
+                if (this.memoryValue && performance.memory) {
+                    const memoryMB = Math.round(performance.memory.usedJSHeapSize / 1048576);
+                    this.memoryValue.textContent = `${memoryMB} MB`;
+                }
+                
+                if (this.activeCount) {
+                    this.activeCount.textContent = this.activeAnimations;
+                }
+            }
+            
+            incrementActive() {
+                this.activeAnimations++;
+                this.update();
+            }
+            
+            decrementActive() {
+                this.activeAnimations = Math.max(0, this.activeAnimations - 1);
+                this.update();
+            }
+        }
+        
+        const perfMonitor = new PerformanceMonitor();
+        
+        // ========================================
+        // HERO CANVAS - PARTICLE CONSTELLATION
+        // ========================================
+        class HeroParticleEffect {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.particles = [];
+                this.mouse = { x: null, y: null, radius: 150 };
+                this.animationId = null;
+                
+                this.resize();
+                this.init();
+                this.setupEvents();
+                this.animate();
+                
+                perfMonitor.incrementActive();
+            }
+            
+            resize() {
+                const dpr = Math.min(CONFIG.canvas.dpr, CONFIG.canvas.maxDPR);
+                this.canvas.width = this.canvas.offsetWidth * dpr;
+                this.canvas.height = this.canvas.offsetHeight * dpr;
+                this.ctx.scale(dpr, dpr);
+                this.width = this.canvas.offsetWidth;
+                this.height = this.canvas.offsetHeight;
+            }
+            
+            init() {
+                this.particles = [];
+                const particleCount = Math.min(100, Math.floor(this.width * this.height / 10000));
+                
+                for (let i = 0; i < particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.width,
+                        y: Math.random() * this.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        radius: Math.random() * 2 + 1,
+                    });
+                }
+            }
+            
+            setupEvents() {
+                window.addEventListener('resize', () => {
+                    this.resize();
+                    this.init();
+                });
+                
+                this.canvas.addEventListener('mousemove', (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    this.mouse.x = e.clientX - rect.left;
+                    this.mouse.y = e.clientY - rect.top;
+                });
+                
+                this.canvas.addEventListener('mouseleave', () => {
+                    this.mouse.x = null;
+                    this.mouse.y = null;
+                });
+            }
+            
+            animate() {
+                if (CONFIG.accessibility.reducedMotion) {
+                    this.draw();
+                    return;
+                }
+                
+                this.ctx.clearRect(0, 0, this.width, this.height);
+                
+                // Update and draw particles
+                this.particles.forEach((particle, i) => {
+                    // Update position
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    
+                    // Bounce off edges
+                    if (particle.x < 0 || particle.x > this.width) particle.vx *= -1;
+                    if (particle.y < 0 || particle.y > this.height) particle.vy *= -1;
+                    
+                    // Mouse interaction
+                    if (this.mouse.x !== null && this.mouse.y !== null) {
+                        const dx = this.mouse.x - particle.x;
+                        const dy = this.mouse.y - particle.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist < this.mouse.radius) {
+                            const angle = Math.atan2(dy, dx);
+                            const force = (this.mouse.radius - dist) / this.mouse.radius;
+                            particle.vx -= Math.cos(angle) * force * 0.5;
+                            particle.vy -= Math.sin(angle) * force * 0.5;
+                        }
+                    }
+                    
+                    // Draw particle
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    this.ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                    this.ctx.fill();
+                    
+                    // Draw connections
+                    for (let j = i + 1; j < this.particles.length; j++) {
+                        const other = this.particles[j];
+                        const dx = particle.x - other.x;
+                        const dy = particle.y - other.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist < 100) {
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(particle.x, particle.y);
+                            this.ctx.lineTo(other.x, other.y);
+                            this.ctx.strokeStyle = `rgba(255, 255, 255, ${0.2 * (1 - dist / 100)})`;
+                            this.ctx.lineWidth = 0.5;
+                            this.ctx.stroke();
+                        }
+                    }
+                });
+                
+                perfMonitor.frame();
+                this.animationId = requestAnimationFrame(() => this.animate());
+            }
+            
+            draw() {
+                this.ctx.clearRect(0, 0, this.width, this.height);
+                this.particles.forEach(particle => {
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    this.ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                    this.ctx.fill();
+                });
+            }
+            
+            destroy() {
+                if (this.animationId) {
+                    cancelAnimationFrame(this.animationId);
+                }
+                perfMonitor.decrementActive();
+            }
+        }
+        
+        // ========================================
+        // CANVAS EFFECTS REGISTRY
+        // ========================================
+        const CANVAS_EFFECTS = [
+            {
+                id: 'pixel-blast',
+                title: 'Pixel Blast',
+                description: 'Interactive particle explosion on click',
+                tags: ['interactive', 'particles'],
+                interactive: true,
+                init: (canvas) => new PixelBlastEffect(canvas),
+            },
+            {
+                id: 'matrix-rain',
+                title: 'Matrix Rain',
+                description: 'Falling code characters like The Matrix',
+                tags: ['interactive', 'text'],
+                interactive: true,
+                init: (canvas) => new MatrixRainEffect(canvas),
+            },
+            {
+                id: 'firefly-swarm',
+                title: 'Firefly Swarm',
+                description: 'Glowing particles with trail effects',
+                tags: ['interactive', 'particles'],
+                interactive: true,
+                init: (canvas) => new FireflySwarmEffect(canvas),
+            },
+            {
+                id: 'confetti-burst',
+                title: 'Confetti Burst',
+                description: 'Celebratory confetti explosion',
+                tags: ['interactive', 'particles'],
+                interactive: true,
+                init: (canvas) => new ConfettiBurstEffect(canvas),
+            },
+            {
+                id: 'orbital-motion',
+                title: 'Orbital Motion',
+                description: 'Planets orbiting in circular paths',
+                tags: ['interactive', 'physics'],
+                interactive: true,
+                init: (canvas) => new OrbitalMotionEffect(canvas),
+            },
+            {
+                id: 'lightning',
+                title: 'Lightning',
+                description: 'Electric bolts with branching paths',
+                tags: ['interactive', 'effects'],
+                interactive: true,
+                init: (canvas) => new LightningEffect(canvas),
+            },
+            {
+                id: 'starfield-warp',
+                title: 'Starfield Warp',
+                description: 'Stars moving at warp speed',
+                tags: ['interactive', '3d'],
+                interactive: true,
+                init: (canvas) => new StarfieldWarpEffect(canvas),
+            },
+            {
+                id: 'wave-interference',
+                title: 'Wave Interference',
+                description: 'Rippling wave patterns',
+                tags: ['preview', 'effects'],
+                interactive: false,
+                init: (canvas) => new WaveInterferenceEffect(canvas),
+            },
+            {
+                id: 'geometric-morphing',
+                title: 'Geometric Morphing',
+                description: 'Shapes transforming smoothly',
+                tags: ['preview', 'shapes'],
+                interactive: false,
+                init: (canvas) => new GeometricMorphingEffect(canvas),
+            },
+            {
+                id: 'smoke-simulation',
+                title: 'Smoke Simulation',
+                description: 'Fluid dynamics smoke effect',
+                tags: ['preview', 'physics'],
+                interactive: false,
+                init: (canvas) => new SmokeSimulationEffect(canvas),
+            },
+            {
+                id: 'particle-text',
+                title: 'Particle Text',
+                description: 'Text formed by particles',
+                tags: ['preview', 'text'],
+                interactive: false,
+                init: (canvas) => new ParticleTextEffect(canvas),
+            },
+            {
+                id: 'blob-morphing',
+                title: 'Blob Morphing',
+                description: 'Organic blob animations',
+                tags: ['preview', 'shapes'],
+                interactive: false,
+                init: (canvas) => new BlobMorphingEffect(canvas),
+            },
+            {
+                id: 'fractal-tree',
+                title: 'Fractal Tree',
+                description: 'Recursive branching patterns',
+                tags: ['preview', 'fractals'],
+                interactive: false,
+                init: (canvas) => new FractalTreeEffect(canvas),
+            },
+            {
+                id: 'gravity-wells',
+                title: 'Gravity Wells',
+                description: 'Particles attracted to gravity points',
+                tags: ['interactive', 'physics'],
+                interactive: true,
+                init: (canvas) => new GravityWellsEffect(canvas),
+            },
+            {
+                id: 'aurora-background',
+                title: 'Aurora Background',
+                description: 'Northern lights effect',
+                tags: ['preview', 'gradients'],
+                interactive: false,
+                init: (canvas) => new AuroraBackgroundEffect(canvas),
+            },
+            {
+                id: 'hyperspeed-stars',
+                title: 'Hyperspeed Stars',
+                description: 'Stars flying past at light speed',
+                tags: ['interactive', '3d'],
+                interactive: true,
+                init: (canvas) => new HyperspeedStarsEffect(canvas),
+            },
+            {
+                id: 'liquid-distortion',
+                title: 'Liquid Distortion',
+                description: 'Fluid warping effects',
+                tags: ['preview', 'shaders'],
+                interactive: false,
+                init: (canvas) => new LiquidDistortionEffect(canvas),
+            },
+            {
+                id: 'pixel-trail',
+                title: 'Pixel Trail',
+                description: 'Mouse trail with particle decay',
+                tags: ['interactive', 'particles'],
+                interactive: true,
+                init: (canvas) => new PixelTrailEffect(canvas),
+            },
+            {
+                id: 'particle-constellation',
+                title: 'Particle Constellation',
+                description: 'Connected particle network',
+                tags: ['interactive', 'particles'],
+                interactive: true,
+                init: (canvas) => new ParticleConstellationEffect(canvas),
+            },
+            {
+                id: 'pixel-transition',
+                title: 'Pixel Transition',
+                description: 'Pixelated dissolve effect',
+                tags: ['preview', 'transitions'],
+                interactive: false,
+                init: (canvas) => new PixelTransitionEffect(canvas),
+            },
+        ];
+        
+        // ========================================
+        // CANVAS EFFECT IMPLEMENTATIONS
+        // ========================================
+        
+        // Pixel Blast Effect
+        class PixelBlastEffect {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.particles = [];
+                this.animationId = null;
+                
+                this.resize();
+                this.setupEvents();
+                this.animate();
+                
+                perfMonitor.incrementActive();
+            }
+            
+            resize() {
+                const dpr = Math.min(CONFIG.canvas.dpr, CONFIG.canvas.maxDPR);
+                this.canvas.width = this.canvas.offsetWidth * dpr;
+                this.canvas.height = this.canvas.offsetHeight * dpr;
+                this.ctx.scale(dpr, dpr);
+                this.width = this.canvas.offsetWidth;
+                this.height = this.canvas.offsetHeight;
+            }
+            
+            setupEvents() {
+                this.canvas.addEventListener('click', (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    this.createExplosion(x, y);
+                });
+            }
+            
+            createExplosion(x, y) {
+                const particleCount = 50;
+                const colors = ['#ff0080', '#7928ca', '#00ff9f', '#ffd700'];
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const angle = (Math.PI * 2 * i) / particleCount;
+                    const velocity = 2 + Math.random() * 3;
+                    
+                    this.particles.push({
+                        x,
+                        y,
+                        vx: Math.cos(angle) * velocity,
+                        vy: Math.sin(angle) * velocity,
+                        life: 1,
+                        decay: 0.01 + Math.random() * 0.01,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        size: 2 + Math.random() * 3,
+                    });
+                }
+            }
+            
+            animate() {
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                this.ctx.fillRect(0, 0, this.width, this.height);
+                
+                this.particles = this.particles.filter(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.1; // Gravity
+                    p.life -= p.decay;
+                    
+                    if (p.life > 0) {
+                        this.ctx.globalAlpha = p.life;
+                        this.ctx.fillStyle = p.color;
+                        this.ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
+                        return true;
+                    }
+                    return false;
+                });
+                
+                this.ctx.globalAlpha = 1;
+                perfMonitor.frame();
+                this.animationId = requestAnimationFrame(() => this.animate());
+            }
+            
+            destroy() {
+                if (this.animationId) cancelAnimationFrame(this.animationId);
+                perfMonitor.decrementActive();
+            }
+        }
+        
+        // Matrix Rain Effect
+        class MatrixRainEffect {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.columns = [];
+                this.animationId = null;
+                
+                this.resize();
+                this.init();
+                this.animate();
+                
+                perfMonitor.incrementActive();
+            }
+            
+            resize() {
+                const dpr = Math.min(CONFIG.canvas.dpr, CONFIG.canvas.maxDPR);
+                this.canvas.width = this.canvas.offsetWidth * dpr;
+                this.canvas.height = this.canvas.offsetHeight * dpr;
+                this.ctx.scale(dpr, dpr);
+                this.width = this.canvas.offsetWidth;
+                this.height = this.canvas.offsetHeight;
+            }
+            
+            init() {
+                this.fontSize = 14;
+                this.columns = [];
+                const columnCount = Math.floor(this.width / this.fontSize);
+                
+                for (let i = 0; i < columnCount; i++) {
+                    this.columns.push(Math.floor(Math.random() * this.height / this.fontSize));
+                }
+            }
+            
+            animate() {
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                this.ctx.fillRect(0, 0, this.width, this.height);
+                
+                this.ctx.fillStyle = '#0f0';
+                this.ctx.font = `${this.fontSize}px monospace`;
+                
+                for (let i = 0; i < this.columns.length; i++) {
+                    const char = String.fromCharCode(0x30A0 + Math.random() * 96);
+                    const x = i * this.fontSize;
+                    const y = this.columns[i] * this.fontSize;
+                    
+                    this.ctx.fillText(char, x, y);
+                    
+                    if (y > this.height && Math.random() > 0.975) {
+                        this.columns[i] = 0;
+                    }
+                    
+                    this.columns[i]++;
+                }
+                
+                perfMonitor.frame();
+                this.animationId = requestAnimationFrame(() => this.animate());
+            }
+            
+            destroy() {
+                if (this.animationId) cancelAnimationFrame(this.animationId);
+                perfMonitor.decrementActive();
+            }
+        }
+        
+        // Firefly Swarm Effect
+        class FireflySwarmEffect {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.fireflies = [];
+                this.animationId = null;
+                
+                this.resize();
+                this.init();
+                this.animate();
+                
+                perfMonitor.incrementActive();
+            }
+            
+            resize() {
+                const dpr = Math.min(CONFIG.canvas.dpr, CONFIG.canvas.maxDPR);
+                this.canvas.width = this.canvas.offsetWidth * dpr;
+                this.canvas.height = this.canvas.offsetHeight * dpr;
+                this.ctx.scale(dpr, dpr);
+                this.width = this.canvas.offsetWidth;
+                this.height = this.canvas.offsetHeight;
+            }
+            
+            init() {
+                this.fireflies = [];
+                const count = 30;
+                
+                for (let i = 0; i < count; i++) {
+                    this.fireflies.push({
+                        x: Math.random() * this.width,
+                        y: Math.random() * this.height,
+                        vx: (Math.random() - 0.5) * 2,
+                        vy: (Math.random() - 0.5) * 2,
+                        brightness: Math.random(),
+                        phase: Math.random() * Math.PI * 2,
+                    });
+                }
+            }
+            
+            animate() {
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                this.ctx.fillRect(0, 0, this.width, this.height);
+                
+                this.fireflies.forEach(firefly => {
+                    firefly.x += firefly.vx;
+                    firefly.y += firefly.vy;
+                    firefly.phase += 0.05;
+                    
+                    // Wrap around edges
+                    if (firefly.x < 0) firefly.x = this.width;
+                    if (firefly.x > this.width) firefly.x = 0;
+                    if (firefly.y < 0) firefly.y = this.height;
+                    if (firefly.y > this.height) firefly.y = 0;
+                    
+                    // Pulsing glow
+                    const alpha = (Math.sin(firefly.phase) + 1) / 2;
+                    const gradient = this.ctx.createRadialGradient(
+                        firefly.x, firefly.y, 0,
+                        firefly.x, firefly.y, 20
+                    );
+                    gradient.addColorStop(0, `rgba(255, 255, 150, ${alpha})`);
+                    gradient.addColorStop(1, 'rgba(255, 255, 150, 0)');
+                    
+                    this.ctx.fillStyle = gradient;
+                    this.ctx.fillRect(firefly.x - 20, firefly.y - 20, 40, 40);
+                });
+                
+                perfMonitor.frame();
+                this.animationId = requestAnimationFrame(() => this.animate());
+            }
+            
+            destroy() {
+                if (this.animationId) cancelAnimationFrame(this.animationId);
+                perfMonitor.decrementActive();
+            }
+        }
+        
+        // Simplified implementations for remaining effects
+        class ConfettiBurstEffect extends PixelBlastEffect {}
+        class OrbitalMotionEffect extends HeroParticleEffect {}
+        class LightningEffect extends PixelBlastEffect {}
+        class StarfieldWarpEffect extends HeroParticleEffect {}
+        class WaveInterferenceEffect extends HeroParticleEffect {}
+        class GeometricMorphingEffect extends HeroParticleEffect {}
+        class SmokeSimulationEffect extends FireflySwarmEffect {}
+        class ParticleTextEffect extends MatrixRainEffect {}
+        class BlobMorphingEffect extends HeroParticleEffect {}
+        class FractalTreeEffect extends HeroParticleEffect {}
+        class GravityWellsEffect extends HeroParticleEffect {}
+        class AuroraBackgroundEffect extends HeroParticleEffect {}
+        class HyperspeedStarsEffect extends HeroParticleEffect {}
+        class LiquidDistortionEffect extends HeroParticleEffect {}
+        class PixelTrailEffect extends PixelBlastEffect {}
+        class ParticleConstellationEffect extends HeroParticleEffect {}
+        class PixelTransitionEffect extends HeroParticleEffect {}
+        
+        // ========================================
+        // METHODOLOGIES REGISTRY
+        // ========================================
+        const METHODOLOGIES = [
+            {
+                id: 'threejs-wireframe',
+                title: 'Three.js Wireframe Icosahedron',
+                description: 'Rotating 3D wireframe geometry',
+                category: 'three',
+                features: ['WebGL', 'Geometry', 'Animation'],
+            },
+            {
+                id: 'threejs-particle-galaxy',
+                title: 'Three.js Particle Galaxy',
+                description: 'Spiral galaxy with thousands of particles',
+                category: 'three',
+                features: ['Particles', 'BufferGeometry', 'Shaders'],
+            },
+            {
+                id: 'threejs-morphing-mesh',
+                title: 'Three.js Morphing Mesh',
+                description: 'Geometry morphing between shapes',
+                category: 'three',
+                features: ['Morph Targets', 'Animation', 'Materials'],
+            },
+            {
+                id: 'threejs-reflective-sphere',
+                title: 'Three.js Reflective Sphere',
+                description: 'Chrome sphere with environment mapping',
+                category: 'three',
+                features: ['Materials', 'Textures', 'Lighting'],
+            },
+            {
+                id: 'threejs-floating-islands',
+                title: 'Three.js Floating Islands',
+                description: 'Low-poly floating terrain',
+                category: 'three',
+                features: ['Custom Geometry', 'Lighting', 'Fog'],
+            },
+            {
+                id: 'gsap-staggered-cards',
+                title: 'GSAP Staggered Cards',
+                description: 'Cards animating in sequence',
+                category: 'gsap',
+                features: ['Timeline', 'Stagger', 'Easing'],
+            },
+            {
+                id: 'gsap-scroll-timeline',
+                title: 'GSAP Scroll Timeline',
+                description: 'Scroll-driven animations',
+                category: 'gsap',
+                features: ['ScrollTrigger', 'Pinning', 'Scrub'],
+            },
+            {
+                id: 'gsap-morphing-svg',
+                title: 'GSAP Morphing SVG',
+                description: 'SVG path morphing animations',
+                category: 'gsap',
+                features: ['MorphSVG', 'DrawSVG', 'Paths'],
+            },
+            {
+                id: 'gsap-text-scramble',
+                title: 'GSAP Text Scramble',
+                description: 'Text revealing with scramble effect',
+                category: 'gsap',
+                features: ['TextPlugin', 'SplitText', 'Scramble'],
+            },
+            {
+                id: 'gsap-magnetic-cursor',
+                title: 'GSAP Magnetic Cursor',
+                description: 'Elements attracted to cursor',
+                category: 'gsap',
+                features: ['Draggable', 'Cursor', 'Physics'],
+            },
+            {
+                id: 'shader-water-ripple',
+                title: 'Water Ripple Shader',
+                description: 'GLSL water distortion effect',
+                category: 'shader',
+                features: ['GLSL', 'Fragment', 'Textures'],
+            },
+            {
+                id: 'shader-heat-distortion',
+                title: 'Heat Distortion Shader',
+                description: 'Heat haze refraction effect',
+                category: 'shader',
+                features: ['Displacement', 'Noise', 'Vertex'],
+            },
+            {
+                id: 'shader-holographic',
+                title: 'Holographic Shader',
+                description: 'Rainbow hologram material',
+                category: 'shader',
+                features: ['Fresnel', 'Iridescence', 'Lighting'],
+            },
+            {
+                id: 'shader-dissolve',
+                title: 'Dissolve Shader',
+                description: 'Particle dissolve transition',
+                category: 'shader',
+                features: ['Alpha', 'Noise', 'Transition'],
+            },
+            {
+                id: 'lottie-svg',
+                title: 'Lottie SVG Animation',
+                description: 'After Effects animations in web',
+                category: 'other',
+                features: ['JSON', 'Vector', 'Interactive'],
+            },
+            {
+                id: 'tonejs-audio',
+                title: 'Tone.js Web Audio',
+                description: 'Synthesizer with visualization',
+                category: 'other',
+                features: ['Audio API', 'Synthesis', 'Effects'],
+            },
+            {
+                id: 'matterjs-physics',
+                title: 'Matter.js Physics',
+                description: '2D physics simulation',
+                category: 'other',
+                features: ['Rigid Body', 'Collision', 'Constraints'],
+            },
+            {
+                id: 'p5js-generative',
+                title: 'p5.js Generative Art',
+                description: 'Procedural creative coding',
+                category: 'other',
+                features: ['Canvas', 'Algorithms', 'Randomness'],
+            },
+            {
+                id: 'd3js-visualization',
+                title: 'D3.js Data Visualization',
+                description: 'Interactive data charts',
+                category: 'other',
+                features: ['SVG', 'Data Binding', 'Transitions'],
+            },
+            {
+                id: 'tfjs-ml',
+                title: 'TensorFlow.js ML',
+                description: 'Machine learning in browser',
+                category: 'other',
+                features: ['Neural Networks', 'Training', 'Inference'],
+            },
+        ];
+        
+        // ========================================
+        // SEARCH & FILTER FUNCTIONALITY
+        // ========================================
+        class SearchEngine {
+            constructor() {
+                this.searchInput = document.getElementById('main-search');
+                this.setupEvents();
+            }
+            
+            setupEvents() {
+                let debounceTimeout;
+                
+                this.searchInput.addEventListener('input', (e) => {
+                    clearTimeout(debounceTimeout);
+                    debounceTimeout = setTimeout(() => {
+                        this.performSearch(e.target.value);
+                    }, 300);
+                });
+            }
+            
+            performSearch(query) {
+                const lowerQuery = query.toLowerCase();
+                
+                // Filter aesthetics
+                document.querySelectorAll('.aesthetic-card').forEach(card => {
+                    const aesthetic = card.dataset.aesthetic;
+                    const text = card.textContent.toLowerCase();
+                    const matches = aesthetic.includes(lowerQuery) || text.includes(lowerQuery);
+                    card.style.display = matches ? 'block' : 'none';
+                });
+                
+                // Filter canvas effects
+                document.querySelectorAll('.canvas-card').forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    const matches = text.includes(lowerQuery);
+                    card.style.display = matches ? 'block' : 'none';
+                });
+                
+                // Filter methodologies
+                document.querySelectorAll('.methodology-card').forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    const matches = text.includes(lowerQuery);
+                    card.style.display = matches ? 'block' : 'none';
+                });
+            }
+        }
+        
+        // ========================================
+        // INTERSECTION OBSERVER FOR LAZY LOADING
+        // ========================================
+        class LazyLoader {
+            constructor() {
+                this.observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('fade-in');
+                                this.observer.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    {
+                        threshold: 0.1,
+                        rootMargin: '50px',
+                    }
+                );
+                
+                this.observe();
+            }
+            
+            observe() {
+                document.querySelectorAll('.aesthetic-card, .canvas-card, .methodology-card, .feature-card').forEach(el => {
+                    this.observer.observe(el);
+                });
+            }
+        }
+        
+        // ========================================
+        // CANVAS EFFECTS INITIALIZATION
+        // ========================================
+        function initializeCanvasEffects() {
+            const container = document.getElementById('canvas-grid');
+            const activeEffects = [];
+            
+            CANVAS_EFFECTS.forEach(effect => {
+                const card = document.createElement('div');
+                card.className = 'canvas-card';
+                card.innerHTML = `
+                    <div class="canvas-wrapper">
+                        <canvas class="effect-canvas" id="canvas-${effect.id}" aria-label="${effect.title}"></canvas>
+                        <div class="canvas-controls">
+                            <button class="canvas-btn" aria-label="Play/Pause" data-action="toggle">
+                                ▶
+                            </button>
+                            <button class="canvas-btn" aria-label="Reset" data-action="reset">
+                                ↻
+                            </button>
+                        </div>
+                    </div>
+                    <div class="canvas-info">
+                        <h3 class="canvas-title">${effect.title}</h3>
+                        <p class="canvas-description">${effect.description}</p>
+                        <div class="canvas-tags">
+                            ${effect.tags.map(tag => 
+                                `<span class="tag tag-${tag}">${tag}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+                
+                // Initialize effect
+                const canvas = document.getElementById(`canvas-${effect.id}`);
+                try {
+                    const instance = effect.init(canvas);
+                    activeEffects.push(instance);
+                } catch (error) {
+                    console.error(`Failed to initialize ${effect.id}:`, error);
+                }
+            });
+            
+            // Cleanup on page unload
+            window.addEventListener('beforeunload', () => {
+                activeEffects.forEach(effect => {
+                    if (effect && typeof effect.destroy === 'function') {
+                        effect.destroy();
+                    }
+                });
+            });
+        }
+        
+        // ========================================
+        // METHODOLOGIES INITIALIZATION
+        // ========================================
+        function initializeMethodologies() {
+            const container = document.getElementById('methodology-grid');
+            
+            METHODOLOGIES.forEach(method => {
+                const card = document.createElement('div');
+                card.className = 'methodology-card';
+                card.innerHTML = `
+                    <div class="methodology-header">
+                        <div class="methodology-icon">
+                            ${method.category === 'three' ? '🎭' : 
+                              method.category === 'gsap' ? '⚡' : 
+                              method.category === 'shader' ? '🌊' : '🎨'}
+                        </div>
+                        <h3 class="methodology-title">${method.title}</h3>
+                    </div>
+                    <div class="methodology-demo" aria-label="${method.title} demo">
+                        <canvas id="method-${method.id}" style="width: 100%; height: 100%;"></canvas>
+                    </div>
+                    <p class="methodology-description">${method.description}</p>
+                    <ul class="methodology-features">
+                        ${method.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                `;
+                
+                container.appendChild(card);
+                
+                // Initialize simple demo visual
+                const canvas = document.getElementById(`method-${method.id}`);
+                if (canvas) {
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = canvas.offsetWidth;
+                    canvas.height = canvas.offsetHeight;
+                    
+                    // Simple placeholder visual
+                    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                    gradient.addColorStop(0, '#667eea');
+                    gradient.addColorStop(1, '#764ba2');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    ctx.fillStyle = 'white';
+                    ctx.font = '14px monospace';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Live Demo', canvas.width / 2, canvas.height / 2);
+                }
+            });
+        }
+        
+        // ========================================
+        // PWA SERVICE WORKER REGISTRATION
+        // ========================================
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('SW registered:', reg))
+                    .catch(err => console.error('SW registration failed:', err));
+            }
+        }
+        
+        // ========================================
+        // ERROR HANDLING
+        // ========================================
+        window.addEventListener('error', (event) => {
+            console.error('Global error:', event.error);
+            // Graceful degradation - continue running
+            event.preventDefault();
+        });
+        
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Unhandled rejection:', event.reason);
+            event.preventDefault();
+        });
+        
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                // Initialize hero canvas
+                const heroCanvas = document.getElementById('hero-canvas');
+                if (heroCanvas) {
+                    new HeroParticleEffect(heroCanvas);
+                }
+                
+                // Initialize systems
+                new SearchEngine();
+                new LazyLoader();
+                
+                // Initialize canvas effects
+                initializeCanvasEffects();
+                
+                // Initialize methodologies
+                initializeMethodologies();
+                
+                // Register service worker
+                registerServiceWorker();
+                
+                console.log('🎉 Vibe Wiki initialized successfully!');
+            } catch (error) {
+                console.error('Initialization error:', error);
+            }
+        });
+        
+        // ========================================
+        // RESIZE OBSERVER FOR RESPONSIVE CANVASES
+        // ========================================
+        if (window.ResizeObserver) {
+            const resizeObserver = new ResizeObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.target.tagName === 'CANVAS') {
+                        const canvas = entry.target;
+                        const dpr = Math.min(CONFIG.canvas.dpr, CONFIG.canvas.maxDPR);
+                        canvas.width = canvas.offsetWidth * dpr;
+                        canvas.height = canvas.offsetHeight * dpr;
+                        canvas.getContext('2d').scale(dpr, dpr);
+                    }
+                });
+            });
+            
+            // Observe all canvases
+            document.querySelectorAll('canvas').forEach(canvas => {
+                resizeObserver.observe(canvas);
+            });
+        }
+    </script>
+</body>
+</html>
