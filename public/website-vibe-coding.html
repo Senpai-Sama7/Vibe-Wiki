@@ -1250,7 +1250,11 @@
                     historyIndex--;
                     const oldState = history[historyIndex];
                     state = oldState; // Update global state
-                    localStorage.setItem('vibeBuilderState', JSON.stringify(oldState));
+                    try {
+                        localStorage.setItem('vibeBuilderState', JSON.stringify(oldState));
+                    } catch (e) {
+                        console.warn("Could not save state to localStorage on undo:", e);
+                    }
                     applyState(oldState);
                 }
             }
@@ -1260,7 +1264,11 @@
                     historyIndex++;
                     const newState = history[historyIndex];
                     state = newState; // Update global state
-                    localStorage.setItem('vibeBuilderState', JSON.stringify(newState));
+                    try {
+                        localStorage.setItem('vibeBuilderState', JSON.stringify(newState));
+                    } catch (e) {
+                        console.warn("Could not save state to localStorage on redo:", e);
+                    }
                     applyState(newState);
                 }
             }
