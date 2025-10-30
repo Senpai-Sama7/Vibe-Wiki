@@ -4,10 +4,11 @@
  */
 
 /**
- * Email validation
+ * Email validation with comprehensive regex
  */
 export function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // RFC 5322 compliant email validation
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   return emailRegex.test(email);
 }
 
@@ -24,16 +25,7 @@ export function isValidUrl(url: string): boolean {
 }
 
 /**
- * Sanitize HTML string by removing dangerous tags and attributes
- */
-export function sanitizeHtml(html: string): string {
-  const temp = document.createElement('div');
-  temp.textContent = html;
-  return temp.innerHTML;
-}
-
-/**
- * Escape HTML special characters
+ * Escape HTML special characters to prevent XSS
  */
 export function escapeHtml(text: string): string {
   const div = document.createElement('div');
@@ -42,12 +34,12 @@ export function escapeHtml(text: string): string {
 }
 
 /**
- * Remove all HTML tags from string
+ * Remove all HTML tags from string safely
  */
 export function stripHtml(html: string): string {
-  const temp = document.createElement('div');
-  temp.innerHTML = html;
-  return temp.textContent || temp.innerText || '';
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  return doc.body.textContent || doc.body.innerText || '';
 }
 
 /**
@@ -349,12 +341,12 @@ export function debounce<T extends (...args: Parameters<T>) => ReturnType<T>>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout | null = null;
+  let timeout: number | null = null;
   
   return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
     if (timeout) clearTimeout(timeout);
     
-    timeout = setTimeout(() => {
+    timeout = window.setTimeout(() => {
       func.apply(this, args);
     }, wait);
   };
@@ -373,7 +365,7 @@ export function throttle<T extends (...args: Parameters<T>) => ReturnType<T>>(
     if (!inThrottle) {
       func.apply(this, args);
       inThrottle = true;
-      setTimeout(() => {
+      window.setTimeout(() => {
         inThrottle = false;
       }, limit);
     }
