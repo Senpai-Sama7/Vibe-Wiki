@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ultimate Vibe Builder - Create stunning website designs with 42 themes, 6 layouts, and real-time preview. Perfect for web developers and designers.">
+    <meta name="keywords" content="web design, vibe builder, website themes, layout builder, design tool">
+    <meta name="author" content="Vibe Wiki">
+    <meta property="og:title" content="Ultimate Vibe Builder">
+    <meta property="og:description" content="Create stunning website designs with 42 themes and real-time preview">
+    <meta property="og:type" content="website">
     <title>Ultimate Vibe Builder</title>
 
     <!-- Tailwind CSS via CDN -->
@@ -101,7 +107,7 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3csc/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
             background-position: right 0.5rem center;
             background-repeat: no-repeat;
             background-size: 1.5em 1.5em;
@@ -325,6 +331,88 @@
             bottom: 20px;
         }
 
+        /* --- Loading State --- */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 300ms ease;
+        }
+        
+        .loading-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* --- Mobile Responsive Improvements --- */
+        @media (max-width: 768px) {
+            .config-panel {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 85%;
+                max-width: 350px;
+                height: 100vh;
+                z-index: 1000;
+                background: #111827;
+                transition: left 300ms ease;
+            }
+            
+            .config-panel.mobile-open {
+                left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 999;
+                width: 56px;
+                height: 56px;
+                border-radius: 50%;
+                background: #3b82f6;
+                color: white;
+                border: none;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                cursor: pointer;
+                transition: transform 200ms ease;
+            }
+            
+            .mobile-menu-btn:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
         /* --- Layout System Classes --- */
         .layout-asymmetric .demo-content {
             display: grid;
@@ -425,81 +513,91 @@
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 font-inter">
+    
+    <!-- Back to Home Button -->
+    <a href="/" 
+       class="fixed top-4 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+       aria-label="Back to home page">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <span class="hidden sm:inline">Back to Home</span>
+    </a>
 
     <!-- Main Application Grid -->
     <div class="min-h-screen grid grid-cols-1 md:grid-cols-[350px_1fr] lg:grid-cols-[350px_1fr_380px]">
 
         <!-- === LEFT COLUMN: CONFIGURATION PANEL === -->
-        <aside class="config-panel h-screen max-h-screen overflow-y-auto p-4 space-y-4 border-r border-gray-700 hidden md:block">
+        <aside class="config-panel h-screen max-h-screen overflow-y-auto p-4 space-y-4 border-r border-gray-700 hidden md:block" role="complementary" aria-label="Configuration panel">
             <h1 class="text-xl font-bold text-white mb-4">🎉 Vibe Builder</h1>
 
             <!-- State Management -->
             <div class="config-section pb-4">
                 <label class="config-label">State Management</label>
                 <div class="grid grid-cols-2 gap-2">
-                    <button id="btn-undo" class="config-button" disabled>Undo (Ctrl+Z)</button>
-                    <button id="btn-redo" class="config-button" disabled>Redo (Ctrl+Y)</button>
-                    <button id="btn-export" class="config-button">Export JSON</button>
-                    <button id="btn-import" class="config-button">Import JSON</button>
-                    <input type="file" id="import-file" class="hidden" accept=".json">
+                    <button id="btn-undo" class="config-button" disabled aria-label="Undo last action (Ctrl+Z)">Undo (Ctrl+Z)</button>
+                    <button id="btn-redo" class="config-button" disabled aria-label="Redo last action (Ctrl+Y)">Redo (Ctrl+Y)</button>
+                    <button id="btn-export" class="config-button" aria-label="Export configuration as JSON">Export JSON</button>
+                    <button id="btn-import" class="config-button" aria-label="Import configuration from JSON">Import JSON</button>
+                    <input type="file" id="import-file" class="hidden" accept=".json" aria-label="Select JSON file to import">
                 </div>
             </div>
 
             <!-- Design Style -->
             <div class="config-section pb-4">
                 <label for="select-style" class="config-label">Design Style (42)</label>
-                <select id="select-style" class="config-select"></select>
+                <select id="select-style" class="config-select" aria-label="Choose design style from 42 themes"></select>
             </div>
 
             <!-- Layout System -->
             <div class="config-section pb-4">
                 <label for="select-layout" class="config-label">Layout System (6)</label>
-                <select id="select-layout" class="config-select"></select>
+                <select id="select-layout" class="config-select" aria-label="Choose layout system"></select>
             </div>
 
             <!-- Typography -->
             <div class="config-section pb-4">
                 <label for="select-typography" class="config-label">Typography (6)</label>
-                <select id="select-typography" class="config-select"></select>
+                <select id="select-typography" class="config-select" aria-label="Choose typography style"></select>
             </div>
 
             <!-- Color Palette -->
             <div class="config-section pb-4">
                 <label for="select-palette" class="config-label">Color Palette (6)</label>
-                <select id="select-palette" class="config-select"></select>
+                <select id="select-palette" class="config-select" aria-label="Choose color palette"></select>
             </div>
 
             <!-- Effects & Performance -->
             <div class="config-section pb-4 grid grid-cols-2 gap-4">
                 <div>
                     <label for="select-motion" class="config-label">Motion</label>
-                    <select id="select-motion" class="config-select"></select>
+                    <select id="select-motion" class="config-select" aria-label="Choose motion effects"></select>
                 </div>
                 <div>
                     <label for="select-visual" class="config-label">Visual Effect</label>
-                    <select id="select-visual" class="config-select"></select>
+                    <select id="select-visual" class="config-select" aria-label="Choose visual effects"></select>
                 </div>
                 <div>
                     <label for="select-accessibility" class="config-label">Accessibility</label>
-                    <select id="select-accessibility" class="config-select"></select>
+                    <select id="select-accessibility" class="config-select" aria-label="Choose accessibility options"></select>
                 </div>
                 <div>
                     <label for="select-performance" class="config-label">Performance</label>
-                    <select id="select-performance" class="config-select"></select>
+                    <select id="select-performance" class="config-select" aria-label="Choose performance settings"></select>
                 </div>
             </div>
 
             <!-- Prompt Generation -->
             <div class="config-section pb-4 space-y-2">
-                <label class="config-label">AI Prompt</label>
-                <textarea id="prompt-output" class="config-textarea" rows="5" readonly></textarea>
-                <button id="btn-copy-prompt" class="config-button primary w-full">Copy Prompt</button>
+                <label for="prompt-output" class="config-label">AI Prompt</label>
+                <textarea id="prompt-output" class="config-textarea" rows="5" readonly aria-label="Generated AI prompt for your design"></textarea>
+                <button id="btn-copy-prompt" class="config-button primary w-full" aria-label="Copy AI prompt to clipboard">Copy Prompt</button>
             </div>
 
         </aside>
 
         <!-- === CENTER COLUMN: LIVE PREVIEW === -->
-        <main class="h-screen max-h-screen overflow-hidden p-4 lg:p-8 flex flex-col bg-gray-800">
+        <main class="h-screen max-h-screen overflow-hidden p-4 lg:p-8 flex flex-col bg-gray-800" role="main" aria-label="Live preview area">
             <div class="flex-shrink-0 mb-4 flex justify-between items-center">
                 <h2 class="text-lg font-semibold text-white">Live Preview</h2>
                 <div id="hud" class="px-3 py-1 bg-gray-900 text-pink-400 text-sm font-medium rounded-full shadow-lg">
@@ -534,7 +632,22 @@
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast"></div>
+    <div id="toast" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay" aria-hidden="true">
+        <div class="bg-gray-800 rounded-lg p-6 flex flex-col items-center gap-4">
+            <div class="loading-spinner"></div>
+            <p class="text-white">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn md:hidden" id="mobile-menu-btn" aria-label="Toggle configuration panel" aria-expanded="false">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
 
     <!-- === JAVASCRIPT LOGIC === -->
     <script>
@@ -690,7 +803,16 @@
             let history = [state];
             let historyIndex = 0;
             let isAPrimary = true;
-            let favorites = JSON.parse(localStorage.getItem('vibeFavorites')) || [];
+            
+            // Load favorites with error handling
+            let favorites = [];
+            try {
+                const savedFavorites = localStorage.getItem('vibeFavorites');
+                favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
+            } catch (e) {
+                console.warn("Failed to load favorites from localStorage:", e);
+                favorites = [];
+            }
 
             // === 2. INITIALIZATION ===
 
@@ -834,8 +956,9 @@
                 elements.btnImport.addEventListener('click', () => elements.importFile.click());
                 elements.importFile.addEventListener('change', importJSON);
 
-                // Keyboard shortcuts for Undo/Redo
+                // Keyboard shortcuts for Undo/Redo and navigation
                 document.addEventListener('keydown', e => {
+                    // Undo/Redo shortcuts
                     if (e.ctrlKey || e.metaKey) {
                         if (e.key === 'z') {
                             e.preventDefault();
@@ -845,6 +968,16 @@
                             redo();
                         }
                     }
+                    
+                    // Escape key to close mobile menu
+                    if (e.key === 'Escape') {
+                        const configPanel = document.querySelector('.config-panel');
+                        if (configPanel && configPanel.classList.contains('mobile-open')) {
+                            configPanel.classList.remove('mobile-open');
+                            const mobileBtn = document.getElementById('mobile-menu-btn');
+                            if (mobileBtn) mobileBtn.setAttribute('aria-expanded', 'false');
+                        }
+                    }
                 });
 
                 // Prompt Button
@@ -852,6 +985,26 @@
 
                 // Library Search
                 elements.searchLibrary.addEventListener('input', filterLibrary);
+                
+                // Mobile Menu Button
+                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                const configPanel = document.querySelector('.config-panel');
+                if (mobileMenuBtn && configPanel) {
+                    mobileMenuBtn.addEventListener('click', () => {
+                        const isOpen = configPanel.classList.toggle('mobile-open');
+                        mobileMenuBtn.setAttribute('aria-expanded', isOpen.toString());
+                    });
+                    
+                    // Close on outside click
+                    document.addEventListener('click', (e) => {
+                        if (configPanel.classList.contains('mobile-open') && 
+                            !configPanel.contains(e.target) && 
+                            !mobileMenuBtn.contains(e.target)) {
+                            configPanel.classList.remove('mobile-open');
+                            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                }
             }
 
             /**

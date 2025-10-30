@@ -27,6 +27,14 @@ Transform your web development journey with **Vibe Wiki** — an enterprise-grad
 - Smooth animations with Framer Motion
 - Real-time concept switching
 
+🎨 **Ultimate Vibe Builder**
+- [Interactive design tool](./docs/VIBE_BUILDER_README.md) with 42 themes and 6 layouts
+- Real-time preview with live customization
+- AI prompt generation for design specifications
+- Export/import configuration as JSON
+- State persistence and undo/redo support
+
+
 ---
 
 ## 📖 User Manual

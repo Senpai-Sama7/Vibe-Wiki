@@ -454,7 +454,7 @@ export default function HomePage() {
               Mirrors the root layout’s four-step story arc—from discovery to retention.
             </p>
           </header>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {EXPERIENCE_BLUEPRINT.map(step => (
               <div
                 key={step.title}
@@ -500,8 +500,31 @@ export default function HomePage() {
               Download these essential cheat sheets and guides to accelerate your web development journey.
             </p>
           </header>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <a
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <a
+              href="/website-vibe-coding.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col h-full rounded-2xl border border-gray-200 p-6 shadow-sm bg-gradient-to-br from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 transition-colors"
+            >
+              <div className="flex items-start gap-3 mb-3">
+                <svg className="w-8 h-8 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                </svg>
+                <h3 className="text-xl font-semibold text-purple-900">Ultimate Vibe Builder</h3>
+              </div>
+              <p className="text-purple-800 text-sm leading-relaxed mb-4 flex-grow">
+                Interactive design tool with 42 themes, 6 layouts, and real-time preview. Build stunning websites with instant AI prompt generation for your perfect design.
+              </p>
+              <div className="mt-auto flex items-center text-purple-700 font-medium">
+                <span>Launch Builder</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </a>
+
+<a
               href="/docs/Vibe%20Coding%202025%20Cheat%20Sheet.pdf"
               target="_blank"
               rel="noopener noreferrer"
