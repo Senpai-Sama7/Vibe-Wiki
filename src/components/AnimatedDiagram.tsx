@@ -2,7 +2,7 @@
 
 import type { VisualizationConfig } from '@/lib/content/schema';
 import type { ComponentType } from 'react';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 interface AnimatedDiagramProps {
@@ -31,32 +31,34 @@ export function AnimatedDiagram({ config, conceptId }: AnimatedDiagramProps) {
   });
 
   const [Component] = useState<VisualizationComponent | null>(null);
-  const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    if (!inView) return;
-
-    // Temporarily disabled - all Three.js visualizations
-    // TODO: Fix React Three Fiber TypeScript issues
-    setError(new Error('3D visualizations temporarily disabled'));
-  }, [inView, config.component]);
-
-  // Fallback rendering
-  if (error || (!Component && !inView)) {
+  // Show fallback when component is not loaded
+  // 3D visualizations are currently disabled, so we show the fallback text
+  if (!Component) {
     return (
       <div
         ref={ref}
-        className="flex min-h-[400px] items-center justify-center rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900"
+        className="flex min-h-[400px] items-center justify-center rounded-lg bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 p-8"
       >
-        {error ? (
-          <div className="text-center">
-            <p className="text-red-600 dark:text-red-400">
-              ⚠️ Visualization failed to load
-            </p>
-            {config.fallback && (
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                {config.fallback}
-              </p>
+        {inView ? (
+          <div className="text-center max-w-2xl">
+            {config.fallback ? (
+              <>
+                <div className="text-4xl mb-4">📊</div>
+                <p className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-2">
+                  Visual Concept Preview
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  {config.fallback}
+                </p>
+              </>
+            ) : (
+              <div className="text-center">
+                <div className="text-4xl mb-4">🎨</div>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Interactive visualization for this concept
+                </p>
+              </div>
             )}
           </div>
         ) : (
