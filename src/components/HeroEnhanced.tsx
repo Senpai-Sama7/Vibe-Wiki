@@ -5,27 +5,26 @@ import { useWebVitals } from '@/hooks/useWebVitals';
 import { contentManifest } from '@/lib/content/concepts';
 import { useEffect, useState } from 'react';
 import type { Metric } from 'web-vitals';
+import dynamic from 'next/dynamic';
 
-// Temporarily disabled due to TypeScript issues with React Three Fiber types
-// const HeroBackground = dynamic(() => import('./HeroBackground'), {
-//   ssr: false,
-//   loading: () => (
-//     <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-indigo-800/20" />
-//   ),
-// });
+const HeroBackground = dynamic(() => import('./HeroBackground'), {
+  ssr: false,
+  loading: () => (
+    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-indigo-800/20" />
+  ),
+});
 
-// Temporarily disabled due to TypeScript issues with React Three Fiber types
-// const HeroOrbitalScene = dynamic(() => import('./HeroOrbitalScene'), {
-//   ssr: false,
-//   loading: () => (
-//     <div className="relative aspect-square w-full max-w-sm">
-//       <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500/15 to-purple-500/20 blur-3xl" />
-//       <div className="flex h-full items-center justify-center rounded-full border border-white/20 bg-white/10 text-xs font-semibold uppercase tracking-[0.2em] text-blue-100">
-//         Loading vibes…
-//       </div>
-//     </div>
-//   )
-// });
+const HeroOrbitalScene = dynamic(() => import('./HeroOrbitalScene'), {
+  ssr: false,
+  loading: () => (
+    <div className="relative aspect-square w-full max-w-sm">
+      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500/15 to-purple-500/20 blur-3xl" />
+      <div className="flex h-full items-center justify-center rounded-full border border-white/20 bg-white/10 text-xs font-semibold uppercase tracking-[0.2em] text-blue-100">
+        Loading vibes…
+      </div>
+    </div>
+  )
+});
 
 interface MetricDisplayProps {
   name: string;
@@ -181,10 +180,7 @@ export function HeroEnhanced({
   return (
     <section className={`relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 text-white ${className}`}>
       {/* WebGL Background */}
-      {/* Temporarily disabled due to TypeScript issues with React Three Fiber types */}
-      {enableBackground && (
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-indigo-800/20" />
-      )}
+      {enableBackground && isClient && <HeroBackground />}
 
       <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:py-32">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(300px,400px)] lg:items-center">
@@ -283,13 +279,7 @@ export function HeroEnhanced({
               className="flex justify-center"
               aria-hidden="true"
             >
-              {/* Temporarily disabled - placeholder gradient orb */}
-              <div className="relative aspect-square w-full max-w-sm">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500/15 to-purple-500/20 blur-3xl" />
-                <div className="flex h-full items-center justify-center rounded-full border border-white/20 bg-white/10 text-sm font-semibold uppercase tracking-wider text-blue-100">
-                  Vibe Coding
-                </div>
-              </div>
+              {isClient && <HeroOrbitalScene />}
             </motion.div>
 
             {/* Live Metrics */}
