@@ -41,7 +41,7 @@ Choose from a comprehensive collection of carefully crafted design styles:
 
 ### ⚙️ Advanced Options
 - **Motion Settings**: Instant, Fast, Normal, Slow
-- **Visual Effects**: None, Blur, Grain, Glassmorphism
+- **Visual Effects**: None, Shadows, Glow, Grain, Glassmorphism
 - **Accessibility**: WCAG AA, WCAG AAA
 - **Performance**: Fast, Balanced, Smooth
 
