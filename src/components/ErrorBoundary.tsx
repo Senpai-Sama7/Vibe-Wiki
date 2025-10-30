@@ -1,6 +1,7 @@
 'use client';
 
 import { Component, ErrorInfo, ReactNode } from 'react';
+import { trackCustomError } from '@/lib/utils/errorTracking';
 
 interface Props {
   children: ReactNode;
@@ -20,6 +21,7 @@ interface State {
  * - Graceful error handling for React component tree
  * - Custom fallback UI
  * - Error logging callback
+ * - Automatic error tracking
  * - Reset functionality
  * 
  * @example
@@ -44,6 +46,18 @@ export class ErrorBoundary extends Component<Props, State> {
     if (process.env.NODE_ENV === 'development') {
       console.error('ErrorBoundary caught an error:', error, errorInfo);
     }
+
+    // Track error automatically
+    trackCustomError({
+      message: error.message,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack || undefined,
+      severity: 'high',
+      category: 'component',
+      metadata: {
+        errorInfo,
+      },
+    });
 
     // Call optional error handler
     this.props.onError?.(error, errorInfo);
