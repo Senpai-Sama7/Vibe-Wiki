@@ -8,7 +8,7 @@ import { contentManifest } from '@/lib/content/concepts';
 import type { ConceptDefinition } from '@/lib/content/schema';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const HeroEnhanced = dynamic(() => import('@/components/HeroEnhanced'), {
   ssr: false,
@@ -194,15 +194,17 @@ export default function HomePage() {
   ] as const;
 
   // Filter concepts based on search and category
-  const filteredConcepts = allConcepts.filter(concept => {
-    const matchesSearch = filterQuery === '' ||
-      concept.title.toLowerCase().includes(filterQuery.toLowerCase()) ||
-      concept.tags.some(tag => tag.toLowerCase().includes(filterQuery.toLowerCase()));
+  const filteredConcepts = useMemo(() => {
+    return allConcepts.filter(concept => {
+      const matchesSearch = filterQuery === '' ||
+        concept.title.toLowerCase().includes(filterQuery.toLowerCase()) ||
+        concept.tags.some(tag => tag.toLowerCase().includes(filterQuery.toLowerCase()));
 
-    const matchesCategory = selectedCategory === 'all' || concept.category === selectedCategory;
+      const matchesCategory = selectedCategory === 'all' || concept.category === selectedCategory;
 
-    return matchesSearch && matchesCategory;
-  });
+      return matchesSearch && matchesCategory;
+    });
+  }, [allConcepts, filterQuery, selectedCategory]);
 
   // Load initial concepts
   useEffect(() => {
