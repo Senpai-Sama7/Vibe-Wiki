@@ -1,24 +1,24 @@
 1:"$Sreact.fragment"
-2:I[17989,[],"ClientSegmentRoot"]
-3:I[17601,["165","static/chunks/165-591b62744ad5483b.js","177","static/chunks/app/layout-6047e8384de6f2c7.js"],"default"]
+2:I[7989,[],"ClientSegmentRoot"]
+3:I[4801,["165","static/chunks/165-7457bcb0406db6fb.js","177","static/chunks/app/layout-5ad5c03ddfabd870.js"],"default"]
 4:I[9766,[],""]
-5:I[98924,[],""]
-6:I[52619,["619","static/chunks/619-28045d4483afb7ae.js","345","static/chunks/app/not-found-5cf7914608bbc3a9.js"],""]
-8:I[81959,[],"ClientPageRoot"]
-9:I[59708,["165","static/chunks/165-591b62744ad5483b.js","482","static/chunks/482-9b99085ea746ca9a.js","820","static/chunks/820-6a490ebecc824a41.js","391","static/chunks/391-fcd78dcc48ec0536.js","974","static/chunks/app/page-7ea6f28ab719d3ef.js"],"default"]
-c:I[24431,[],"OutletBoundary"]
-e:I[15278,[],"AsyncMetadataOutlet"]
-10:I[24431,[],"ViewportBoundary"]
-12:I[24431,[],"MetadataBoundary"]
+5:I[8924,[],""]
+6:I[2619,["619","static/chunks/619-c500ce38c82c3464.js","345","static/chunks/app/not-found-f71cf19dbc9e27f9.js"],""]
+8:I[1959,[],"ClientPageRoot"]
+9:I[9708,["165","static/chunks/165-7457bcb0406db6fb.js","680","static/chunks/680-ec70d25de8e596aa.js","820","static/chunks/820-6989f1334fdb3817.js","391","static/chunks/391-d503a2a051464954.js","974","static/chunks/app/page-b3ea35e1911d8121.js"],"default"]
+c:I[4431,[],"OutletBoundary"]
+e:I[5278,[],"AsyncMetadataOutlet"]
+10:I[4431,[],"ViewportBoundary"]
+12:I[4431,[],"MetadataBoundary"]
 13:"$Sreact.suspense"
-15:I[57150,[],""]
-:HL["/vibe-wiki/_next/static/css/0fc72d4053a002b8.css","style"]
-0:{"P":null,"b":"Y816MDBn6MgEcugf5G7VE","p":"/vibe-wiki","c":["",""],"i":false,"f":[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/vibe-wiki/_next/static/css/0fc72d4053a002b8.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","$L2",null,{"Component":"$3","slots":{"children":["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","div",null,{"className":"min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center px-4","children":["$","div",null,{"className":"text-center","children":[["$","h1",null,{"className":"text-9xl font-bold text-gray-200 dark:text-gray-800","children":"404"}],["$","h2",null,{"className":"mt-4 text-3xl font-bold text-gray-900 dark:text-white","children":"Page Not Found"}],["$","p",null,{"className":"mt-2 text-lg text-gray-600 dark:text-gray-400","children":"The page you're looking for doesn't exist or has been moved."}],["$","$L6",null,{"href":"/","className":"mt-8 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2","children":"← Back to Home"}]]}]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]},"params":{},"promise":"$@7"}]]}],{"children":["__PAGE__",["$","$1","c",{"children":[["$","$L8",null,{"Component":"$9","searchParams":{},"params":"$0:f:0:1:1:props:children:1:props:params","promises":["$@a","$@b"]}],null,["$","$Lc",null,{"children":["$Ld",["$","$Le",null,{"promise":"$@f"}]]}]]}],{},null,false]},null,false],["$","$1","h",{"children":[null,[["$","$L10",null,{"children":"$L11"}],null],["$","$L12",null,{"children":["$","div",null,{"hidden":true,"children":["$","$13",null,{"fallback":null,"children":"$L14"}]}]}]]}],false]],"m":"$undefined","G":["$15",[]],"s":false,"S":true}
+15:I[7150,[],""]
+:HL["/vibe-wiki/_next/static/css/1acf6db02c3cca80.css","style"]
+0:{"P":null,"b":"KxC403izJc386aBt2CT_s","p":"/vibe-wiki","c":["",""],"i":false,"f":[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/vibe-wiki/_next/static/css/1acf6db02c3cca80.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","$L2",null,{"Component":"$3","slots":{"children":["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","div",null,{"className":"min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center px-4","children":["$","div",null,{"className":"text-center","children":[["$","h1",null,{"className":"text-9xl font-bold text-gray-200 dark:text-gray-800","children":"404"}],["$","h2",null,{"className":"mt-4 text-3xl font-bold text-gray-900 dark:text-white","children":"Page Not Found"}],["$","p",null,{"className":"mt-2 text-lg text-gray-600 dark:text-gray-400","children":"The page you're looking for doesn't exist or has been moved."}],["$","$L6",null,{"href":"/","className":"mt-8 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2","children":"← Back to Home"}]]}]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]},"params":{},"promise":"$@7"}]]}],{"children":["__PAGE__",["$","$1","c",{"children":[["$","$L8",null,{"Component":"$9","searchParams":{},"params":"$0:f:0:1:1:props:children:1:props:params","promises":["$@a","$@b"]}],null,["$","$Lc",null,{"children":["$Ld",["$","$Le",null,{"promise":"$@f"}]]}]]}],{},null,false]},null,false],["$","$1","h",{"children":[null,[["$","$L10",null,{"children":"$L11"}],null],["$","$L12",null,{"children":["$","div",null,{"hidden":true,"children":["$","$13",null,{"fallback":null,"children":"$L14"}]}]}]]}],false]],"m":"$undefined","G":["$15",[]],"s":false,"S":true}
 7:"$0:f:0:1:1:props:children:1:props:params"
 a:{}
 b:"$0:f:0:1:1:props:children:1:props:params"
 11:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
 d:null
-16:I[80622,[],"IconMark"]
+16:I[622,[],"IconMark"]
 f:{"metadata":[["$","link","0",{"rel":"icon","href":"/vibe-wiki/favicon.ico","type":"image/x-icon","sizes":"16x16"}],["$","$L16","1",{}]],"error":null,"digest":"$undefined"}
 14:"$f:metadata"
