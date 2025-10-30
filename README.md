@@ -127,7 +127,7 @@ Vibe-Wiki/
 
 ## 🎯 Prompt Cheatsheet for Vibe Coders
 
-This cheatsheet provides a quick reference for the **PROMPTMETHEUS Implementation**, designed to help "vibe coders" maintain their flow and focus while interacting with advanced language models for development tasks. It distills the core commands and their intent for rapid recall.
+This cheatsheet provides a quick reference for advanced LLM-assisted development workflows, designed to help "vibe coders" maintain their flow and focus while interacting with language models for development tasks. It distills the core commands and their intent for rapid recall.
 
 ### Master System Protocol - Activation Command Structure
 
@@ -138,7 +138,7 @@ Use this structure to initiate commands:
 ```
 
 - **command**: Primary action (e.g., proceed, analyze, real, test, improve, clean, run, final)
-- **level**: Granularity/control (a = ultra-short, b = balanced, c = full, d = expert+)
+- **level**: Granularity/control (a = ultra-short, b = balanced, c = full)
 - **directive**: Task-specific instructions
 
 ---
@@ -333,5 +333,3 @@ This project is part of the Vibe Wiki learning platform.
 ---
 
 *Built with ❤️ using Next.js, React, TypeScript, and modern web technologies.*
-
-*Last updated: October 30, 2025*
