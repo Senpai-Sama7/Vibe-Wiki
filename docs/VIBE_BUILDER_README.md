@@ -42,8 +42,8 @@ Choose from a comprehensive collection of carefully crafted design styles:
 ### ⚙️ Advanced Options
 - **Motion Settings**: Instant, Fast, Normal, Slow
 - **Visual Effects**: None, Blur, Grain, Glassmorphism
-- **Accessibility**: Standard, High Contrast
-- **Performance**: Fast, Balanced, Rich
+- **Accessibility**: WCAG AA, WCAG AAA
+- **Performance**: Fast, Balanced, Smooth
 
 ## 🚀 How to Use
 
