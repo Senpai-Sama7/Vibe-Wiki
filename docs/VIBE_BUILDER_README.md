@@ -40,7 +40,7 @@ Choose from a comprehensive collection of carefully crafted design styles:
 - Earthy
 
 ### ⚙️ Advanced Options
-- **Motion Settings**: Instant, Fast, Normal, Slow
+- **Motion Settings**: None, Subtle, Moderate, Delightful
 - **Visual Effects**: None, Shadows, Glow, Grain, Glassmorphism
 - **Accessibility**: WCAG AA, WCAG AAA
 - **Performance**: Fast, Balanced, Smooth
