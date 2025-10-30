@@ -1356,8 +1356,12 @@ The design must be fully responsive and WCAG AA compliant.`;
                         // Fallback for document.execCommand
                         console.warn("Clipboard API failed, falling back to execCommand.", err);
                         elements.promptOutput.select();
-                        document.execCommand('copy');
-                        showToast("Prompt copied to clipboard!");
+                        const success = document.execCommand('copy');
+                        if (success) {
+                            showToast("Prompt copied to clipboard!");
+                        } else {
+                            showToast("Error: Could not copy prompt.", "error");
+                        }
                     });
                 } catch (e) {
                     console.error("Failed to copy", e);
