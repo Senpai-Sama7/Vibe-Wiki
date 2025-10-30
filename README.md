@@ -127,7 +127,7 @@ Vibe-Wiki/
 
 ## 🎯 Prompt Cheatsheet for Vibe Coders
 
-This cheatsheet provides a quick reference for advanced LLM-assisted development workflows, designed to help "vibe coders" maintain their flow and focus while interacting with language models for development tasks. It distills the core commands and their intent for rapid recall.
+This cheatsheet provides a quick reference for advanced LLM-assisted development workflows, designed to help developers maintain their flow and focus while interacting with language models for development tasks. It distills the core commands and their intent for rapid recall.
 
 ### Master System Protocol - Activation Command Structure
 
