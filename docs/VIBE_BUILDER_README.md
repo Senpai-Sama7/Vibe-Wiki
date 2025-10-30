@@ -184,7 +184,7 @@ The tool automatically generates comprehensive AI prompts based on your selectio
 
 - [Vibe Coding 2025 Cheat Sheet](/docs/Vibe%20Coding%202025%20Cheat%20Sheet.pdf)
 - [Building Web Pages & Apps Guide](/docs/Cheat%20Sheet_%20Building%20Web%20Pages%20%26%20Apps%20in%202025%20(A%20%22Vibe%20Coding%22%20Guide).pdf)
-- [Vibe Coding Websites Guide](/docs/Vibe-coidng-websites.md)
+- [Vibe Coding Websites Guide](/docs/Vibe-coding-websites.md)
 
 ## 🤝 Contributing
 
