@@ -561,7 +561,7 @@ export default function HomePage() {
               </div>
             </a>
             <a
-              href="/docs/Vibe-coidng-websites.md"
+              href="/docs/Vibe-coding-websites.md"
               target="_blank"
               rel="noopener noreferrer"
               className="flex flex-col h-full rounded-2xl border border-gray-200 p-6 shadow-sm bg-green-50 hover:bg-green-100 transition-colors"

@@ -11,9 +11,10 @@ const STATIC_ASSETS = [
   '/',
   '/offline.html',
   '/manifest.json',
-  '/favicon.ico',
-  '/globals.css',
-  // Add other critical assets
+  '/favicon.svg',
+  '/icon-192x192.svg',
+  '/icon-512x512.svg',
+  '/website-vibe-coding.html',
 ];
 
 // API endpoints that should be cached
