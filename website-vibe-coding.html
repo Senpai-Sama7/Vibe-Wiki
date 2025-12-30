@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ultimate Vibe Builder - Create stunning website designs with 42 themes, 6 layouts, and real-time preview. Perfect for web developers and designers.">
+    <meta name="keywords" content="web design, vibe builder, website themes, layout builder, design tool">
+    <meta name="author" content="Vibe Wiki">
+    <meta property="og:title" content="Ultimate Vibe Builder">
+    <meta property="og:description" content="Create stunning website designs with 42 themes and real-time preview">
+    <meta property="og:type" content="website">
+    <title>Ultimate Vibe Builder</title>
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- This style tag will be populated by JavaScript with all 42 style themes -->
+    <style id="generated-styles"></style>
+
+    <!-- Base & Component Styles -->
+    <style>
+        :root {
+            /* Base variables, will be overridden by themes */
+            --bg-color: #111827;
+            --text-color: #f9fafb;
+            --primary-color: #3b82f6;
+            --secondary-color: #a3a3a3;
+            --accent-color: #ec4899;
+            --border-color: #374151;
+            --card-bg: #1f2937;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-width: 1px;
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-full: 9999px;
+            --font-heading: 'Inter', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-weight-bold: 700;
+            --font-weight-normal: 400;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+            --backdrop-filter: none;
+            --filter: none;
+            --motion-duration: 400ms;
+            --motion-ease: ease-in-out;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+
+        /* --- Panel Styles --- */
+        .config-panel {
+            scrollbar-gutter: stable;
+        }
+        .config-section {
+            border-bottom: 1px solid #374151;
+        }
+        .config-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+        }
+        .config-select, .config-input, .config-button, .config-textarea {
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            color: #f9fafb;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            width: 100%;
+            transition: all 150ms ease;
+        }
+        .config-select:focus, .config-input:focus, .config-button:focus, .config-textarea:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px #1f2937, 0 0 0 4px #3b82f6;
+        }
+        .config-select {
+            padding: 0.5rem;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+        .config-button {
+            padding: 0.5rem 0.75rem;
+            font-weight: 500;
+            background-color: #4b5563;
+        }
+        .config-button:hover {
+            background-color: #525c6a;
+        }
+        .config-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .config-button.primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .config-button.primary:hover {
+            background-color: #2563eb;
+        }
+
+        .toggle-switch {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            gap: 0.5rem;
+        }
+        .toggle-switch-input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-switch-slider {
+            width: 36px;
+            height: 20px;
+            background-color: #4b5563;
+            border-radius: 9999px;
+            position: relative;
+            transition: background-color 200ms ease;
+        }
+        .toggle-switch-slider::before {
+            content: '';
+            position: absolute;
+            left: 2px;
+            top: 2px;
+            width: 16px;
+            height: 16px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 200ms ease;
+        }
+        .toggle-switch-input:checked + .toggle-switch-slider {
+            background-color: #3b82f6;
+        }
+        .toggle-switch-input:checked + .toggle-switch-slider::before {
+            transform: translateX(16px);
+        }
+
+        /* --- Preview Styles --- */
+        .preview-pane {
+            /* This is the theming context */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+            transition: all var(--motion-duration) var(--motion-ease);
+            filter: var(--filter);
+            border-radius: var(--radius-lg);
+            border: var(--border-width) solid var(--border-color);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* A/B Transition */
+        #preview-A, #preview-B {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transform: scale(0.98);
+            transition: all 400ms ease-in-out;
+            overflow: auto; /* Allow scrolling within the pane */
+        }
+        #preview-A.is-active, #preview-B.is-active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Demo components inside preview */
+        .demo-button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            font-weight: var(--font-weight-bold);
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: var(--card-shadow);
+            transition: all 200ms ease;
+            cursor: pointer;
+        }
+        .demo-button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+        .demo-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: var(--card-shadow);
+            backdrop-filter: var(--backdrop-filter);
+        }
+        .demo-heading {
+            font-family: var(--font-heading);
+            font-weight: var(--font-weight-bold);
+            font-size: 1.875rem;
+            line-height: 2.25rem;
+            color: var(--text-color);
+        }
+        .demo-text {
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+
+        /* --- Library Styles --- */
+        .library-card {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.5rem;
+            transition: all 200ms ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 300ms ease-out, transform 300ms ease-out;
+        }
+        .library-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .library-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .library-card.is-active {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px #1f2937, 0 0 0 4px #3b82f6;
+        }
+        .library-preview {
+            height: 80px;
+            /* This is a theming context for the mini-preview */
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0.5rem;
+            overflow: hidden;
+        }
+        .library-preview-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            border: 2px solid var(--border-color);
+        }
+        .library-preview-bar {
+            width: 40px;
+            height: 10px;
+            border-radius: 99px;
+            background-color: var(--secondary-color);
+        }
+        .library-preview-accent {
+             width: 20px;
+            height: 20px;
+            transform: rotate(45deg);
+            background-color: var(--accent-color);
+        }
+
+        .fav-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            transition: all 150ms ease;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .fav-button:hover {
+            color: #ec4899;
+            transform: scale(1.1);
+        }
+        .fav-button.is-favorite {
+            color: #ec4899;
+        }
+        .fav-button svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        /* --- Toast Notification --- */
+        #toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #10b981;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: bottom 400ms ease-in-out;
+            z-index: 9999;
+        }
+        #toast.show {
+            bottom: 20px;
+        }
+
+        /* --- Loading State --- */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 300ms ease;
+        }
+        
+        .loading-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* --- Mobile Responsive Improvements --- */
+        @media (max-width: 768px) {
+            .config-panel {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 85%;
+                max-width: 350px;
+                height: 100vh;
+                z-index: 1000;
+                background: #111827;
+                transition: left 300ms ease;
+            }
+            
+            .config-panel.mobile-open {
+                left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 999;
+                width: 56px;
+                height: 56px;
+                border-radius: 50%;
+                background: #3b82f6;
+                color: white;
+                border: none;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                cursor: pointer;
+                transition: transform 200ms ease;
+            }
+            
+            .mobile-menu-btn:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
+        /* --- Layout System Classes --- */
+        .layout-asymmetric .demo-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto 1fr;
+            gap: 1.5rem;
+        }
+        .layout-asymmetric .demo-header { grid-column: 1 / -1; }
+        .layout-asymmetric .demo-main { grid-column: 1 / 2; grid-row: 2 / 3; }
+        .layout-asymmetric .demo-sidebar { grid-column: 2 / 3; grid-row: 2 / 3; }
+
+        .layout-split .demo-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .layout-bento .demo-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: 1.5rem;
+        }
+        .layout-bento .demo-card-1 { grid-column: 1 / 3; grid-row: 1 / 2; }
+        .layout-bento .demo-card-2 { grid-column: 3 / 4; grid-row: 1 / 3; }
+        .layout-bento .demo-card-3 { grid-column: 1 / 2; grid-row: 2 / 3; }
+        .layout-bento .demo-card-4 { grid-column: 2 / 3; grid-row: 2 / 3; }
+
+        .layout-editorial .demo-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .layout-masonry .demo-content {
+            column-count: 2;
+            column-gap: 1.5rem;
+        }
+        .layout-masonry .demo-card {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+        }
+
+        .layout-master-detail .demo-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1.5rem;
+        }
+        .layout-master-detail .demo-master {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .layout-master-detail .demo-master-item {
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
+            border: var(--border-width) solid var(--border-color);
+            background: var(--card-bg);
+            cursor: pointer;
+        }
+        .layout-master-detail .demo-master-item:hover {
+            background: var(--primary-color);
+            color: var(--text-color);
+        }
+        .layout-master-detail .demo-detail {
+            padding: 1.5rem;
+        }
+
+        /* --- Effect Classes --- */
+        .perf-fast .preview-pane { --motion-duration: 200ms; }
+        .perf-balanced .preview-pane { --motion-duration: 400ms; }
+        .perf-smooth .preview-pane { --motion-duration: 800ms; }
+
+        .motion-none * { transition: none !important; }
+        .motion-subtle .demo-button:hover { transform: translateY(-1px); }
+        .motion-moderate .demo-button:hover { transform: translateY(-3px) scale(1.02); }
+        .motion-delightful .demo-button:hover { transform: translateY(-4px) scale(1.05) rotate(-2deg); }
+
+        .visual-none { --backdrop-filter: none; --filter: none; }
+        .visual-shadows .preview-pane { --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        .visual-glow .preview-pane { box-shadow: 0 0 20px 5px var(--primary-color); }
+        .visual-grain .preview-pane::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        .visual-glassmorphism {
+            --backdrop-filter: blur(12px) saturate(150%);
+            --filter: none;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-inter">
+    
+    <!-- Back to Home Button -->
+    <a href="/" 
+       class="fixed top-4 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+       aria-label="Back to home page">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <span class="hidden sm:inline">Back to Home</span>
+    </a>
+
+    <!-- Main Application Grid -->
+    <div class="min-h-screen grid grid-cols-1 md:grid-cols-[350px_1fr] lg:grid-cols-[350px_1fr_380px]">
+
+        <!-- === LEFT COLUMN: CONFIGURATION PANEL === -->
+        <aside class="config-panel h-screen max-h-screen overflow-y-auto p-4 space-y-4 border-r border-gray-700 hidden md:block" role="complementary" aria-label="Configuration panel">
+            <h1 class="text-xl font-bold text-white mb-4">🎉 Vibe Builder</h1>
+
+            <!-- State Management -->
+            <div class="config-section pb-4">
+                <label class="config-label">State Management</label>
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="btn-undo" class="config-button" disabled aria-label="Undo last action (Ctrl+Z)">Undo (Ctrl+Z)</button>
+                    <button id="btn-redo" class="config-button" disabled aria-label="Redo last action (Ctrl+Y)">Redo (Ctrl+Y)</button>
+                    <button id="btn-export" class="config-button" aria-label="Export configuration as JSON">Export JSON</button>
+                    <button id="btn-import" class="config-button" aria-label="Import configuration from JSON">Import JSON</button>
+                    <input type="file" id="import-file" class="hidden" accept=".json" aria-label="Select JSON file to import">
+                </div>
+            </div>
+
+            <!-- Design Style -->
+            <div class="config-section pb-4">
+                <label for="select-style" class="config-label">Design Style (42)</label>
+                <select id="select-style" class="config-select" aria-label="Choose design style from 42 themes"></select>
+            </div>
+
+            <!-- Layout System -->
+            <div class="config-section pb-4">
+                <label for="select-layout" class="config-label">Layout System (6)</label>
+                <select id="select-layout" class="config-select" aria-label="Choose layout system"></select>
+            </div>
+
+            <!-- Typography -->
+            <div class="config-section pb-4">
+                <label for="select-typography" class="config-label">Typography (6)</label>
+                <select id="select-typography" class="config-select" aria-label="Choose typography style"></select>
+            </div>
+
+            <!-- Color Palette -->
+            <div class="config-section pb-4">
+                <label for="select-palette" class="config-label">Color Palette (6)</label>
+                <select id="select-palette" class="config-select" aria-label="Choose color palette"></select>
+            </div>
+
+            <!-- Effects & Performance -->
+            <div class="config-section pb-4 grid grid-cols-2 gap-4">
+                <div>
+                    <label for="select-motion" class="config-label">Motion</label>
+                    <select id="select-motion" class="config-select" aria-label="Choose motion effects"></select>
+                </div>
+                <div>
+                    <label for="select-visual" class="config-label">Visual Effect</label>
+                    <select id="select-visual" class="config-select" aria-label="Choose visual effects"></select>
+                </div>
+                <div>
+                    <label for="select-accessibility" class="config-label">Accessibility</label>
+                    <select id="select-accessibility" class="config-select" aria-label="Choose accessibility options"></select>
+                </div>
+                <div>
+                    <label for="select-performance" class="config-label">Performance</label>
+                    <select id="select-performance" class="config-select" aria-label="Choose performance settings"></select>
+                </div>
+            </div>
+
+            <!-- Prompt Generation -->
+            <div class="config-section pb-4 space-y-2">
+                <label for="prompt-output" class="config-label">AI Prompt</label>
+                <textarea id="prompt-output" class="config-textarea" rows="5" readonly aria-label="Generated AI prompt for your design"></textarea>
+                <button id="btn-copy-prompt" class="config-button primary w-full" aria-label="Copy AI prompt to clipboard">Copy Prompt</button>
+            </div>
+
+        </aside>
+
+        <!-- === CENTER COLUMN: LIVE PREVIEW === -->
+        <main class="h-screen max-h-screen overflow-hidden p-4 lg:p-8 flex flex-col bg-gray-800" role="main" aria-label="Live preview area">
+            <div class="flex-shrink-0 mb-4 flex justify-between items-center">
+                <h2 class="text-lg font-semibold text-white">Live Preview</h2>
+                <div id="hud" class="px-3 py-1 bg-gray-900 text-pink-400 text-sm font-medium rounded-full shadow-lg">
+                    Style: <span id="hud-style" class="text-pink-300"></span>
+                </div>
+            </div>
+
+            <!-- Preview Container -->
+            <div id="preview-container" class="flex-grow bg-gray-900 rounded-lg shadow-inner relative overflow-hidden">
+                <!-- A/B Panes for transition -->
+                <div id="preview-A" class="preview-pane is-active"></div>
+                <div id="preview-B" class="preview-pane"></div>
+            </div>
+        </main>
+
+        <!-- === RIGHT COLUMN: LIBRARY === -->
+        <aside class="h-screen max-h-screen overflow-y-auto p-4 space-y-4 border-l border-gray-700 hidden lg:block">
+            <h2 class="text-lg font-semibold text-white">Style Library (42)</h2>
+
+            <!-- Search Filter -->
+            <div>
+                <label for="search-library" class="config-label">Filter Styles</label>
+                <input type="text" id="search-library" class="config-input" placeholder="e.g., Brutalism">
+            </div>
+
+            <!-- Library Grid -->
+            <div id="library-grid" class="grid grid-cols-2 gap-3">
+                <!-- Library cards will be generated by JS here -->
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay" aria-hidden="true">
+        <div class="bg-gray-800 rounded-lg p-6 flex flex-col items-center gap-4">
+            <div class="loading-spinner"></div>
+            <p class="text-white">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn md:hidden" id="mobile-menu-btn" aria-label="Toggle configuration panel" aria-expanded="false">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <!-- === JAVASCRIPT LOGIC === -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // === 1. STATE & CONSTANTS ===
+
+            /**
+             * This is the Single Source of Truth (SSOT) for all configurable options.
+             * It replaces all the disconnected "..._MAP" and "..._DEFINITIONS" objects.
+             * - `label`: The human-readable text shown in dropdowns and cards.
+             * - `slug`: The unique identifier used for CSS classes and saving state.
+             * - `tokens`: (For styles only) A key-value object of CSS custom properties.
+             *
+             * This structure makes the application highly scalable and maintainable.
+             * Adding a new style, layout, or any other option is now a single-entry operation.
+             */
+            const OPTIONS = {
+                style: [
+                    // Brutalism (4)
+                    { label: "Neo-Brutalism", slug: "neo-brutalism", tokens: { '--bg-color': '#FFFF00', '--text-color': '#000000', '--primary-color': '#FF00FF', '--secondary-color': '#333333', '--accent-color': '#00FFFF', '--border-color': '#000000', '--card-bg': '#FFFFFF', '--card-shadow': '8px 8px 0px #000000', '--border-width': '3px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '800' } },
+                    { label: "Classic Brutalism", slug: "classic-brutalism", tokens: { '--bg-color': '#d4d4d4', '--text-color': '#000000', '--primary-color': '#FF0000', '--secondary-color': '#222222', '--accent-color': '#0000FF', '--border-color': '#000000', '--card-bg': '#c0c0c0', '--card-shadow': 'none', '--border-width': '2px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Arial', sans-serif", '--font-weight-bold': '700' } },
+                    { label: "Digital Brutalism", slug: "digital-brutalism", tokens: { '--bg-color': '#0000FF', '--text-color': '#FFFFFF', '--primary-color': '#00FF00', '--secondary-color': '#CCCCCC', '--accent-color': '#FF0000', '--border-color': '#00FF00', '--card-bg': '#000', '--card-shadow': '5px 5px 0px #00FF00', '--border-width': '2px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Courier New', monospace", '--font-weight-bold': '700' } },
+                    { label: "Soft Brutalism", slug: "soft-brutalism", tokens: { '--bg-color': '#F5F3EF', '--text-color': '#1A1A1A', '--primary-color': '#4A90E2', '--secondary-color': '#505050', '--accent-color': '#F5A623', '--border-color': '#1A1A1A', '--card-bg': '#FFFFFF', '--card-shadow': '5px 5px 0px #D0D0D0', '--border-width': '2px', '--radius-sm': '8px', '--radius-md': '8px', '--radius-lg': '8px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '700' } },
+                    // Minimalism (6)
+                    { label: "Zen Minimalism", slug: "zen-minimalism", tokens: { '--bg-color': '#FDFDFD', '--text-color': '#333333', '--primary-color': '#808080', '--secondary-color': '#AAAAAA', '--accent-color': '#B38B6D', '--border-color': '#EAEAEA', '--card-bg': '#FFFFFF', '--card-shadow': '0 2px 4px rgba(0,0,0,0.05)', '--border-width': '1px', '--radius-sm': '4px', '--radius-md': '4px', '--radius-lg': '4px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '300', '--font-body': "'Inter', sans-serif", '--font-weight-normal': '300' } },
+                    { label: "Scandinavian", slug: "scandinavian", tokens: { '--bg-color': '#F9F9F9', '--text-color': '#2C3E50', '--primary-color': '#3498DB', '--secondary-color': '#7F8C8D', '--accent-color': '#F39C12', '--border-color': '#ECF0F1', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-md)', '--border-width': '1px', '--radius-sm': '4px', '--radius-md': '8px', '--radius-lg': '8px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '600' } },
+                    { label: "Monochrome", slug: "monochrome", tokens: { '--bg-color': '#FFFFFF', '--text-color': '#000000', '--primary-color': '#333333', '--secondary-color': '#888888', '--accent-color': '#555555', '--border-color': '#DDDDDD', '--card-bg': '#F9F9F9', '--card-shadow': 'none', '--border-width': '1px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '700' } },
+                    { label: "Bauhaus", slug: "bauhaus", tokens: { '--bg-color': '#F0E7D8', '--text-color': '#1A1A1A', '--primary-color': '#E63946', '--secondary-color': '#1D3557', '--accent-color': '#FDCB00', '--border-color': '#1A1A1A', '--card-bg': '#FFFFFF', '--card-shadow': 'none', '--border-width': '2px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '800' } },
+                    { label: "Muji Style", slug: "muji-style", tokens: { '--bg-color': '#F5F5F1', '--text-color': '#333333', '--primary-color': '#AE2A2F', '--secondary-color': '#666666', '--accent-color': '#7B6D6D', '--border-color': '#E0E0E0', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-sm)', '--border-width': '1px', '--radius-sm': '4px', '--radius-md': '4px', '--radius-lg': '4px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '500' } },
+                    { label: "Text-Forward", slug: "text-forward", tokens: { '--bg-color': '#FFFFFF', '--text-color': '#000000', '--primary-color': '#000000', '--secondary-color': '#000000', '--accent-color': '#0000FF', '--border-color': '#000000', '--card-bg': '#FFFFFF', '--card-shadow': 'none', '--border-width': '0px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Times New Roman', serif", '--font-weight-bold': '700' } },
+                    // Maximalism (5)
+                    { label: "Digital Collage", slug: "digital-collage", tokens: { '--bg-color': '#EAEAEA', '--text-color': '#111111', '--primary-color': '#FF4E50', '--secondary-color': '#333', '--accent-color': '#FCB045', '--border-color': '#111111', '--card-bg': '#FFFFFF', '--card-shadow': '5px 5px 0px #FCB045', '--border-width': '2px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Impact', sans-serif", '--font-weight-bold': '700' } },
+                    { label: "Anti-Design", slug: "anti-design", tokens: { '--bg-color': '#FFFFFF', '--text-color': '#000000', '--primary-color': '#FF0000', '--secondary-color': '#0000FF', '--accent-color': '#00FF00', '--border-color': '#000000', '--card-bg': '#FFFF00', '--card-shadow': 'none', '--border-width': '2px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Arial', sans-serif", '--font-weight-bold': '700' } },
+                    { label: "Cyber-Y2K", slug: "cyber-y2k", tokens: { '--bg-color': '#0D0D2B', '--text-color': '#00F0FF', '--primary-color': '#FA00FF', '--secondary-color': '#C0C0C0', '--accent-color': '#00FF85', '--border-color': '#FA00FF', '--card-bg': 'rgba(19, 19, 48, 0.8)', '--card-shadow': '0 0 15px #FA00FF', '--border-width': '1px', '--radius-sm': '8px', '--radius-md': '8px', '--radius-lg': '8px', '--font-heading': "'Orbitron', sans-serif", '--font-weight-bold': '700', '--backdrop-filter': 'blur(5px)' } },
+                    { label: "Glitch Art", slug: "glitch-art", tokens: { '--bg-color': '#000000', '--text-color': '#00FF00', '--primary-color': '#FF00FF', '--secondary-color': '#FFFFFF', '--accent-color': '#00FFFF', '--border-color': '#00FF00', '--card-bg': '#111111', '--card-shadow': 'none', '--border-width': '1px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Courier New', monospace", '--font-weight-bold': '700', '--filter': 'contrast(1.2)' } },
+                    { label: "Psychedelic", slug: "psychedelic", tokens: { '--bg-color': '#6E00FF', '--text-color': '#F0FF00', '--primary-color': '#FF00A8', '--secondary-color': '#00F0FF', '--accent-color': '#FF8A00', '--border-color': '#F0FF00', '--card-bg': 'rgba(255, 255, 255, 0.1)', '--card-shadow': 'none', '--border-width': '2px', '--radius-sm': '20px', '--radius-md': '20px', '--radius-lg': '20px', '--font-heading': "'Pacifico', cursive", '--font-weight-bold': '700' } },
+                    // Corporate (5)
+                    { label: "SaaS Corporate", slug: "saas-corporate", tokens: { '--bg-color': '#FFFFFF', '--text-color': '#0A1A33', '--primary-color': '#6C63FF', '--secondary-color': '#5A6B8C', '--accent-color': '#19D4B7', '--border-color': '#E5E9F2', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-lg)', '--border-width': '1px', '--radius-sm': '8px', '--radius-md': '12px', '--radius-lg': '16px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '700' } },
+                    { label: "Fintech", slug: "fintech", tokens: { '--bg-color': '#F5F7FA', '--text-color': '#1D2C3C', '--primary-color': '#0061FF', '--secondary-color': '#5A6978', '--accent-color': '#00D1C1', '--border-color': '#DCE1E8', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-md)', '--border-width': '1px', '--radius-sm': '6px', '--radius-md': '8px', '--radius-lg': '8px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '600' } },
+                    { label: "Enterprise Blue", slug: "enterprise-blue", tokens: { '--bg-color': '#F0F4F9', '--text-color': '#22364D', '--primary-color': '#0052CC', '--secondary-color': '#5E7085', '--accent-color': '#FFAB00', '--border-color': '#DDE4ED', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-sm)', '--border-width': '1px', '--radius-sm': '4px', '--radius-md': '4px', '--radius-lg': '4px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '600' } },
+                    { label: "Humanistic Sans", slug: "humanistic-sans", tokens: { '--bg-color': '#FFFFFF', '--text-color': '#333333', '--primary-color': '#E65100', '--secondary-color': '#666666', '--accent-color': '#00796B', '--border-color': '#E0E0E0', '--card-bg': '#FBFBFB', '--card-shadow': 'var(--shadow-sm)', '--border-width': '1px', '--radius-sm': '6px', '--radius-md': '6px', '--radius-lg': '6px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '500' } },
+                    { label: "Eco-Friendly", slug: "eco-friendly", tokens: { '--bg-color': '#F5FBF4', '--text-color': '#2D4A2F', '--primary-color': '#4CAF50', '--secondary-color': '#5D7C5F', '--accent-color': '#FFC107', '--border-color': '#DDEADA', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-md)', '--border-width': '1px', '--radius-sm': '8px', '--radius-md': '12px', '--radius-lg': '12px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '600' } },
+                    // Retro (6)
+                    { label: "90s Nostalgia", slug: "90s-nostalgia", tokens: { '--bg-color': '#0D2242', '--text-color': '#FFFFFF', '--primary-color': '#FF6B81', '--secondary-color': '#B4E7F0', '--accent-color': '#FFF06A', '--border-color': '#FF6B81', '--card-bg': '#19345F', '--card-shadow': 'none', '--border-width': '2px', '--radius-sm': '8px', '--radius-md': '8px', '--radius-lg': '8px', '--font-heading': "'Comic Sans MS', cursive", '--font-weight-bold': '700' } },
+                    { label: "80s Neon", slug: "80s-neon", tokens: { '--bg-color': '#0B022D', '--text-color': '#FFFFFF', '--primary-color': '#FF00E5', '--secondary-color': '#00F0FF', '--accent-color': '#F0FF00', '--border-color': '#00F0FF', '--card-bg': '#14063C', '--card-shadow': '0 0 10px #FF00E5, 0 0 20px #00F0FF', '--border-width': '1px', '--radius-sm': '10px', '--radius-md': '10px', '--radius-lg': '10px', '--font-heading': "'Bebas Neue', sans-serif", '--font-weight-bold': '700' } },
+                    { label: "70s Groove", slug: "70s-groove", tokens: { '--bg-color': '#F3EAC2', '--text-color': '#4E342E', '--primary-color': '#E57373', '--secondary-color': '#8D6E63', '--accent-color': '#FFB74D', '--border-color': '#4E342E', '--card-bg': '#FFFFFF', '--card-shadow': 'none', '--border-width': '2px', '--radius-sm': '12px', '--radius-md': '12px', '--radius-lg': '12px', '--font-heading': "'Pacifico', cursive", '--font-weight-bold': '700' } },
+                    { label: "Mid-Century Modern", slug: "mid-century-modern", tokens: { '--bg-color': '#F5F0E6', '--text-color': '#3A3A3A', '--primary-color': '#E07A5F', '--secondary-color': '#3D405B', '--accent-color': '#81B29A', '--border-color': '#3A3A3A', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-md)', '--border-width': '1px', '--radius-sm': '4px', '--radius-md': '4px', '--radius-lg': '4px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '600' } },
+                    { label: "Art Deco", slug: "art-deco", tokens: { '--bg-color': '#0F0F0F', '--text-color': '#EBEBEB', '--primary-color': '#D4AF37', '--secondary-color': '#C0C0C0', '--accent-color': '#2C2C2C', '--border-color': '#D4AF37', '--card-bg': '#222222', '--card-shadow': 'none', '--border-width': '2px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Bebas Neue', sans-serif", '--font-weight-bold': '700' } },
+                    { label: "Swiss Grid", slug: "swiss-grid", tokens: { '--bg-color': '#FFFFFF', '--text-color': '#000000', '--primary-color': '#FF0000', '--secondary-color': '#333333', '--accent-color': '#0000FF', '--border-color': '#EEEEEE', '--card-bg': '#F5F5F5', '--card-shadow': 'none', '--border-width': '0px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '700' } },
+                    // Organic (4)
+                    { label: "Botanical", slug: "botanical", tokens: { '--bg-color': '#F4F6F4', '--text-color': '#354A36', '--primary-color': '#6A8A6B', '--secondary-color': '#5D705E', '--accent-color': '#D4C2A3', '--border-color': '#DCE0DC', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-md)', '--border-width': '1px', '--radius-sm': '8px', '--radius-md': '8px', '--radius-lg': '8px', '--font-heading': "'Cormorant', serif", '--font-weight-bold': '700' } },
+                    { label: "Earthy & Muted", slug: "earthy-muted", tokens: { '--bg-color': '#F7F3ED', '--text-color': '#4A4033', '--primary-color': '#8A7B6B', '--secondary-color': '#A69B8D', '--accent-color': '#C0A789', '--border-color': '#EAE4DA', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-sm)', '--border-width': '1px', '--radius-sm': '6px', '--radius-md': '6px', '--radius-lg': '6px', '--font-heading': "'Lora', serif", '--font-weight-bold': '500' } },
+                    { label: "Hand-Drawn", slug: "hand-drawn", tokens: { '--bg-color': '#FCFBF8', '--text-color': '#444444', '--primary-color': '#EB5757', '--secondary-color': '#666666', '--accent-color': '#2F80ED', '--border-color': '#333333', '--card-bg': '#FFFFFF', '--card-shadow': '3px 3px 0px #333333', '--border-width': '2px', '--radius-sm': '4px', '--radius-md': '4px', '--radius-lg': '4px', '--font-heading': "'Pacifico', cursive", '--font-weight-bold': '700' } },
+                    { label: "Biophilic", slug: "biophilic", tokens: { '--bg-color': '#F8FBF8', '--text-color': '#26463A', '--primary-color': '#3A8C70', '--secondary-color': '#5A746B', '--accent-color': '#E8C48E', '--border-color': '#DDE5E2', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-md)', '--border-width': '1px', '--radius-sm': '12px', '--radius-md': '16px', '--radius-lg': '16px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '600' } },
+                    // Tech (6)
+                    { label: "Glassmorphism", slug: "glassmorphism", tokens: { '--bg-color': '#111827', '--text-color': '#F9FAFB', '--primary-color': '#3B82F6', '--secondary-color': '#D1D5DB', '--accent-color': '#EC4899', '--border-color': 'rgba(255, 255, 255, 0.2)', '--card-bg': 'rgba(255, 255, 255, 0.1)', '--card-shadow': '0 8px 32px 0 rgba(0, 0, 0, 0.1)', '--border-width': '1px', '--radius-sm': '8px', '--radius-md': '12px', '--radius-lg': '16px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '700', '--backdrop-filter': 'blur(10px) saturate(1.8)' } },
+                    { label: "Claymorphism", slug: "claymorphism", tokens: { '--bg-color': '#F2F2F2', '--text-color': '#1A1A1A', '--primary-color': '#7B61FF', '--secondary-color': '#505050', '--accent-color': '#FFB03A', '--border-color': '#FFFFFF', '--card-bg': '#F2F2F2', '--card-shadow': '6px 6px 12px #c9c9c9, -6px -6px 12px #ffffff', '--border-width': '0px', '--radius-sm': '10px', '--radius-md': '20px', '--radius-lg': '30px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '700' } },
+                    { label: "Holographic", slug: "holographic", tokens: { '--bg-color': '#000000', '--text-color': '#FFFFFF', '--primary-color': '#00F0FF', '--secondary-color': '#D0D0D0', '--accent-color': '#FA00FF', '--border-color': 'rgba(255, 255, 255, 0.3)', '--card-bg': 'rgba(255, 255, 255, 0.1)', '--card-shadow': '0 0 10px #00F0FF', '--border-width': '1px', '--radius-sm': '8px', '--radius-md': '12px', '--radius-lg': '12px', '--font-heading': "'Orbitron', sans-serif", '--font-weight-bold': '700', '--filter': 'contrast(1.1)' } },
+                    { label: "Dark Mode", slug: "dark-mode", tokens: { '--bg-color': '#121212', '--text-color': '#E0E0E0', '--primary-color': '#BB86FC', '--secondary-color': '#8A8A8A', '--accent-color': '#03DAC6', '--border-color': '#2C2C2C', '--card-bg': '#1E1E1E', '--card-shadow': 'var(--shadow-md)', '--border-width': '1px', '--radius-sm': '6px', '--radius-md': '8px', '--radius-lg': '8px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '600' } },
+                    { label: "Bento UI", slug: "bento-ui", tokens: { '--bg-color': '#F7F7F7', '--text-color': '#111111', '--primary-color': '#007AFF', '--secondary-color': '#555555', '--accent-color': '#34C759', '--border-color': '#EAEAEA', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-md)', '--border-width': '1px', '--radius-sm': '12px', '--radius-md': '16px', '--radius-lg': '20px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '700' } },
+                    { label: "Aurora", slug: "aurora", tokens: { '--bg-color': '#0B0D17', '--text-color': '#FFFFFF', '--primary-color': '#A855F7', '--secondary-color': '#D1D5DB', '--accent-color': '#EC4899', '--border-color': 'rgba(255, 255, 255, 0.1)', '--card-bg': 'rgba(255, 255, 255, 0.05)', '--card-shadow': 'var(--shadow-lg)', '--border-width': '1px', '--radius-sm': '8px', '--radius-md': '12px', '--radius-lg': '16px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '600', '--backdrop-filter': 'blur(8px)' } },
+                    // Luxury (6)
+                    { label: "Editorial Vogue", slug: "editorial-vogue", tokens: { '--bg-color': '#FFFFFF', '--text-color': '#000000', '--primary-color': '#8B0000', '--secondary-color': '#333333', '--accent-color': '#C0C0C0', '--border-color': '#000000', '--card-bg': '#FFFFFF', '--card-shadow': 'none', '--border-width': '1px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Cormorant', serif", '--font-weight-bold': '700', '--font-body': "'Lora', serif" } },
+                    { label: "High-Fashion", slug: "high-fashion", tokens: { '--bg-color': '#101010', '--text-color': '#FFFFFF', '--primary-color': '#D4AF37', '--secondary-color': '#BDBDBD', '--accent-color': '#FFFFFF', '--border-color': '#333333', '--card-bg': '#191919', '--card-shadow': 'none', '--border-width': '1px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Bebas Neue', sans-serif", '--font-weight-bold': '700' } },
+                    { label: "Elegant Serif", slug: "elegant-serif", tokens: { '--bg-color': '#FDFCFB', '--text-color': '#2C2C2C', '--primary-color': '#AF8C53', '--secondary-color': '#6B6B6B', '--accent-color': '#D1C0A4', '--border-color': '#EAE8E4', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-sm)', '--border-width': '1px', '--radius-sm': '4px', '--radius-md': '4px', '--radius-lg': '4px', '--font-heading': "'Cormorant Garamond', serif", '--font-weight-bold': '600', '--font-body': "'Lora', serif" } },
+                    { label: "Jewel Tone", slug: "jewel-tone", tokens: { '--bg-color': '#2A0A3E', '--text-color': '#EDF2F4', '--primary-color': '#9B2C2C', '--secondary-color': '#B8C0C8', '--accent-color': '#D69E2E', '--border-color': '#4A1D5A', '--card-bg': '#3A1053', '--card-shadow': 'var(--shadow-lg)', '--border-width': '1px', '--radius-sm': '8px', '--radius-md': '8px', '--radius-lg': '8px', '--font-heading': "'Cormorant', serif", '--font-weight-bold': '700' } }, // Bug Fix: --radius-md
+                    { label: "Minimalist Luxe", slug: "minimalist-luxe", tokens: { '--bg-color': '#F8F8F8', '--text-color': '#1A1A1A', '--primary-color': '#B09B8C', '--secondary-color': '#666666', '--accent-color': '#D4AF37', '--border-color': '#E5E5E5', '--card-bg': '#FFFFFF', '--card-shadow': 'var(--shadow-md)', '--border-width': '1px', '--radius-sm': '4px', '--radius-md': '4px', '--radius-lg': '4px', '--font-heading': "'Inter', sans-serif", '--font-weight-bold': '300', '--font-body': "'Inter', sans-serif" } },
+                    { label: "Gilded Age", slug: "gilded-age", tokens: { '--bg-color': '#0F0F0F', '--text-color': '#E5E5E5', '--primary-color': '#D4AF37', '--secondary-color': '#AAAAAA', '--accent-color': '#8B0000', '--border-color': '#D4AF37', '--card-bg': '#1A1A1A', '--card-shadow': '0 0 10px rgba(212, 175, 55, 0.3)', '--border-width': '1px', '--radius-sm': '0px', '--radius-md': '0px', '--radius-lg': '0px', '--font-heading': "'Cormorant', serif", '--font-weight-bold': '700' } },
+                ],
+                layout: [
+                    { label: "Asymmetric", slug: "layout-asymmetric" },
+                    { label: "Split Screen", slug: "layout-split" },
+                    { label: "Bento Grid", slug: "layout-bento" },
+                    { label: "Editorial", slug: "layout-editorial" },
+                    { label: "Masonry", slug: "layout-masonry" },
+                    { label: "Master-Detail", slug: "layout-master-detail" },
+                ],
+                typography: [
+                    { label: "Sans Serif (Inter)", slug: "typo-sans-inter" },
+                    { label: "Serif (Lora)", slug: "typo-serif-lora" },
+                    { label: "Mono (Roboto Mono)", slug: "typo-mono-roboto" },
+                    { label: "Playful (Pacifico)", slug: "typo-playful-pacifico" },
+                    { label: "Display (Bebas Neue)", slug: "typo-display-bebas" },
+                    { label: "Elegant (Cormorant)", slug: "typo-elegant-cormorant" },
+                ],
+                palette: [
+                    { label: "Vibrant", slug: "palette-vibrant" },
+                    { label: "Muted", slug: "palette-muted" },
+                    { label: "Monochrome", slug: "palette-monochrome" },
+                    { label: "Pastel", slug: "palette-pastel" },
+                    { label: "Neon", slug: "palette-neon" },
+                    { label: "Earthy", slug: "palette-earthy" },
+                ],
+                accessibility: [
+                    { label: "WCAG AA", slug: "a11y-aa" },
+                    { label: "WCAG AAA", slug: "a11y-aaa" },
+                ],
+                performance: [
+                    { label: "Fast", slug: "perf-fast" },
+                    { label: "Balanced", slug: "perf-balanced" },
+                    { label: "Smooth", slug: "perf-smooth" },
+                ],
+                motion: [
+                    { label: "None", slug: "motion-none" },
+                    { label: "Subtle", slug: "motion-subtle" },
+                    { label: "Moderate", slug: "motion-moderate" },
+                    { label: "Delightful", slug: "motion-delightful" },
+                ],
+                visual: [
+                    { label: "None", slug: "visual-none" },
+                    { label: "Shadows", slug: "visual-shadows" },
+                    { label: "Glow", slug: "visual-glow" },
+                    { label: "Grain", slug: "visual-grain" },
+                    { label: "Glassmorphism", slug: "visual-glassmorphism" },
+                ],
+            };
+
+
+            // DOM Elements
+            const elements = {
+                // Panels
+                previewContainer: document.getElementById('preview-container'),
+                previewA: document.getElementById('preview-A'),
+                previewB: document.getElementById('preview-B'),
+                libraryGrid: document.getElementById('library-grid'),
+                hudStyle: document.getElementById('hud-style'),
+                // Selects
+                selectStyle: document.getElementById('select-style'),
+                selectLayout: document.getElementById('select-layout'),
+                selectTypography: document.getElementById('select-typography'),
+                selectPalette: document.getElementById('select-palette'),
+                selectAccessibility: document.getElementById('select-accessibility'),
+                selectPerformance: document.getElementById('select-performance'),
+                selectMotion: document.getElementById('select-motion'),
+                selectVisual: document.getElementById('select-visual'),
+                // Buttons
+                btnUndo: document.getElementById('btn-undo'),
+                btnRedo: document.getElementById('btn-redo'),
+                btnExport: document.getElementById('btn-export'),
+                btnImport: document.getElementById('btn-import'),
+                importFile: document.getElementById('import-file'),
+                btnCopyPrompt: document.getElementById('btn-copy-prompt'),
+                // Inputs
+                promptOutput: document.getElementById('prompt-output'),
+                searchLibrary: document.getElementById('search-library'),
+                // Toast
+                toast: document.getElementById('toast'),
+            };
+
+            // App State
+            let state = getDefaultState();
+            let history = [state];
+            let historyIndex = 0;
+            let isAPrimary = true;
+            
+            // Load favorites with error handling
+            let favorites = [];
+            try {
+                const savedFavorites = localStorage.getItem('vibeFavorites');
+                favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
+            } catch (e) {
+                console.warn("Failed to load favorites from localStorage:", e);
+                favorites = [];
+            }
+
+            // === 2. INITIALIZATION ===
+
+            function initApp() {
+                generateStyleSheet();
+                populateDropdowns();
+                renderLibrary();
+                addEventListeners();
+                loadState();
+                observeLibraryCards();
+            }
+
+            /**
+             * Generates the master <style> tag from the OPTIONS.style object.
+             * This creates all 42 .prev-[slug] classes.
+             */
+            function generateStyleSheet() {
+                let css = "";
+                OPTIONS.style.forEach(item => {
+                    const { slug, tokens } = item;
+                    css += `.prev-${slug} {\n`;
+                    for (const [token, value] of Object.entries(tokens)) {
+                        css += `  ${token}: ${value};\n`;
+                    }
+                    css += `}\n\n`;
+                });
+                document.getElementById('generated-styles').innerHTML = css;
+            }
+
+            /**
+             * Populates all <select> dropdowns from the OPTIONS SSOT.
+             */
+            function populateDropdowns() {
+                const populate = (select, items) => {
+                    items.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.slug;
+                        option.textContent = item.label;
+                        select.appendChild(option);
+                    });
+                };
+
+                // Iterate over the keys of our SSOT and populate the matching <select>
+                Object.keys(OPTIONS).forEach(key => {
+                    // Find the matching select element, e.g., elements.selectStyle
+                    const select = elements[`select${capitalize(key)}`];
+                    if (select) {
+                        populate(select, OPTIONS[key]);
+                    }
+                });
+            }
+
+            /**
+             * Renders all 42 library cards from the OPTIONS.style list.
+             */
+            function renderLibrary() {
+                elements.libraryGrid.innerHTML = "";
+                let delay = 0;
+
+                OPTIONS.style.forEach(item => {
+                    const { label, slug } = item;
+                    const isFav = favorites.includes(slug);
+
+                    const card = document.createElement('div');
+                    card.className = `library-card prev-${slug}`; // Apply theme
+                    card.dataset.slug = slug;
+                    card.dataset.label = label;
+                    card.setAttribute('role', 'button');
+                    card.setAttribute('tabindex', '0');
+                    card.style.transitionDelay = `${delay}ms`;
+
+                    card.innerHTML = `
+                        <button class="fav-button ${isFav ? 'is-favorite' : ''}" data-slug="${slug}" aria-label="Toggle favorite">
+                            <svg fill="${isFav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"></path>
+                            </svg>
+                        </button>
+                        <div class="library-preview">
+                            <div class="library-preview-dot"></div>
+                            <div class="library-preview-bar"></div>
+                            <div class="library-preview-accent"></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="text-sm font-semibold truncate" style="color: var(--text-color);">${label}</h4>
+                            <p class="text-xs" style="color: var(--secondary-color);">${slug}</p>
+                        </div>
+                    `;
+
+                    // Click card to apply style
+                    card.addEventListener('click', (e) => {
+                        if (e.target.closest('.fav-button')) return; // Ignore fav button click
+                        const newState = { ...state, style: slug };
+                        saveState(newState);
+                    });
+
+                    // Click fav button
+                    card.querySelector('.fav-button').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleFavorite(slug, e.currentTarget);
+                    });
+
+                    elements.libraryGrid.appendChild(card);
+                    delay += 20;
+                });
+            }
+
+            /**
+             * Sets up IntersectionObserver for scroll-reveal animations on library cards.
+             */
+            function observeLibraryCards() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.library-card').forEach(card => {
+                    observer.observe(card);
+                });
+            }
+
+
+            // === 3. EVENT LISTENERS ===
+
+            function addEventListeners() {
+                // Panel Controls
+                Object.keys(OPTIONS).forEach(key => {
+                    const select = elements[`select${capitalize(key)}`];
+                    if (select) {
+                        select.addEventListener('change', handleControlChange);
+                    }
+                });
+
+                // State Buttons
+                elements.btnUndo.addEventListener('click', undo);
+                elements.btnRedo.addEventListener('click', redo);
+                elements.btnExport.addEventListener('click', exportJSON);
+                elements.btnImport.addEventListener('click', () => elements.importFile.click());
+                elements.importFile.addEventListener('change', importJSON);
+
+                // Keyboard shortcuts for Undo/Redo and navigation
+                document.addEventListener('keydown', e => {
+                    // Undo/Redo shortcuts
+                    if (e.ctrlKey || e.metaKey) {
+                        if (e.key === 'z') {
+                            e.preventDefault();
+                            undo();
+                        } else if (e.key === 'y') {
+                            e.preventDefault();
+                            redo();
+                        }
+                    }
+                    
+                    // Escape key to close mobile menu
+                    if (e.key === 'Escape') {
+                        const configPanel = document.querySelector('.config-panel');
+                        if (configPanel && configPanel.classList.contains('mobile-open')) {
+                            configPanel.classList.remove('mobile-open');
+                            const mobileBtn = document.getElementById('mobile-menu-btn');
+                            if (mobileBtn) mobileBtn.setAttribute('aria-expanded', 'false');
+                        }
+                    }
+                });
+
+                // Prompt Button
+                elements.btnCopyPrompt.addEventListener('click', copyPromptToClipboard);
+
+                // Library Search
+                elements.searchLibrary.addEventListener('input', filterLibrary);
+                
+                // Mobile Menu Button
+                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                const configPanel = document.querySelector('.config-panel');
+                if (mobileMenuBtn && configPanel) {
+                    mobileMenuBtn.addEventListener('click', () => {
+                        const isOpen = configPanel.classList.toggle('mobile-open');
+                        mobileMenuBtn.setAttribute('aria-expanded', isOpen.toString());
+                    });
+                    
+                    // Close on outside click
+                    document.addEventListener('click', (e) => {
+                        if (configPanel.classList.contains('mobile-open') && 
+                            !configPanel.contains(e.target) && 
+                            !mobileMenuBtn.contains(e.target)) {
+                            configPanel.classList.remove('mobile-open');
+                            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                }
+            }
+
+            /**
+             * Handles change on any <select> element.
+             */
+            function handleControlChange() {
+                const newState = {
+                    style: elements.selectStyle.value,
+                    layout: elements.selectLayout.value,
+                    typography: elements.selectTypography.value,
+                    palette: elements.selectPalette.value,
+                    accessibility: elements.selectAccessibility.value,
+                    performance: elements.selectPerformance.value,
+                    motion: elements.selectMotion.value,
+                    visual: elements.selectVisual.value,
+                };
+                saveState(newState);
+            }
+
+            // === 4. CORE LOGIC (STATE & RENDERING) ===
+
+            function getDefaultState() {
+                // Return the first (default) slug from each OPTIONS category
+                const defaults = {};
+                for (const key in OPTIONS) {
+                    defaults[key] = OPTIONS[key][0].slug;
+                }
+                return defaults;
+            }
+
+            /**
+             * Saves a new state to history, updates localStorage, and applies it.
+             * @param {object} newState - The new state object to apply.
+             */
+            function saveState(newState) {
+                // Truncate history if we're in the past
+                if (historyIndex < history.length - 1) {
+                    history = history.slice(0, historyIndex + 1);
+                }
+
+                // Limit history to 50 states
+                if (history.length > 50) {
+                    history = history.slice(1);
+                }
+
+                history.push(newState);
+                historyIndex = history.length - 1;
+
+                state = newState;
+                applyState(newState);
+
+                try {
+                    localStorage.setItem('vibeBuilderState', JSON.stringify(newState));
+                } catch (e) {
+                    console.error("Failed to save to localStorage", e);
+                    showToast("Error: Could not save settings.", "error");
+                }
+            }
+
+            /**
+             * Loads state from localStorage or sets default.
+             */
+            function loadState() {
+                try {
+                    const savedState = localStorage.getItem('vibeBuilderState');
+                    if (savedState) {
+                        const parsedState = JSON.parse(savedState);
+                        // Validate saved state against current SSOT
+                        const validState = getDefaultState();
+                        let isValid = true;
+
+                        for (const key in validState) {
+                            // Get all valid slugs for this category
+                            const validSlugs = OPTIONS[key].map(item => item.slug);
+                            if (parsedState[key] && validSlugs.includes(parsedState[key])) {
+                                validState[key] = parsedState[key];
+                            } else {
+                                if(parsedState[key]) {
+                                    console.warn(`Invalid/outdated slug for ${key}: ${parsedState[key]}. Reverting to default.`);
+                                }
+                                isValid = false;
+                            }
+                        }
+
+                        state = validState;
+                        history = [state];
+                        historyIndex = 0;
+                        if (!isValid) {
+                             showToast("Some settings were invalid, loaded defaults.");
+                        }
+                    }
+                } catch (e) {
+                    console.error("Failed to load from localStorage", e);
+                    state = getDefaultState();
+                }
+                applyState(state);
+            }
+
+            /**
+             * Applies a state object to the entire UI.
+             * @param {object} stateToApply - The state object.
+             */
+            function applyState(stateToApply) {
+                // 1. Apply to Preview Pane (A/B Transition)
+                const [targetPane, oldPane] = isAPrimary ? [elements.previewB, elements.previewA] : [elements.previewA, elements.previewB];
+
+                // Build class list from state values
+                const classes = [
+                    'preview-pane',
+                    `prev-${stateToApply.style}`, // The style slug is a prefix
+                    ...Object.values(stateToApply).filter(slug => slug !== stateToApply.style) // Add all other slugs
+                ];
+                targetPane.className = classes.join(' ');
+
+                // Render mock content into the target pane
+                targetPane.innerHTML = getMockContent(stateToApply.layout);
+
+                // Trigger transition
+                targetPane.classList.add('is-active');
+                oldPane.classList.remove('is-active');
+                isAPrimary = !isAPrimary;
+
+                // 2. Update Controls
+                for (const key in stateToApply) {
+                    const select = elements[`select${capitalize(key)}`];
+                    if (select) {
+                        select.value = stateToApply[key];
+                    }
+                }
+
+                // 3. Update HUD
+                const styleLabel = OPTIONS.style.find(item => item.slug === stateToApply.style)?.label || 'Unknown';
+                elements.hudStyle.textContent = styleLabel;
+
+                // 4. Update Library Card active state
+                document.querySelectorAll('.library-card').forEach(card => {
+                    card.classList.toggle('is-active', card.dataset.slug === stateToApply.style);
+                });
+
+                // 5. Update Undo/Redo buttons
+                elements.btnUndo.disabled = historyIndex === 0;
+                elements.btnRedo.disabled = historyIndex === history.length - 1;
+
+                // 6. Generate new prompt
+                elements.promptOutput.value = generatePrompt(stateToApply);
+            }
+
+            /**
+             * Returns mock HTML content based on the selected layout.
+             * @param {string} layoutClass - The layout class (e.g., 'layout-bento').
+             */
+            function getMockContent(layoutClass) {
+                const baseContent = `
+                    <div class="demo-card p-6">
+                        <h3 class="demo-heading mb-3">Hello World</h3>
+                        <p class="demo-text mb-4">This is a demo card component. It inherits all the CSS variables from the main theme, like color, border, and shadow.</p>
+                        <button class="demo-button">Click Me</button>
+                    </div>
+                `;
+
+                switch(layoutClass) {
+                    case 'layout-asymmetric':
+                        return `<div class="demo-content p-8">
+                            <div class="demo-header demo-card p-6">
+                                <h2 class="demo-heading">Asymmetric Layout</h2>
+                                <p class="demo-text">A main header area.</p>
+                            </div>
+                            <div class="demo-main demo-card p-6">
+                                <h3 class="demo-heading text-2xl mb-2">Main Content</h3>
+                                <p class="demo-text">This area takes up more space and holds the primary focus.</p>
+                                <button class="demo-button mt-4">Learn More</button>
+                            </div>
+                            <div class="demo-sidebar demo-card p-4">
+                                <h4 class="demo-heading text-lg mb-2">Sidebar</h4>
+                                <p class="demo-text text-sm">A smaller sidebar for metadata or navigation.</p>
+                            </div>
+                        </div>`;
+
+                    case 'layout-split':
+                        return `<div class="demo-content p-8 h-full">
+                            <div class="demo-card p-8 h-full flex flex-col justify-center">
+                                <h2 class="demo-heading">Split Screen</h2>
+                                <p class="demo-text mt-2">Left side for text content. Perfect for a call to action.</p>
+                                <button class="demo-button mt-6 w-fit">Get Started</button>
+                            </div>
+                            <div class="demo-card p-8 h-full flex items-center justify-center">
+                                <p class="demo-text italic">Right side for an image or visual.</p>
+                            </div>
+                        </div>`;
+
+                    case 'layout-bento':
+                        // Bug Fix: class_name= changed to class=
+                        return `<div class="demo-content p-8">
+                            <div class="demo-card demo-card-1 p-6"><h3 class="demo-heading text-lg">Main Feature</h3><p class="demo-text text-sm">A large introductory card.</p></div>
+                            <div class="demo-card demo-card-2 p-6"><h3 class="demo-heading text-lg">Tall Card</h3><p class="demo-text text-sm">Spans multiple rows.</p></div>
+                            <div class="demo-card demo-card-3 p-6"><h3 class="demo-heading text-lg">Item A</h3></div>
+                            <div class="demo-card demo-card-4 p-6"><h3 class="demo-heading text-lg">Item B</h3></div>
+                        </div>`;
+
+                    case 'layout-editorial':
+                        return `<div class="demo-content p-8">
+                            <h1 class="demo-heading text-5xl font-bold mb-4">Editorial Layout</h1>
+                            <p class="demo-text text-lg mb-6">This layout focuses on beautiful typography and a single-column flow, perfect for articles and blogs.</p>
+                            <div class="demo-card p-6">
+                                <h3 class="demo-heading text-2xl mb-2">Section One</h3>
+                                <p class="demo-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                            <p class="demo-text my-4">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                            <button class="demo-button w-fit self-center">Read More</button>
+                        </div>`;
+
+                    case 'layout-masonry':
+                        return `<div class="demo-content p-8">
+                            <div class="demo-card p-4"><h3 class="demo-heading text-lg">Short Card</h3><p class="demo-text text-sm">This is a short item.</p></div>
+                            <div class="demo-card p-4"><h3 class="demo-heading text-lg">Tall Card</h3><p class="demo-text text-sm">This item has more content, so it will be taller. The next item will flow under it.</p><button class="demo-button text-sm mt-2">View</button></div>
+                            <div class="demo-card p-4"><h3 class="demo-heading text-lg">Item C</h3></div>
+                            <div class="demo-card p-4"><h3 class="demo-heading text-lg">Item D</h3><p class="demo-text text-sm">Another card.</p></div>
+                        </div>`;
+
+                    case 'layout-master-detail':
+                        return `<div class="demo-content p-8">
+                            <div class="demo-master">
+                                <h3 class="demo-heading text-xl mb-2">Master List</h3>
+                                <div class="demo-master-item">Item 1</div>
+                                <div class="demo-master-item">Item 2</div>
+                                <div class="demo-master-item">Item 3</div>
+                            </div>
+                            <div class="demo-detail demo-card">
+                                <h2 class="demo-heading">Detail View</h2>
+                                <p class="demo-text mt-4">The details for the selected item would appear here.</p>
+                            </div>
+                        </div>`;
+
+                    default:
+                        return `<div class="p-8">${baseContent}</div>`;
+                }
+            }
+
+            // === 5. STATE MANAGEMENT (Undo/Redo) ===
+
+            function undo() {
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    const oldState = history[historyIndex];
+                    state = oldState; // Update global state
+                    try {
+                        localStorage.setItem('vibeBuilderState', JSON.stringify(oldState));
+                    } catch (e) {
+                        console.warn("Could not save state to localStorage on undo:", e);
+                    }
+                    applyState(oldState);
+                }
+            }
+
+            function redo() {
+                if (historyIndex < history.length - 1) {
+                    historyIndex++;
+                    const newState = history[historyIndex];
+                    state = newState; // Update global state
+                    try {
+                        localStorage.setItem('vibeBuilderState', JSON.stringify(newState));
+                    } catch (e) {
+                        console.warn("Could not save state to localStorage on redo:", e);
+                    }
+                    applyState(newState);
+                }
+            }
+
+            // === 6. UTILITY FUNCTIONS ===
+
+            function exportJSON() {
+                try {
+                    const dataStr = JSON.stringify(state, null, 2);
+                    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+
+                    const a = document.createElement('a');
+                    a.href = dataUri;
+                    a.download = 'vibe-builder-settings.json';
+                    a.click();
+                    a.remove();
+
+                    showToast("Settings exported!");
+                } catch (e) {
+                    console.error("Failed to export JSON", e);
+                    showToast("Error: Could not export JSON.", "error");
+                }
+            }
+
+            function importJSON(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const importedState = JSON.parse(e.target.result);
+                        // Validate the imported state
+                        const validState = getDefaultState();
+                        let isValid = true;
+                        for (const key in validState) {
+                            const validSlugs = OPTIONS[key].map(item => item.slug);
+                            if (importedState[key] && validSlugs.includes(importedState[key])) {
+                                validState[key] = importedState[key];
+                            } else {
+                                isValid = false;
+                                console.warn(`Invalid value for ${key}: ${importedState[key]}`);
+                            }
+                        }
+
+                        saveState(validState); // Save as a new state
+                        showToast(isValid ? "Settings imported successfully!" : "Settings imported with some defaults.");
+                    } catch (err) {
+                        console.error("Failed to import JSON", err);
+                        showToast("Error: Invalid JSON file.", "error");
+                    }
+                    // Reset file input
+                    event.target.value = null;
+                };
+                reader.onerror = () => {
+                    showToast("Error: Could not read file.", "error");
+                };
+                reader.readAsText(file);
+            }
+
+            /**
+             * Generates a descriptive AI prompt from the current state.
+             * @param {object} stateToGen - The state object.
+             * @returns {string} A formatted prompt.
+             */
+            function generatePrompt(stateToGen) {
+                // Helper to find the label for a given slug in our new SSOT
+                const getLabel = (key, slug) => {
+                    if (!OPTIONS[key]) return "Unknown";
+                    return OPTIONS[key].find(item => item.slug === slug)?.label || "Unknown";
+                };
+
+                const style = getLabel('style', stateToGen.style);
+                const layout = getLabel('layout', stateToGen.layout);
+                const typo = getLabel('typography', stateToGen.typography);
+                const palette = getLabel('palette', stateToGen.palette);
+                const motion = getLabel('motion', stateToGen.motion);
+                const visual = getLabel('visual', stateToGen.visual);
+
+                return `Generate a website design with a "${style}" aesthetic.
+It should use a "${layout}" layout system.
+The typography should be "${typo}" and the color palette "${palette}".
+Incorporate "${motion}" motion effects and "${visual}" visual effects.
+The design must be fully responsive and WCAG AA compliant.`;
+            }
+
+            function copyPromptToClipboard() {
+                try {
+                    // Use modern clipboard API if available
+                    navigator.clipboard.writeText(elements.promptOutput.value).then(() => {
+                        showToast("Prompt copied to clipboard!");
+                    }).catch(err => {
+                        // Fallback for document.execCommand
+                        console.warn("Clipboard API failed, falling back to execCommand.", err);
+                        elements.promptOutput.select();
+                        const success = document.execCommand('copy');
+                        if (success) {
+                            showToast("Prompt copied to clipboard!");
+                        } else {
+                            showToast("Error: Could not copy prompt.", "error");
+                        }
+                    });
+                } catch (e) {
+                    console.error("Failed to copy", e);
+                    showToast("Error: Could not copy prompt.", "error");
+                }
+            }
+
+            /**
+             * Filters the library cards based on search input.
+             */
+            function filterLibrary() {
+                const query = elements.searchLibrary.value.toLowerCase().trim();
+                document.querySelectorAll('.library-card').forEach(card => {
+                    const label = card.dataset.label.toLowerCase();
+                    const slug = card.dataset.slug.toLowerCase();
+                    const isMatch = label.includes(query) || slug.includes(query);
+                    card.style.display = isMatch ? 'block' : 'none';
+                });
+            }
+
+            /**
+             * Toggles a style's favorite status.
+             * @param {string} slug - The style slug.
+             * @param {HTMLElement} buttonEl - The <button> element.
+             */
+            function toggleFavorite(slug, buttonEl) {
+                const index = favorites.indexOf(slug);
+                const label = OPTIONS.style.find(item => item.slug === slug)?.label || slug;
+
+                if (index > -1) {
+                    favorites.splice(index, 1);
+                    buttonEl.classList.remove('is-favorite');
+                    buttonEl.querySelector('svg').setAttribute('fill', 'none');
+                    showToast(`${label} removed from favorites.`);
+                } else {
+                    favorites.push(slug);
+                    buttonEl.classList.add('is-favorite');
+                    buttonEl.querySelector('svg').setAttribute('fill', 'currentColor');
+                    showToast(`${label} added to favorites!`);
+                }
+
+                try {
+                    localStorage.setItem('vibeFavorites', JSON.stringify(favorites));
+                } catch (e) {
+                    console.error("Failed to save favorites", e);
+                }
+            }
+
+            /**
+             * Shows a toast notification.
+             * @param {string} message - The message to display.
+             * @param {string} type - 'success' (default) or 'error'.
+             */
+            let toastTimer;
+            function showToast(message, type = 'success') {
+                clearTimeout(toastTimer);
+                elements.toast.textContent = message;
+
+                // Reset classes
+                elements.toast.className = '';
+                elements.toast.classList.add(type === 'error' ? 'bg-red-600' : 'bg-green-500', 'show');
+
+                toastTimer = setTimeout(() => {
+                    elements.toast.classList.remove('show');
+                }, 3000);
+            }
+
+            // --- Helpers ---
+            function capitalize(s) {
+                if (typeof s !== 'string' || s.length === 0) return '';
+                return s.charAt(0).toUpperCase() + s.slice(1);
+            }
+
+            // === 7. RUN APP ===
+            initApp();
+        });
+    </script>
+</body>
+</html>
+
