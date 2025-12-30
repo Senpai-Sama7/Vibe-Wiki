@@ -1,0 +1,300 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Vibe-Wiki Performance SLOs",
+  "description": "Service Level Objectives for production performance metrics. These are HARD targets - CI gates enforce compliance.",
+  "version": "1.0.0",
+  "generated": "2025-12-29",
+  
+  "lighthouse": {
+    "description": "Google Lighthouse scores (0-100) - measured on mobile, throttled 4G/4x CPU slowdown",
+    "performance": {
+      "minimum": 95,
+      "target": 98,
+      "measurement": "mobile",
+      "throttle": "4G",
+      "cpuSlowdown": "4x"
+    },
+    "accessibility": {
+      "minimum": 95,
+      "target": 100
+    },
+    "best_practices": {
+      "minimum": 90,
+      "target": 100
+    },
+    "seo": {
+      "minimum": 95,
+      "target": 100
+    }
+  },
+
+  "core_web_vitals": {
+    "description": "Google Core Web Vitals - measured on real user data",
+    "largest_contentful_paint": {
+      "metric": "LCP",
+      "description": "Time when largest visible content element appears",
+      "threshold_good": "≤2.5s",
+      "threshold_needs_improvement": "≤4.0s",
+      "target_p50": "0.6s",
+      "target_p99": "1.4s",
+      "measurement": "milliseconds"
+    },
+    "first_input_delay": {
+      "metric": "FID",
+      "description": "Time from user interaction to response",
+      "threshold_good": "≤100ms",
+      "threshold_needs_improvement": "≤300ms",
+      "target_p50": "20ms",
+      "target_p99": "80ms",
+      "measurement": "milliseconds"
+    },
+    "cumulative_layout_shift": {
+      "metric": "CLS",
+      "description": "Unexpected layout shifts during page load",
+      "threshold_good": "≤0.1",
+      "threshold_needs_improvement": "≤0.25",
+      "target_p50": "0.02",
+      "target_p99": "0.08",
+      "measurement": "unitless score (0-1)"
+    },
+    "interaction_to_next_paint": {
+      "metric": "INP",
+      "description": "Time from user interaction to visual feedback",
+      "threshold_good": "≤200ms",
+      "threshold_needs_improvement": "≤500ms",
+      "target_p50": "50ms",
+      "target_p99": "150ms",
+      "measurement": "milliseconds"
+    }
+  },
+
+  "bundle_size": {
+    "description": "JavaScript and CSS bundle sizes - strict limits to ensure performance",
+    "main_bundle": {
+      "max_gzipped": "180kb",
+      "max_uncompressed": "600kb",
+      "target": "140kb",
+      "measurement": "kilobytes"
+    },
+    "total_initial_bundle": {
+      "max_gzipped": "500kb",
+      "max_uncompressed": "1.5mb",
+      "target": "380kb",
+      "measurement": "kilobytes"
+    },
+    "css_bundle": {
+      "max_gzipped": "80kb",
+      "target": "50kb",
+      "measurement": "kilobytes"
+    },
+    "per_route_overhead": {
+      "max_delta": "15kb",
+      "measurement": "kilobytes",
+      "note": "Additional bundle size per new route should not exceed this"
+    }
+  },
+
+  "api_performance": {
+    "description": "Server-side API response times",
+    "content_api": {
+      "description": "Get content by ID or list all content",
+      "p50": "50ms",
+      "p99": "200ms",
+      "measurement": "milliseconds"
+    },
+    "metadata_api": {
+      "description": "Get learning mode metadata",
+      "p50": "10ms",
+      "p99": "50ms",
+      "measurement": "milliseconds"
+    },
+    "search_api": {
+      "description": "Search content by title/tags",
+      "p50": "100ms",
+      "p99": "500ms",
+      "measurement": "milliseconds"
+    }
+  },
+
+  "build_performance": {
+    "description": "Build system performance metrics",
+    "development_build": {
+      "max_time": "10s",
+      "description": "Full development build from clean",
+      "measurement": "seconds"
+    },
+    "production_build": {
+      "max_time": "30s",
+      "description": "Full production optimized build",
+      "measurement": "seconds"
+    },
+    "type_check": {
+      "max_time": "15s",
+      "description": "TypeScript type checking full codebase",
+      "measurement": "seconds"
+    },
+    "lint_check": {
+      "max_time": "10s",
+      "description": "ESLint checking all source files",
+      "measurement": "seconds"
+    },
+    "test_suite": {
+      "max_time": "30s",
+      "description": "Full test suite execution",
+      "measurement": "seconds"
+    }
+  },
+
+  "code_quality": {
+    "description": "Static analysis and quality metrics",
+    "type_coverage": {
+      "minimum": 95,
+      "target": 98,
+      "measurement": "percentage",
+      "description": "% of code with TypeScript types"
+    },
+    "test_coverage": {
+      "minimum": 80,
+      "target": 90,
+      "critical_paths": 100,
+      "measurement": "percentage",
+      "description": "Code coverage by Jest"
+    },
+    "cyclomatic_complexity": {
+      "maximum_per_function": 10,
+      "maximum_per_file": 50,
+      "target": "max 5 per function"
+    },
+    "maintainability_index": {
+      "minimum": 70,
+      "target": 85,
+      "range": "0-100"
+    }
+  },
+
+  "accessibility": {
+    "description": "Web Content Accessibility Guidelines (WCAG) 2.1 AA",
+    "wcag_level": "AA",
+    "color_contrast": {
+      "normal_text": "≥4.5:1",
+      "large_text": "≥3:1",
+      "description": "Foreground to background contrast ratio"
+    },
+    "keyboard_navigation": {
+      "required": true,
+      "description": "All interactive elements accessible via keyboard"
+    },
+    "focus_indicator": {
+      "required": true,
+      "visibility": "high contrast",
+      "description": "Clear visual focus indicator on interactive elements"
+    },
+    "aria_labels": {
+      "required": true,
+      "coverage": "100%",
+      "description": "All icons and unlabeled controls have aria-labels"
+    }
+  },
+
+  "security": {
+    "description": "Security and vulnerability scanning targets",
+    "cve_critical": {
+      "maximum": 0,
+      "description": "Known critical vulnerabilities in dependencies"
+    },
+    "cve_high": {
+      "maximum": 0,
+      "description": "Known high-severity vulnerabilities"
+    },
+    "code_scanning": {
+      "tool": "GitHub CodeQL",
+      "severity_critical": 0,
+      "severity_high": 0
+    },
+    "secret_detection": {
+      "hardcoded_secrets": 0,
+      "api_keys_exposed": false
+    },
+    "csp_header": {
+      "required": true,
+      "description": "Content Security Policy header enforced"
+    }
+  },
+
+  "seo": {
+    "description": "Search engine optimization metrics",
+    "meta_tags": {
+      "title": true,
+      "description": true,
+      "og_tags": true
+    },
+    "structured_data": {
+      "schema_org": true,
+      "json_ld": true
+    },
+    "sitemap": {
+      "required": true,
+      "format": "sitemap.xml"
+    },
+    "robots_txt": {
+      "required": true
+    }
+  },
+
+  "user_experience": {
+    "description": "Metrics that impact perceived performance",
+    "first_contentful_paint": {
+      "target_p50": "0.5s",
+      "target_p99": "0.8s",
+      "measurement": "seconds",
+      "description": "Time until first content appears"
+    },
+    "time_to_interactive": {
+      "target_p50": "1.0s",
+      "target_p99": "1.4s",
+      "measurement": "seconds",
+      "description": "Time when page becomes interactive"
+    },
+    "visual_completeness": {
+      "target_p50": "1.5s",
+      "target_p99": "2.0s",
+      "measurement": "seconds",
+      "description": "Time when above-the-fold content loads"
+    },
+    "no_flash_of_unstyled_content": {
+      "required": true,
+      "description": "FOUC prevention (font loading, dark mode)"
+    }
+  },
+
+  "monitoring_and_alerts": {
+    "description": "Continuous monitoring thresholds",
+    "error_rate": {
+      "threshold": "<0.1%",
+      "alert_after": "5 minutes"
+    },
+    "page_load_time_increase": {
+      "threshold": "+10%",
+      "alert_after": "1 page view"
+    },
+    "bundle_size_increase": {
+      "threshold": "+5kb",
+      "alert_after": "deploy"
+    },
+    "type_coverage_decrease": {
+      "threshold": "-2%",
+      "alert_after": "commit"
+    }
+  },
+
+  "ci_gates": {
+    "description": "What blocks merging to main",
+    "lighthouse_minimum": 95,
+    "type_coverage_minimum": 95,
+    "test_coverage_minimum": 80,
+    "critical_path_coverage_minimum": 100,
+    "security_critical_findings": 0,
+    "broken_links": 0,
+    "bundle_size_delta_max": "10kb"
+  }
+}
