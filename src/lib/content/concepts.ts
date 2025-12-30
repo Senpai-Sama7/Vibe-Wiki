@@ -530,13 +530,638 @@ function Modal({ children, onClose }) {
   lastUpdated: '2025-09-30T00:00:00Z'
 };
 
+const specDrivenDevelopmentConcept: ConceptDefinition = {
+  id: 'spec-driven-development-006',
+  slug: 'spec-driven-development',
+  title: 'Spec-Driven Development',
+  subtitle: 'Architectural Clarity Before Code Generation',
+  category: 'patterns',
+
+  explanations: {
+    elementary: 'Spec-driven development is like creating a detailed blueprint before building a house. Instead of just telling the AI "build me a house," you give it exact plans showing where every room, door, and window should go. This way, the AI builds exactly what you want!',
+
+    analogical: 'Imagine ordering a custom suit. With vibe coding alone, you might say "make me a nice suit." With spec-driven development, you provide exact measurements, fabric choices, button styles, and pocket placements. The tailor (AI) then crafts precisely what you envisioned because they have complete specifications.',
+
+    technical: 'Spec-driven development combines traditional software specification practices with AI-assisted code generation. Developers create detailed specifications including type definitions, API contracts, data schemas, component interfaces, and acceptance criteria BEFORE prompting the LLM. This approach ensures generated code adheres to architectural constraints, maintains type safety, follows established patterns, and integrates seamlessly with existing systems.'
+  },
+
+  visualization: {
+    type: 'diagram-flow',
+    component: 'SpecDrivenFlow',
+    props: {
+      showPhases: true,
+      interactiveNodes: true
+    },
+    animation: {
+      duration: 4,
+      easing: 'power3.out',
+      scrollTrigger: {
+        start: 'top 80%',
+        end: 'center center',
+        scrub: true
+      }
+    }
+  },
+
+  codeExamples: [
+    {
+      language: 'typescript',
+      title: 'Specification-First: Type Contract',
+      code: `// STEP 1: Define the contract BEFORE asking AI to implement
+interface UserService {
+  /** Creates a new user with validation */
+  createUser(input: CreateUserInput): Promise<Result<User, UserError>>;
+
+  /** Retrieves user by ID with caching */
+  getUser(id: UserId): Promise<Option<User>>;
+
+  /** Updates user with optimistic locking */
+  updateUser(id: UserId, patch: UserPatch): Promise<Result<User, UserError>>;
+}
+
+type CreateUserInput = {
+  email: Email;           // Branded type for validation
+  password: Password;     // Min 12 chars, complexity rules
+  profile: UserProfile;
+};
+
+type UserError =
+  | { type: 'VALIDATION_ERROR'; fields: string[] }
+  | { type: 'DUPLICATE_EMAIL' }
+  | { type: 'RATE_LIMITED'; retryAfter: number };`,
+      highlightLines: [2, 3, 4, 5, 6, 7, 8, 9, 10]
+    },
+    {
+      language: 'text',
+      title: 'AI Prompt with Specification Context',
+      code: `Implement the UserService interface following these constraints:
+
+SPECIFICATION CONTEXT:
+- Use the Result<T, E> pattern for error handling (no exceptions)
+- Apply repository pattern for data access
+- Include input validation using zod schemas
+- Add Redis caching for getUser (5-minute TTL)
+- Use optimistic locking with version field
+- Log all operations to structured logging service
+
+ACCEPTANCE CRITERIA:
+- All methods must be type-safe (no 'any' types)
+- 100% test coverage for error paths
+- <100ms p99 latency for cached reads
+- Idempotent createUser for retry safety`
+    }
+  ],
+
+  comparison: [
+    {
+      name: 'Pure Vibe Coding',
+      pros: ['Fast initial development', 'Low upfront effort'],
+      cons: ['Inconsistent architecture', 'Type safety gaps', 'Integration issues', 'Technical debt accumulation'],
+      useCase: 'Quick prototypes, throwaway code',
+      performance: 'Fast start, slow finish'
+    },
+    {
+      name: 'Spec-Driven Development',
+      pros: ['Architectural consistency', 'Type-safe by design', 'Seamless integration', 'Production-ready output'],
+      cons: ['Higher upfront investment', 'Requires domain expertise'],
+      useCase: 'Enterprise systems, long-lived projects',
+      performance: 'Measured start, fast finish'
+    }
+  ],
+
+  relatedConcepts: ['vibe-coding', 'context-engineering', 'production-architecture'],
+  prerequisites: ['typescript-advanced', 'software-architecture'],
+  difficultyLevel: 4,
+  estimatedTime: 20,
+  tags: ['specification', 'architecture', 'enterprise', 'type-safety', 'contracts'],
+  metaDescription: 'Master spec-driven development for production-ready AI-assisted coding. Learn to create specifications that guide LLMs toward enterprise-grade implementations.',
+  lastUpdated: '2025-12-30T00:00:00Z'
+};
+
+const contextEngineeringConcept: ConceptDefinition = {
+  id: 'context-engineering-007',
+  slug: 'context-engineering',
+  title: 'Context Engineering',
+  subtitle: 'Architecting AI Context for Optimal Code Generation',
+  category: 'patterns',
+
+  explanations: {
+    elementary: 'Context engineering is like giving a new team member all the important information about your project before they start working. Instead of hoping they guess correctly, you give them the project rules, coding style, and examples of good work so they do things the right way from the start!',
+
+    analogical: 'Think of an orchestra conductor. Each musician is skilled, but without the conductor providing context (tempo, dynamics, style), the music would be chaotic. Context engineering is like creating the perfect conductor\'s score—providing the AI with all the musical context it needs to perform harmoniously with your existing codebase.',
+
+    technical: 'Context engineering is the systematic practice of crafting, organizing, and optimizing the information provided to Large Language Models to maximize code generation quality. This includes architectural context (system design, patterns in use), codebase context (existing implementations, naming conventions), domain context (business rules, constraints), and operational context (deployment environment, performance requirements).'
+  },
+
+  visualization: {
+    type: 'webgl-3d',
+    component: 'ContextLayers',
+    props: {
+      showLayers: ['architectural', 'codebase', 'domain', 'operational'],
+      interactiveNodes: true
+    },
+    animation: {
+      duration: 5,
+      easing: 'power2.inOut',
+      scrollTrigger: {
+        start: 'top center',
+        end: 'bottom center',
+        scrub: 1
+      }
+    }
+  },
+
+  codeExamples: [
+    {
+      language: 'markdown',
+      title: 'Architectural Context Document',
+      code: `# System Architecture Context
+
+## Core Patterns
+- **Repository Pattern**: All data access via repositories
+- **CQRS**: Separate read/write models for complex domains
+- **Event Sourcing**: User actions stored as immutable events
+
+## Technology Stack
+- Runtime: Node.js 20 LTS with ES2024 features
+- Framework: Next.js 15 App Router
+- Database: PostgreSQL 16 with Prisma ORM
+- Cache: Redis 7 with cluster mode
+- Queue: BullMQ for background jobs
+
+## Code Conventions
+- Functional core, imperative shell
+- Result types for error handling (neverthrow)
+- Branded types for domain primitives
+- Barrel exports only at module boundaries
+
+## Security Requirements
+- All inputs validated with zod
+- SQL injection prevention via parameterized queries
+- Rate limiting on all public endpoints
+- Audit logging for sensitive operations`
+    },
+    {
+      language: 'typescript',
+      title: 'Context-Aware Prompt Structure',
+      code: `// Context Engineering: Layered prompt construction
+const buildPrompt = (task: Task): ContextualPrompt => ({
+  // Layer 1: System context (rarely changes)
+  systemContext: \`
+    You are a senior TypeScript engineer working on an enterprise
+    e-commerce platform. Follow functional programming principles
+    and prioritize type safety over brevity.
+  \`,
+
+  // Layer 2: Architectural context (project-specific)
+  architecturalContext: loadArchitectureDoc(),
+
+  // Layer 3: Codebase context (relevant files)
+  codebaseContext: [
+    { file: 'src/types/domain.ts', content: loadFile('...') },
+    { file: 'src/patterns/result.ts', content: loadFile('...') },
+    { file: 'src/services/example.ts', content: loadFile('...') },
+  ],
+
+  // Layer 4: Task-specific context
+  taskContext: {
+    objective: task.description,
+    constraints: task.constraints,
+    acceptanceCriteria: task.criteria,
+    relatedIssues: task.linkedIssues,
+  }
+});`
+    }
+  ],
+
+  comparison: [
+    {
+      name: 'Minimal Context',
+      pros: ['Faster prompt creation', 'Less token usage'],
+      cons: ['Inconsistent output', 'Misses conventions', 'Requires heavy editing'],
+      useCase: 'Simple, isolated tasks',
+      performance: 'Fast prompts, slow integration'
+    },
+    {
+      name: 'Engineered Context',
+      pros: ['Consistent architecture', 'Follows conventions', 'Production-ready output', 'Reduced iterations'],
+      cons: ['Higher token usage', 'Setup investment required'],
+      useCase: 'Enterprise development, team projects',
+      performance: 'Optimal balance of speed and quality'
+    }
+  ],
+
+  relatedConcepts: ['spec-driven-development', 'vibe-coding', 'production-architecture'],
+  prerequisites: ['llm-fundamentals', 'software-architecture'],
+  difficultyLevel: 4,
+  estimatedTime: 25,
+  tags: ['context', 'prompting', 'llm', 'architecture', 'enterprise'],
+  metaDescription: 'Master context engineering for AI-assisted development. Learn to structure prompts with architectural, codebase, and domain context for production-ready code.',
+  lastUpdated: '2025-12-30T00:00:00Z'
+};
+
+const productionArchitectureConcept: ConceptDefinition = {
+  id: 'production-architecture-008',
+  slug: 'production-architecture',
+  title: 'Production-Ready Architecture',
+  subtitle: 'Enterprise-Grade System Design Patterns',
+  category: 'architecture',
+
+  explanations: {
+    elementary: 'Production-ready architecture is like building a skyscraper instead of a treehouse. Treehouses are fun and quick to build, but skyscrapers need proper foundations, safety systems, elevators, and fire escapes. Production architecture ensures your software can handle millions of users safely and reliably!',
+
+    analogical: 'Consider the difference between a food truck and a commercial kitchen. A food truck works for small scale, but a commercial kitchen has industrial refrigeration, fire suppression, health code compliance, backup power, and capacity for massive volume. Production architecture transforms your "food truck" code into a "commercial kitchen" system.',
+
+    technical: 'Production-ready architecture encompasses the structural and operational patterns required for enterprise-grade systems: horizontal scalability, fault tolerance, observability, security hardening, compliance controls, disaster recovery, and operational excellence. It includes infrastructure-as-code, immutable deployments, comprehensive monitoring, and automated incident response.'
+  },
+
+  visualization: {
+    type: 'webgl-3d',
+    component: 'ProductionArchitecture',
+    props: {
+      showLayers: true,
+      animateFlow: true
+    },
+    animation: {
+      duration: 4,
+      easing: 'power3.out',
+      scrollTrigger: {
+        start: 'top 80%',
+        end: 'center center',
+        scrub: true
+      }
+    }
+  },
+
+  codeExamples: [
+    {
+      language: 'typescript',
+      title: 'Production-Ready Service Pattern',
+      code: `// Enterprise-grade service with all production concerns
+@Injectable()
+export class OrderService {
+  constructor(
+    private readonly repo: OrderRepository,
+    private readonly cache: CacheService,
+    private readonly events: EventBus,
+    private readonly metrics: MetricsService,
+    private readonly logger: StructuredLogger,
+    private readonly circuitBreaker: CircuitBreaker,
+  ) {}
+
+  @Trace('order.create')
+  @RateLimit({ points: 100, duration: 60 })
+  @Validate(CreateOrderSchema)
+  async createOrder(
+    input: CreateOrderInput,
+    context: RequestContext,
+  ): Promise<Result<Order, OrderError>> {
+    const span = this.metrics.startSpan('createOrder');
+
+    try {
+      // Idempotency check
+      const existing = await this.cache.get(\`order:\${input.idempotencyKey}\`);
+      if (existing) return Ok(existing);
+
+      // Business logic with circuit breaker
+      const result = await this.circuitBreaker.execute(
+        () => this.repo.create(input)
+      );
+
+      if (result.isOk()) {
+        // Cache result for idempotency
+        await this.cache.set(\`order:\${input.idempotencyKey}\`, result.value, 3600);
+
+        // Emit domain event
+        await this.events.emit(new OrderCreatedEvent(result.value));
+
+        // Record metrics
+        this.metrics.increment('orders.created');
+      }
+
+      return result;
+    } catch (error) {
+      this.logger.error('Order creation failed', { error, input, context });
+      this.metrics.increment('orders.errors');
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+}`,
+      highlightLines: [12, 13, 14, 19, 22, 23, 27, 28, 29, 34, 37]
+    }
+  ],
+
+  comparison: [
+    {
+      name: 'Prototype Architecture',
+      pros: ['Fast to build', 'Easy to understand'],
+      cons: ['Single point of failure', 'No observability', 'Security gaps', 'Cannot scale'],
+      useCase: 'Demos, POCs, learning',
+      performance: 'Works until it doesn\'t'
+    },
+    {
+      name: 'Production Architecture',
+      pros: ['Fault tolerant', 'Observable', 'Secure', 'Scalable', 'Compliant'],
+      cons: ['Complex', 'Higher initial cost', 'Requires expertise'],
+      useCase: 'Enterprise systems, regulated industries',
+      performance: 'Reliable at any scale'
+    }
+  ],
+
+  relatedConcepts: ['spec-driven-development', 'context-engineering', 'web-vitals'],
+  prerequisites: ['software-architecture', 'devops-fundamentals'],
+  difficultyLevel: 5,
+  estimatedTime: 30,
+  tags: ['production', 'enterprise', 'scalability', 'reliability', 'security'],
+  metaDescription: 'Build production-ready systems with enterprise-grade architecture patterns. Learn fault tolerance, observability, security, and scalability.',
+  lastUpdated: '2025-12-30T00:00:00Z'
+};
+
+const fullStackVibeCodingConcept: ConceptDefinition = {
+  id: 'full-stack-vibe-coding-009',
+  slug: 'full-stack-vibe-coding',
+  title: 'Full-Stack Vibe Coding',
+  subtitle: 'End-to-End AI-Assisted Development',
+  category: 'patterns',
+
+  explanations: {
+    elementary: 'Full-stack vibe coding means using AI to help build every part of your application—the pretty parts users see (frontend), the smart parts that do the thinking (backend), and even the parts that store information (database). It\'s like having a helpful robot assistant for every step of building a website!',
+
+    analogical: 'Building a full-stack app is like constructing a complete restaurant: the dining room (frontend), kitchen (backend), walk-in freezer (database), and delivery service (APIs). Full-stack vibe coding is like having an AI architect who can help design and build every part of the restaurant, from the menu design to the kitchen equipment.',
+
+    technical: 'Full-stack vibe coding extends AI-assisted development across the entire technology stack: frontend frameworks (React, Vue, Svelte), backend services (Node, Python, Go), databases (SQL, NoSQL), infrastructure (Terraform, Kubernetes), and DevOps pipelines (CI/CD, monitoring). This requires coordinating context across layers and maintaining consistency between frontend contracts and backend implementations.'
+  },
+
+  visualization: {
+    type: 'webgl-3d',
+    component: 'FullStackLayers',
+    props: {
+      showAllLayers: true,
+      animateData: true
+    },
+    animation: {
+      duration: 5,
+      easing: 'power2.inOut',
+      scrollTrigger: {
+        start: 'top center',
+        end: 'bottom center',
+        scrub: 1
+      }
+    }
+  },
+
+  codeExamples: [
+    {
+      language: 'typescript',
+      title: 'Shared Types: Single Source of Truth',
+      code: `// packages/shared/src/types/user.ts
+// This file is the contract between frontend and backend
+
+export const UserSchema = z.object({
+  id: z.string().uuid(),
+  email: z.string().email(),
+  name: z.string().min(1).max(100),
+  role: z.enum(['user', 'admin', 'moderator']),
+  createdAt: z.string().datetime(),
+  preferences: z.object({
+    theme: z.enum(['light', 'dark', 'system']),
+    notifications: z.boolean(),
+  }),
+});
+
+export type User = z.infer<typeof UserSchema>;
+
+// API contract (used by both frontend and backend)
+export interface UserAPI {
+  'GET /users/:id': {
+    params: { id: string };
+    response: User;
+  };
+  'POST /users': {
+    body: Omit<User, 'id' | 'createdAt'>;
+    response: User;
+  };
+  'PATCH /users/:id': {
+    params: { id: string };
+    body: Partial<Pick<User, 'name' | 'preferences'>>;
+    response: User;
+  };
+}`
+    },
+    {
+      language: 'text',
+      title: 'Full-Stack Prompt Strategy',
+      code: `FULL-STACK VIBE CODING WORKFLOW:
+
+1. SCHEMA FIRST
+   - Define shared types in monorepo package
+   - Generate OpenAPI/GraphQL schemas
+   - AI prompt: "Generate Prisma schema matching UserSchema"
+
+2. BACKEND IMPLEMENTATION
+   - Context: Shared types + API contracts + DB schema
+   - AI prompt: "Implement UserService following repository pattern"
+   - Validate: Types match, tests pass, API contract honored
+
+3. FRONTEND INTEGRATION
+   - Context: API types + Component library + Design system
+   - AI prompt: "Create UserProfile component with UserAPI hooks"
+   - Validate: Type-safe API calls, accessible components
+
+4. INFRASTRUCTURE
+   - Context: Service topology + Security requirements
+   - AI prompt: "Generate Terraform for PostgreSQL + Redis"
+   - Validate: Security groups, encryption, backups
+
+5. PIPELINE
+   - Context: All services + Quality gates
+   - AI prompt: "Create GitHub Actions for monorepo CI/CD"
+   - Validate: Tests, linting, type-check, security scan`
+    }
+  ],
+
+  comparison: [
+    {
+      name: 'Layer-by-Layer Development',
+      pros: ['Focused expertise', 'Clear boundaries'],
+      cons: ['Integration friction', 'Type mismatches', 'Slower iteration'],
+      useCase: 'Large teams with specialists',
+      performance: 'Thorough but slow'
+    },
+    {
+      name: 'Full-Stack Vibe Coding',
+      pros: ['Rapid end-to-end features', 'Type consistency', 'Single developer velocity'],
+      cons: ['Requires broad knowledge', 'Context management overhead'],
+      useCase: 'Startups, small teams, rapid prototyping',
+      performance: 'Fast feature delivery'
+    }
+  ],
+
+  relatedConcepts: ['vibe-coding', 'spec-driven-development', 'context-engineering'],
+  prerequisites: ['frontend-basics', 'backend-basics', 'database-fundamentals'],
+  difficultyLevel: 4,
+  estimatedTime: 35,
+  tags: ['full-stack', 'frontend', 'backend', 'database', 'devops', 'monorepo'],
+  metaDescription: 'Master full-stack vibe coding for end-to-end AI-assisted development. Learn to coordinate AI prompts across frontend, backend, database, and infrastructure.',
+  lastUpdated: '2025-12-30T00:00:00Z'
+};
+
+const zeroTechDebtConcept: ConceptDefinition = {
+  id: 'zero-tech-debt-010',
+  slug: 'zero-tech-debt',
+  title: 'Zero Tech Debt Development',
+  subtitle: 'Building Without Accumulated Shortcuts',
+  category: 'patterns',
+
+  explanations: {
+    elementary: 'Zero tech debt means never taking shortcuts that make your code messy. It\'s like always putting your toys away properly instead of throwing them in a pile. At first, it might seem slower, but later you can always find what you need and everything works perfectly!',
+
+    analogical: 'Consider maintaining a garden. You can take shortcuts—skip weeding, don\'t prune, ignore pest control. But eventually, the garden becomes unmanageable. Zero tech debt is like maintaining your garden every day: a little effort consistently prevents the overwhelming cleanup later.',
+
+    technical: 'Zero tech debt development is a disciplined approach where code quality standards are never compromised for speed. Every change includes proper testing, documentation, refactoring of affected areas, and adherence to architectural guidelines. When using AI-assisted development, this means rigorous review of generated code, ensuring it meets production standards before integration.'
+  },
+
+  visualization: {
+    type: 'canvas-2d',
+    component: 'TechDebtGraph',
+    props: {
+      showComparison: true,
+      animateGrowth: true
+    },
+    animation: {
+      duration: 3,
+      easing: 'power2.out',
+      scrollTrigger: {
+        start: 'top center',
+        end: 'bottom center',
+        scrub: false
+      }
+    }
+  },
+
+  codeExamples: [
+    {
+      language: 'typescript',
+      title: 'Quality Gates: Automated Standards Enforcement',
+      code: `// .github/workflows/quality-gate.yml translated to TypeScript config
+const qualityGates: QualityGateConfig = {
+  // Code must compile with strict settings
+  typescript: {
+    strict: true,
+    noImplicitAny: true,
+    noUnusedLocals: true,
+    noUnusedParameters: true,
+  },
+
+  // Test coverage requirements
+  coverage: {
+    statements: 80,
+    branches: 75,
+    functions: 80,
+    lines: 80,
+  },
+
+  // Linting rules (zero warnings allowed)
+  eslint: {
+    maxWarnings: 0,
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'error',
+      'import/no-cycle': 'error',
+    },
+  },
+
+  // Security scanning
+  security: {
+    auditLevel: 'moderate',
+    allowedVulnerabilities: 0,
+  },
+
+  // Performance budgets
+  performance: {
+    maxBundleSize: '250kb',
+    maxFirstLoadJS: '100kb',
+  },
+};`,
+      highlightLines: [3, 4, 5, 6, 10, 11, 12, 13, 19, 20, 21, 28, 29]
+    },
+    {
+      language: 'text',
+      title: 'AI Code Review Checklist',
+      code: `BEFORE ACCEPTING AI-GENERATED CODE:
+
+□ TYPE SAFETY
+  - No 'any' types
+  - All function parameters and returns typed
+  - Proper null/undefined handling
+
+□ ERROR HANDLING
+  - No swallowed exceptions
+  - Proper error types (not generic Error)
+  - User-facing error messages are helpful
+
+□ TESTING
+  - Unit tests for pure functions
+  - Integration tests for side effects
+  - Edge cases covered (empty, null, max values)
+
+□ DOCUMENTATION
+  - Public functions have JSDoc comments
+  - Complex logic explained
+  - API changes reflected in OpenAPI/types
+
+□ SECURITY
+  - Input validation present
+  - No hardcoded secrets
+  - SQL/NoSQL injection prevented
+  - XSS prevention for user content
+
+□ PERFORMANCE
+  - No N+1 queries
+  - Appropriate caching
+  - Lazy loading where beneficial`
+    }
+  ],
+
+  comparison: [
+    {
+      name: 'Move Fast, Break Things',
+      pros: ['Rapid initial velocity', 'Quick to market'],
+      cons: ['Exponential slowdown', 'Bug-ridden releases', 'Developer burnout', 'Rewrite eventual'],
+      useCase: 'Throw-away prototypes only',
+      performance: 'Fast then grinding halt'
+    },
+    {
+      name: 'Zero Tech Debt',
+      pros: ['Sustained velocity', 'Stable releases', 'Developer happiness', 'Long-term maintainability'],
+      cons: ['Higher initial investment', 'Requires discipline'],
+      useCase: 'Any code you plan to maintain',
+      performance: 'Consistent, sustainable speed'
+    }
+  ],
+
+  relatedConcepts: ['spec-driven-development', 'production-architecture', 'vibe-coding'],
+  prerequisites: ['testing-fundamentals', 'code-review-practices'],
+  difficultyLevel: 3,
+  estimatedTime: 18,
+  tags: ['quality', 'testing', 'maintainability', 'best-practices', 'code-review'],
+  metaDescription: 'Achieve zero tech debt with disciplined AI-assisted development. Learn quality gates, code review practices, and sustainable development velocity.',
+  lastUpdated: '2025-12-30T00:00:00Z'
+};
+
 const concepts: ConceptDefinition[] = [
   vibeCodingConcept,
   jamstackConcept,
   reactServerComponentsConcept,
   webVitalsConcept,
   accessibilityConcept,
-  // Additional concepts would be added here following the same pattern
+  specDrivenDevelopmentConcept,
+  contextEngineeringConcept,
+  productionArchitectureConcept,
+  fullStackVibeCodingConcept,
+  zeroTechDebtConcept,
 ];
 
 const BUILD_TIMESTAMP = new Date().toISOString();
