@@ -142,9 +142,9 @@ performance:
           CI: true
 
       - name: Run Lighthouse
-        # Note: To actually run Lighthouse, you typically use 'treosh/lighthouse-ci-action' 
+        # Note: To actually run Lighthouse, you typically use 'treosh/lighthouse-ci-action' was "actions/upload-artifact@v3" 
         # or similar. This block currently just uploads the build as an example.
-        uses: actions/upload-artifact@v3
+        uses: treosh/lighthouse-ci-action
         with:
           name: lighthouse-report
           path: .next/
