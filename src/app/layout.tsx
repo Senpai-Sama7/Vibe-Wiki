@@ -43,7 +43,7 @@ export const metadata: Metadata = {
       'Master web development through plain English explanations, real-world analogies, and interactive 3D visualizations.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.svg',
         width: 1200,
         height: 630,
         alt: 'Vibe Wiki - Visual Web Development Learning Platform',
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     title: 'Vibe Wiki - Visual Web Development Learning Platform',
     description:
       'Master web development through plain English explanations, real-world analogies, and interactive 3D visualizations.',
-    images: ['/og-image.png'],
+    images: ['/og-image.svg'],
   },
   robots: {
     index: true,
