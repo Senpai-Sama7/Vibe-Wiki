@@ -118,40 +118,39 @@ jobs:
           retention-days: 7
 
 performance:
-  name: Lighthouse Performance Check
-  runs-on: ubuntu-latest
-  timeout-minutes: 10
-  if: github.event_name == 'pull_request'
+    name: Lighthouse Performance Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'pull_request'
 
-  steps:
-    - name: Checkout code
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v4
 
-    - name: Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
 
-    - name: Install dependencies
+      - name: Install dependencies
         run: npm ci --prefer-offline
 
-    - name: Build production bundle
-        run: npm run build && npm run start &
+      - name: Build production bundle
+        run: npm run build
         env:
           CI: true
 
-    - name: Wait for server
-        run: sleep 10
-
-    - name: Run Lighthouse
+      - name: Run Lighthouse
+        # Note: To actually run Lighthouse, you typically use 'treosh/lighthouse-ci-action' 
+        # or similar. This block currently just uploads the build as an example.
         uses: actions/upload-artifact@v3
         with:
           name: lighthouse-report
           path: .next/
         continue-on-error: true
 
-    - name: 📊 Performance Report
+      - name: 📊 Performance Report
         run: |
           echo "Lighthouse Performance Check:"
           echo "  Target Performance Score: ≥95"
