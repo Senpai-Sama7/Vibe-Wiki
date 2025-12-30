@@ -896,7 +896,130 @@
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.9rem;
         }
-        
+
+        /* ========================================
+           VIBE CODING RESOURCES SECTION
+           ======================================== */
+        .resources-section {
+            background: white;
+            padding: var(--space-2xl) var(--space-lg);
+        }
+
+        .resources-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+
+        .resource-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: var(--space-lg);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+            transition: all var(--transition-base);
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .resource-card-purple {
+            background: linear-gradient(135deg, #faf5ff 0%, #fdf2f8 100%);
+        }
+
+        .resource-card-purple:hover {
+            background: linear-gradient(135deg, #f3e8ff 0%, #fce7f3 100%);
+        }
+
+        .resource-card-blue {
+            background: #eff6ff;
+        }
+
+        .resource-card-blue:hover {
+            background: #dbeafe;
+        }
+
+        .resource-card-green {
+            background: #f0fdf4;
+        }
+
+        .resource-card-green:hover {
+            background: #dcfce7;
+        }
+
+        .resource-card-amber {
+            background: #fffbeb;
+        }
+
+        .resource-card-amber:hover {
+            background: #fef3c7;
+        }
+
+        .resource-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-sm);
+        }
+
+        .resource-icon {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+
+        .resource-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+        }
+
+        .resource-title-purple { color: #581c87; }
+        .resource-title-blue { color: #1e3a8a; }
+        .resource-title-green { color: #14532d; }
+        .resource-title-amber { color: #78350f; }
+
+        .resource-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: var(--space-md);
+            flex-grow: 1;
+        }
+
+        .resource-desc-purple { color: #6b21a8; }
+        .resource-desc-blue { color: #1e40af; }
+        .resource-desc-green { color: #166534; }
+        .resource-desc-amber { color: #92400e; }
+
+        .resource-action {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            margin-top: auto;
+        }
+
+        .resource-action-purple { color: #7c3aed; }
+        .resource-action-blue { color: #2563eb; }
+        .resource-action-green { color: #16a34a; }
+        .resource-action-amber { color: #d97706; }
+
+        .resource-action svg {
+            width: 20px;
+            height: 20px;
+            margin-left: 0.25rem;
+        }
+
         /* ========================================
            RESPONSIVE DESIGN
            ======================================== */
@@ -1034,6 +1157,7 @@
                 <li><a href="#canvas-effects" class="nav-link">Canvas</a></li>
                 <li><a href="#methodologies" class="nav-link">Methods</a></li>
                 <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#resources" class="nav-link">Resources</a></li>
             </ul>
         </nav>
     </header>
@@ -1277,6 +1401,95 @@
         </div>
     </section>
     
+    <!-- Vibe Coding Resources Section -->
+    <section id="resources" class="resources-section">
+        <div class="resources-container">
+            <div class="section-header">
+                <h2 class="section-title">Vibe Coding Resources</h2>
+                <p class="section-subtitle">
+                    Download these essential cheat sheets and guides to accelerate your web development journey.
+                </p>
+            </div>
+
+            <div class="resources-grid">
+                <!-- Ultimate Vibe Builder -->
+                <a href="website-vibe-coding.html" target="_blank" rel="noopener noreferrer" class="resource-card resource-card-purple">
+                    <div class="resource-card-header">
+                        <svg class="resource-icon" fill="none" stroke="#9333ea" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                        </svg>
+                        <h3 class="resource-title resource-title-purple">Ultimate Vibe Builder</h3>
+                    </div>
+                    <p class="resource-description resource-desc-purple">
+                        Interactive design tool with 42 themes, 6 layouts, and real-time preview. Build stunning websites with instant AI prompt generation for your perfect design.
+                    </p>
+                    <div class="resource-action resource-action-purple">
+                        <span>Launch Builder</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Vibe Coding 2025 Cheat Sheet -->
+                <a href="docs/Vibe%20Coding%202025%20Cheat%20Sheet.pdf" target="_blank" rel="noopener noreferrer" class="resource-card resource-card-blue">
+                    <h3 class="resource-title resource-title-blue">Vibe Coding 2025 Cheat Sheet</h3>
+                    <p class="resource-description resource-desc-blue">
+                        Complete reference guide for modern web development patterns, tech stacks, and best practices for 2025.
+                    </p>
+                    <div class="resource-action resource-action-blue">
+                        <span>Download PDF</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L10 12.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Building Web Pages & Apps Guide -->
+                <a href="docs/Cheat%20Sheet_%20Building%20Web%20Pages%20%26%20Apps%20in%202025%20(A%20%22Vibe%20Coding%22%20Guide).pdf" target="_blank" rel="noopener noreferrer" class="resource-card resource-card-purple">
+                    <h3 class="resource-title resource-title-purple">Building Web Pages & Apps Guide</h3>
+                    <p class="resource-description resource-desc-purple">
+                        Comprehensive guide to building modern web applications with detailed explanations and practical examples.
+                    </p>
+                    <div class="resource-action resource-action-purple">
+                        <span>Download PDF</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L10 12.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Vibe Coding Websites Guide -->
+                <a href="docs/Vibe-coding-websites.md" target="_blank" rel="noopener noreferrer" class="resource-card resource-card-green">
+                    <h3 class="resource-title resource-title-green">Vibe Coding Websites Guide</h3>
+                    <p class="resource-description resource-desc-green">
+                        Markdown guide with tips, tricks, and real-world examples for website development using the Vibe Coding approach.
+                    </p>
+                    <div class="resource-action resource-action-green">
+                        <span>View Guide</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Vibe Wiki Reference -->
+                <a href="docs/vibe-wiki.txt" target="_blank" rel="noopener noreferrer" class="resource-card resource-card-amber">
+                    <h3 class="resource-title resource-title-amber">Vibe Wiki Reference</h3>
+                    <p class="resource-description resource-desc-amber">
+                        Quick reference text file with key concepts, terms, and examples from the Vibe Wiki platform.
+                    </p>
+                    <div class="resource-action resource-action-amber">
+                        <span>View Reference</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
         <div class="footer-content">
@@ -1289,6 +1502,7 @@
                 <a href="#canvas-effects" class="footer-link">Canvas Effects</a>
                 <a href="#methodologies" class="footer-link">Methodologies</a>
                 <a href="#features" class="footer-link">Features</a>
+                <a href="#resources" class="footer-link">Resources</a>
             </nav>
             <p class="footer-copyright">
                 © 2025 Vibe Wiki. Built with modern web technologies.
