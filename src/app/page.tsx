@@ -42,6 +42,7 @@ export default function HomePage() {
   const [hasMore, setHasMore] = useState(true);
   const [filterQuery, setFilterQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
   const conceptsPerLoad = 6;
   const allConcepts = contentManifest.concepts;
@@ -504,7 +505,7 @@ export default function HomePage() {
           </header>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <a
-              href="/website-vibe-coding.html"
+              href={`${basePath}/website-vibe-coding.html`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex flex-col h-full rounded-2xl border border-gray-200 p-6 shadow-sm bg-gradient-to-br from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 transition-colors"
@@ -527,7 +528,7 @@ export default function HomePage() {
             </a>
 
 <a
-              href="/docs/Vibe%20Coding%202025%20Cheat%20Sheet.pdf"
+              href={`${basePath}/docs/vibe-coding-2025-cheat-sheet.pdf`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex flex-col h-full rounded-2xl border border-gray-200 p-6 shadow-sm bg-blue-50 hover:bg-blue-100 transition-colors"
@@ -544,7 +545,7 @@ export default function HomePage() {
               </div>
             </a>
             <a
-              href="/docs/Cheat%20Sheet_%20Building%20Web%20Pages%20%26%20Apps%20in%202025%20(A%20%22Vibe%20Coding%22%20Guide).pdf"
+              href={`${basePath}/docs/building-web-pages-apps-guide.pdf`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex flex-col h-full rounded-2xl border border-gray-200 p-6 shadow-sm bg-purple-50 hover:bg-purple-100 transition-colors"
@@ -561,7 +562,7 @@ export default function HomePage() {
               </div>
             </a>
             <a
-              href="/docs/Vibe-coding-websites.md"
+              href={`${basePath}/docs/Vibe-coding-websites.md`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex flex-col h-full rounded-2xl border border-gray-200 p-6 shadow-sm bg-green-50 hover:bg-green-100 transition-colors"
@@ -578,7 +579,7 @@ export default function HomePage() {
               </div>
             </a>
             <a
-              href="/docs/vibe-wiki.txt"
+              href={`${basePath}/docs/vibe-wiki.txt`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex flex-col h-full rounded-2xl border border-gray-200 p-6 shadow-sm bg-amber-50 hover:bg-amber-100 transition-colors"

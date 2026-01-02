@@ -1,6 +1,7 @@
 'use client';
 
 import { searchConcepts, type SearchResult } from '@/lib/search';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SearchResults } from './SearchResults';
 
@@ -18,6 +19,7 @@ export function SearchBox({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isOpen, setIsOpen] = useState(false);
 
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -31,7 +33,7 @@ export function SearchBox({
 
     const searchResults = searchConcepts(q);
     setResults(searchResults);
-    setIsOpen(searchResults.length > 0);
+    setIsOpen(true);
     setSelectedIndex(-1);
   }, []);
 
@@ -57,20 +59,27 @@ export function SearchBox({
     setIsOpen(false);
     setSelectedIndex(-1);
 
-    window.location.href = `/concept/${result.slug}`;
-  }, []);
+    router.push(`/concept/${result.slug}/`);
+  }, [router]);
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (!isOpen || results.length === 0) return;
-
+      if (!isOpen) return;
       switch (event.key) {
+        case 'Escape': {
+          setIsOpen(false);
+          setSelectedIndex(-1);
+          inputRef.current?.blur();
+          break;
+        }
         case 'ArrowDown': {
+          if (results.length === 0) break;
           event.preventDefault();
           setSelectedIndex((prev) => (prev < results.length - 1 ? prev + 1 : prev));
           break;
         }
         case 'ArrowUp': {
+          if (results.length === 0) break;
           event.preventDefault();
           setSelectedIndex((prev) => (prev > -1 ? prev - 1 : -1));
           break;
@@ -80,12 +89,6 @@ export function SearchBox({
             event.preventDefault();
             handleResultSelect(results[selectedIndex]);
           }
-          break;
-        }
-        case 'Escape': {
-          setIsOpen(false);
-          setSelectedIndex(-1);
-          inputRef.current?.blur();
           break;
         }
         default:
@@ -107,10 +110,10 @@ export function SearchBox({
   }, []);
 
   const handleFocus = useCallback(() => {
-    if (query.length >= 2 && results.length > 0) {
+    if (query.length >= 2) {
       setIsOpen(true);
     }
-  }, [query, results]);
+  }, [query]);
 
   return (
     <div ref={containerRef} className={`relative ${className}`}>
