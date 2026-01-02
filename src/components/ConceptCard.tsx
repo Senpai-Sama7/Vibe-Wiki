@@ -294,23 +294,25 @@ export const ConceptCard = memo<ConceptCardProps>(({
           {showVisualization ? '🎨 Hide' : '✨ Show'} Interactive Visualization
         </button>
 
-        <AnimatePresence>
-          {showVisualization && (
-            <motion.div
-              id={`visualization-${concept.id}`}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.4 }}
-              className="mt-4 overflow-hidden rounded-xl border-2 border-purple-200 dark:border-purple-800"
-            >
-              <AnimatedDiagram
-                config={concept.visualization}
-                conceptId={concept.id}
-              />
-            </motion.div>
+        <motion.div
+          id={`visualization-${concept.id}`}
+          initial={false}
+          animate={{
+            opacity: showVisualization ? 1 : 0,
+            height: showVisualization ? 'auto' : 0,
+          }}
+          transition={{ duration: 0.35 }}
+          className={clsx(
+            'mt-4 overflow-hidden rounded-xl border-2 border-purple-200 dark:border-purple-800',
+            showVisualization ? 'pointer-events-auto' : 'pointer-events-none'
           )}
-        </AnimatePresence>
+          aria-hidden={!showVisualization}
+        >
+          <AnimatedDiagram
+            config={concept.visualization}
+            conceptId={concept.id}
+          />
+        </motion.div>
       </div>
 
       {/* Code Examples */}
