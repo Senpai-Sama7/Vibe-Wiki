@@ -6,8 +6,6 @@
 // Purpose: Enforce type safety and prevent spec drift
 // ============================================================================
 
-import type { ReactNode } from 'react';
-
 /**
  * Learning Modes - The three pillars of Vibe-Wiki pedagogy
  * Immutable contract: IDs must always be these three values
