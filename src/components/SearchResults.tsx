@@ -17,6 +17,12 @@ export function SearchResults({ results, selectedIndex, query, onResultSelect }:
       className="absolute mt-2 w-full rounded-xl border border-gray-200 bg-white shadow-xl max-h-[420px] overflow-y-auto z-50"
       role="listbox"
     >
+      {results.length === 0 && (
+        <div className="px-4 py-6 text-sm text-gray-600" role="status" aria-live="polite">
+          <p className="font-semibold text-gray-800">No matches for “{query}”.</p>
+          <p className="mt-1">Try a different keyword or check spelling.</p>
+        </div>
+      )}
       {results.map((result, index) => {
         const isSelected = index === selectedIndex;
         return (

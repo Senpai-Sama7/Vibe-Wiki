@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { useWebVitals } from '@/hooks/useWebVitals';
 import { contentManifest } from '@/lib/content/concepts';
 import { useEffect, useState } from 'react';
@@ -260,12 +261,12 @@ export function HeroEnhanced({
                 Explore Concepts
                 <span className="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
               </a>
-              <a
-                href="/search"
+              <Link
+                href="/search/"
                 className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white/30 bg-white/10 px-8 py-4 font-semibold backdrop-blur-sm transition-all hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
               >
                 Advanced Search
-              </a>
+              </Link>
             </motion.div>
           </motion.div>
 
